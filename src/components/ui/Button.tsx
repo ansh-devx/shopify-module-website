@@ -40,10 +40,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (asChild && children) {
       // Clone the child element and merge className
       const child = children as React.ReactElement;
+      const childProps = child.props as Record<string, unknown>;
       return (
         <child.type
-          {...child.props}
-          className={cn(classes, child.props.className)}
+          {...childProps}
+          className={cn(classes, childProps.className as string | undefined)}
           ref={ref}
         />
       );

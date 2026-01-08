@@ -40,7 +40,9 @@ export default function RootLayout({
       >
         <div className="flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 bg-gradient-to-b from-white to-gray-50 text-gray-900">
+            {children}
+          </main>
           <Footer />
         </div>
       </body>
