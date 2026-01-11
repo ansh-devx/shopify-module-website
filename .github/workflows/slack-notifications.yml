@@ -29,13 +29,13 @@ jobs:
           REPO_NAME="${{ github.repository }}"
           
           curl -X POST -H 'Content-Type: application/json' -d "{
-            \"text\": \"📝 *New Commit Pushed*\",
+            \"text\": \"<@Ansh> 📝 *New Commit Pushed*\",
             \"blocks\": [
               {
-                \"type\": \"header\",
+                \"type\": \"section\",
                 \"text\": {
-                  \"type\": \"plain_text\",
-                  \"text\": \"📝 New Commit Pushed\"
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"<@Ansh> 📝 *New Commit Pushed*\"
                 }
               },
               {
@@ -84,19 +84,19 @@ jobs:
             ACTION="🗑️ *Branch Deleted*"
             EMOJI="🗑️"
           fi
-          
+
           BRANCH_NAME="${{ github.ref_name }}"
           REPO_NAME="${{ github.repository }}"
           ACTOR="${{ github.actor }}"
-          
+
           curl -X POST -H 'Content-Type: application/json' -d "{
-            \"text\": \"${ACTION}\",
+            \"text\": \"<@Ansh> ${ACTION}\",
             \"blocks\": [
               {
-                \"type\": \"header\",
+                \"type\": \"section\",
                 \"text\": {
-                  \"type\": \"plain_text\",
-                  \"text\": \"${ACTION}\"
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"<@Ansh> ${ACTION}\"
                 }
               },
               {
@@ -161,13 +161,13 @@ jobs:
           REPO_NAME="${{ github.repository }}"
 
           curl -X POST -H 'Content-Type: application/json' -d "{
-            \"text\": \"${EMOJI} ${ACTION_TEXT}\",
+            \"text\": \"<@Ansh> ${EMOJI} ${ACTION_TEXT}\",
             \"blocks\": [
               {
-                \"type\": \"header\",
+                \"type\": \"section\",
                 \"text\": {
-                  \"type\": \"plain_text\",
-                  \"text\": \"${EMOJI} ${ACTION_TEXT}\"
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"<@Ansh> ${EMOJI} *${ACTION_TEXT}*\"
                 }
               },
               {
