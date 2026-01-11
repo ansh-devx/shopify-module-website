@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const classes = cn(
-      "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50 disabled:pointer-events-none disabled:opacity-50",
+      "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
       {
         "bg-shopify-green text-white hover:bg-shopify-green/90 focus-visible:ring-shopify-green":
           variant === "primary",
@@ -40,11 +40,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (asChild && children) {
       // Clone the child element and merge className
       const child = children as React.ReactElement;
-      const childProps = child.props as Record<string, unknown>;
       return (
         <child.type
-          {...childProps}
-          className={cn(classes, childProps.className as string | undefined)}
+          {...child.props}
+          className={cn(classes, child.props.className)}
           ref={ref}
         />
       );

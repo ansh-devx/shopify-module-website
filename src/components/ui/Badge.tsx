@@ -15,7 +15,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
           {
             "bg-gray-100 text-gray-800": variant === "default",
             "bg-shopify-green/10 text-shopify-green": variant === "success",
-            "bg-shopify-yellow/10 text-shopify-yellow": variant === "warning",
+            "bg-shopify-yellow/10 text-yellow-800": variant === "warning",
             "bg-shopify-red/10 text-shopify-red": variant === "error",
             "bg-shopify-blue/10 text-shopify-blue": variant === "info",
           },
@@ -30,3 +30,4 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
 Badge.displayName = "Badge";
 
 export default Badge;
+

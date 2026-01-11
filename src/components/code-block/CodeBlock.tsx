@@ -30,20 +30,13 @@ export default function CodeBlock({
   const lines = code.split("\n");
 
   return (
-    <div
-      className={cn(
-        "group relative my-6 overflow-hidden rounded-lg border border-gray-200",
-        className
-      )}
-    >
+    <div className={cn("group relative my-6 overflow-hidden rounded-lg border border-gray-200", className)}>
       {/* Header */}
       {(filename || language) && (
         <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2">
           <div className="flex items-center gap-2">
             {filename && (
-              <span className="text-sm font-medium text-gray-700">
-                {filename}
-              </span>
+              <span className="text-sm font-medium text-gray-700">{filename}</span>
             )}
             {language && (
               <span className="rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">
@@ -72,13 +65,13 @@ export default function CodeBlock({
       )}
 
       {/* Code Content */}
-      <div className="overflow-x-auto bg-black">
+      <div className="overflow-x-auto bg-gray-900">
         <pre className="p-4">
-          <code className="text-sm text-white/90">
+          <code className="text-sm text-gray-100">
             {lines.map((line, index) => (
               <div key={index} className="table-row">
                 {showLineNumbers && (
-                  <span className="table-cell select-none pr-4 text-right text-white/40">
+                  <span className="table-cell select-none pr-4 text-right text-gray-500">
                     {index + 1}
                   </span>
                 )}
@@ -93,16 +86,13 @@ export default function CodeBlock({
       {!filename && !language && (
         <button
           onClick={copyToClipboard}
-          className="absolute right-2 top-2 rounded bg-white/10 p-2 text-white/70 opacity-0 transition-opacity hover:bg-white/15 hover:text-white group-hover:opacity-100"
+          className="absolute right-2 top-2 rounded bg-gray-800 p-2 text-gray-300 opacity-0 transition-opacity hover:bg-gray-700 hover:text-white group-hover:opacity-100"
           aria-label="Copy code"
         >
-          {copied ? (
-            <Check className="h-4 w-4" />
-          ) : (
-            <Copy className="h-4 w-4" />
-          )}
+          {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
         </button>
       )}
     </div>
   );
 }
+

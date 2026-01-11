@@ -5,8 +5,7 @@ import { Github, Download, Upload, GitBranch } from "lucide-react";
 
 export const metadata = {
   title: "GitHub Configuration - Shopify Learn",
-  description:
-    "Version control your Shopify theme using GitHub and best practices.",
+  description: "Version control your Shopify theme using GitHub and best practices.",
 };
 
 export default function GitHubConfig() {
@@ -14,30 +13,23 @@ export default function GitHubConfig() {
     <ContentLayout
       title="GitHub Configuration"
       description="Learn how to version control your Shopify theme using GitHub for better collaboration and deployment."
+      previousPage={{ title: "CLI Setup", href: "/cli-setup" }}
+      nextPage={{ title: "Liquid Cheatsheet", href: "/liquid-cheatsheet" }}
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Why Use Version Control?
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Why Use Version Control?</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Version control with Git and GitHub allows you to track changes,
-            collaborate with team members, and maintain a history of your theme
-            development. It's essential for professional development.
+            Version control with Git and GitHub allows you to track changes, collaborate with team members, 
+            and maintain a history of your theme development. It's essential for professional development.
           </p>
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Download Theme from Shopify
-          </h2>
-          <p className="mt-4 text-gray-700">
-            You can download your theme in two ways:
-          </p>
-
-          <h3 className="mt-6 text-xl font-semibold">
-            Method 1: Using Shopify CLI
-          </h3>
+          <h2 className="text-3xl font-bold text-gray-900">Download Theme from Shopify</h2>
+          <p className="mt-4 text-gray-700">You can download your theme in two ways:</p>
+          
+          <h3 className="mt-6 text-xl font-semibold">Method 1: Using Shopify CLI</h3>
           <CodeBlock
             code={`# Pull theme from Shopify
 shopify theme pull --store your-store.myshopify.com
@@ -48,9 +40,7 @@ shopify theme pull --theme-id 123456789`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-xl font-semibold">
-            Method 2: Download as ZIP
-          </h3>
+          <h3 className="mt-6 text-xl font-semibold">Method 2: Download as ZIP</h3>
           <ol className="mt-4 list-decimal list-inside space-y-2 text-gray-700">
             <li>Go to your Shopify Admin → Online Store → Themes</li>
             <li>Find your theme and click the "Actions" button</li>
@@ -60,9 +50,7 @@ shopify theme pull --theme-id 123456789`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Initialize Git Repository
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Initialize Git Repository</h2>
           <CodeBlock
             code={`# Navigate to your theme directory
 cd my-theme
@@ -90,9 +78,7 @@ git commit -m "Initial commit: Shopify theme setup"`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Connect to GitHub
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Connect to GitHub</h2>
           <CodeBlock
             code={`# Create a new repository on GitHub first, then:
 
@@ -108,17 +94,13 @@ git push -u origin main`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Branching Strategy
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Branching Strategy</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <Card>
               <CardContent className="pt-6">
                 <GitBranch className="h-8 w-8 text-shopify-green mb-4" />
                 <h3 className="text-lg font-semibold">main</h3>
-                <p className="mt-2 text-gray-600">
-                  Production-ready code. Always stable.
-                </p>
+                <p className="mt-2 text-gray-600">Production-ready code. Always stable.</p>
               </CardContent>
             </Card>
             <Card>
@@ -132,9 +114,7 @@ git push -u origin main`}
               <CardContent className="pt-6">
                 <GitBranch className="h-8 w-8 text-shopify-purple mb-4" />
                 <h3 className="text-lg font-semibold">feature/*</h3>
-                <p className="mt-2 text-gray-600">
-                  New features and experiments.
-                </p>
+                <p className="mt-2 text-gray-600">New features and experiments.</p>
               </CardContent>
             </Card>
             <Card>
@@ -172,12 +152,8 @@ git pull origin main`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            GitHub Actions for Deployment
-          </h2>
-          <p className="mt-4 text-gray-700">
-            Automate theme deployment with GitHub Actions:
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">GitHub Actions for Deployment</h2>
+          <p className="mt-4 text-gray-700">Automate theme deployment with GitHub Actions:</p>
           <CodeBlock
             code={`name: Deploy Theme
 
@@ -226,3 +202,4 @@ jobs:
     </ContentLayout>
   );
 }
+

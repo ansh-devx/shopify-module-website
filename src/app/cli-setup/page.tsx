@@ -6,8 +6,7 @@ import { Terminal, Zap, CheckCircle } from "lucide-react";
 
 export const metadata = {
   title: "Shopify CLI + Tailwind Setup - Shopify Learn",
-  description:
-    "Set up your development environment with Shopify CLI and integrate Tailwind CSS.",
+  description: "Set up your development environment with Shopify CLI and integrate Tailwind CSS.",
 };
 
 export default function CLISetup() {
@@ -15,17 +14,16 @@ export default function CLISetup() {
     <ContentLayout
       title="Shopify CLI + Tailwind Setup"
       description="Set up your development environment with Shopify CLI and integrate Tailwind CSS for modern theme development."
+      previousPage={{ title: "Store Admin", href: "/store-admin" }}
+      nextPage={{ title: "GitHub Config", href: "/github-config" }}
     >
       <div className="space-y-8">
         {/* Introduction */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            What is Shopify CLI?
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">What is Shopify CLI?</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Shopify CLI is a command-line tool that helps you build Shopify
-            themes and apps faster. It provides a local development environment,
-            hot reload, and deployment tools.
+            Shopify CLI is a command-line tool that helps you build Shopify themes and apps faster. 
+            It provides a local development environment, hot reload, and deployment tools.
           </p>
         </section>
 
@@ -36,43 +34,19 @@ export default function CLISetup() {
             <div className="flex items-start gap-3">
               <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
               <div>
-                <strong>Node.js</strong> (v18 or higher) -{" "}
-                <a
-                  href="https://nodejs.org"
-                  className="text-shopify-blue hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download here
-                </a>
+                <strong>Node.js</strong> (v18 or higher) - <a href="https://nodejs.org" className="text-shopify-blue hover:underline" target="_blank" rel="noopener noreferrer">Download here</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
               <div>
-                <strong>Git</strong> -{" "}
-                <a
-                  href="https://git-scm.com"
-                  className="text-shopify-blue hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download here
-                </a>
+                <strong>Git</strong> - <a href="https://git-scm.com" className="text-shopify-blue hover:underline" target="_blank" rel="noopener noreferrer">Download here</a>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
               <div>
-                <strong>Shopify Partner Account</strong> -{" "}
-                <a
-                  href="https://partners.shopify.com"
-                  className="text-shopify-blue hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Sign up here
-                </a>
+                <strong>Shopify Partner Account</strong> - <a href="https://partners.shopify.com" className="text-shopify-blue hover:underline" target="_blank" rel="noopener noreferrer">Sign up here</a>
               </div>
             </div>
           </div>
@@ -80,12 +54,8 @@ export default function CLISetup() {
 
         {/* Installation */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Installing Shopify CLI
-          </h2>
-          <p className="mt-4 text-gray-700">
-            Install Shopify CLI globally using npm:
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">Installing Shopify CLI</h2>
+          <p className="mt-4 text-gray-700">Install Shopify CLI globally using npm:</p>
           <CodeBlock
             code="npm install -g @shopify/cli @shopify/theme"
             language="bash"
@@ -101,12 +71,8 @@ export default function CLISetup() {
 
         {/* Creating a Theme */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Creating a New Theme
-          </h2>
-          <p className="mt-4 text-gray-700">
-            Initialize a new theme using Dawn (Shopify's reference theme):
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">Creating a New Theme</h2>
+          <p className="mt-4 text-gray-700">Initialize a new theme using Dawn (Shopify's reference theme):</p>
           <CodeBlock
             code={`# Create a new theme
 shopify theme init my-theme
@@ -123,17 +89,12 @@ shopify theme dev --store your-store.myshopify.com`}
 
         {/* Tailwind Setup */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Adding Tailwind CSS
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Adding Tailwind CSS</h2>
           <p className="mt-4 text-gray-700">
-            Integrate Tailwind CSS into your Shopify theme for utility-first
-            styling:
+            Integrate Tailwind CSS into your Shopify theme for utility-first styling:
           </p>
-
-          <h3 className="mt-6 text-xl font-semibold">
-            Step 1: Install Dependencies
-          </h3>
+          
+          <h3 className="mt-6 text-xl font-semibold">Step 1: Install Dependencies</h3>
           <CodeBlock
             code={`npm init -y
 npm install -D tailwindcss postcss autoprefixer
@@ -142,9 +103,7 @@ npx tailwindcss init`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-xl font-semibold">
-            Step 2: Configure Tailwind
-          </h3>
+          <h3 className="mt-6 text-xl font-semibold">Step 2: Configure Tailwind</h3>
           <CodeBlock
             code={`/** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -168,9 +127,7 @@ module.exports = {
             filename="tailwind.config.js"
           />
 
-          <h3 className="mt-6 text-xl font-semibold">
-            Step 3: Create CSS Input File
-          </h3>
+          <h3 className="mt-6 text-xl font-semibold">Step 3: Create CSS Input File</h3>
           <CodeBlock
             code={`@tailwind base;
 @tailwind components;
@@ -180,9 +137,7 @@ module.exports = {
           />
 
           <h3 className="mt-6 text-xl font-semibold">Step 4: Build Script</h3>
-          <p className="mt-4 text-gray-700">
-            Add build scripts to package.json:
-          </p>
+          <p className="mt-4 text-gray-700">Add build scripts to package.json:</p>
           <CodeBlock
             code={`{
   "scripts": {
@@ -194,9 +149,7 @@ module.exports = {
             filename="package.json"
           />
 
-          <h3 className="mt-6 text-xl font-semibold">
-            Step 5: Include in Theme
-          </h3>
+          <h3 className="mt-6 text-xl font-semibold">Step 5: Include in Theme</h3>
           <p className="mt-4 text-gray-700">Add to your theme.liquid file:</p>
           <CodeBlock
             code={`{{ 'output.css' | asset_url | stylesheet_tag }}`}
@@ -207,27 +160,19 @@ module.exports = {
 
         {/* Common Commands */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            Common CLI Commands
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900">Common CLI Commands</h2>
           <div className="mt-6 space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-mono">
-                  shopify theme dev
-                </CardTitle>
+                <CardTitle className="text-lg font-mono">shopify theme dev</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
-                  Start local development server with hot reload
-                </p>
+                <p className="text-gray-600">Start local development server with hot reload</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-mono">
-                  shopify theme push
-                </CardTitle>
+                <CardTitle className="text-lg font-mono">shopify theme push</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">Upload your theme to Shopify</p>
@@ -235,26 +180,18 @@ module.exports = {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-mono">
-                  shopify theme pull
-                </CardTitle>
+                <CardTitle className="text-lg font-mono">shopify theme pull</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
-                  Download theme files from Shopify
-                </p>
+                <p className="text-gray-600">Download theme files from Shopify</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg font-mono">
-                  shopify theme check
-                </CardTitle>
+                <CardTitle className="text-lg font-mono">shopify theme check</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
-                  Lint your theme for errors and best practices
-                </p>
+                <p className="text-gray-600">Lint your theme for errors and best practices</p>
               </CardContent>
             </Card>
           </div>
@@ -265,24 +202,11 @@ module.exports = {
           <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
           <div className="mt-6 rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>
-                Always develop on a development store, never on production
-              </li>
+              <li>Always develop on a development store, never on production</li>
               <li>Use version control (Git) for your theme files</li>
-              <li>
-                Run{" "}
-                <code className="bg-gray-200 px-2 py-1 rounded">
-                  shopify theme check
-                </code>{" "}
-                before deploying
-              </li>
-              <li>
-                Keep Tailwind's purge configuration updated for smaller CSS
-                files
-              </li>
-              <li>
-                Use environment variables for store-specific configurations
-              </li>
+              <li>Run <code className="bg-gray-200 px-2 py-1 rounded">shopify theme check</code> before deploying</li>
+              <li>Keep Tailwind's purge configuration updated for smaller CSS files</li>
+              <li>Use environment variables for store-specific configurations</li>
             </ul>
           </div>
         </section>
@@ -290,3 +214,4 @@ module.exports = {
     </ContentLayout>
   );
 }
+

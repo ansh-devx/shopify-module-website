@@ -23,7 +23,7 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-green-900 bg-black">
+    <footer className="border-t border-gray-200 bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -31,20 +31,20 @@ export default function Footer() {
             <Link href="/" className="text-2xl font-bold text-shopify-green">
               Shopify Learn
             </Link>
-            <p className="mt-4 text-sm text-white/70">
+            <p className="mt-4 text-sm text-gray-600">
               Your comprehensive guide to mastering Shopify development.
             </p>
           </div>
 
           {/* Learn Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white">Learn</h3>
+            <h3 className="text-sm font-semibold text-gray-900">Learn</h3>
             <ul className="mt-4 space-y-2">
               {footerLinks.learn.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/70 hover:text-shopify-green"
+                    className="text-sm text-gray-600 hover:text-shopify-green"
                   >
                     {link.name}
                   </Link>
@@ -55,13 +55,13 @@ export default function Footer() {
 
           {/* Resources Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white">Resources</h3>
+            <h3 className="text-sm font-semibold text-gray-900">Resources</h3>
             <ul className="mt-4 space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/70 hover:text-shopify-green"
+                    className="text-sm text-gray-600 hover:text-shopify-green"
                   >
                     {link.name}
                   </Link>
@@ -72,7 +72,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white">Connect</h3>
+            <h3 className="text-sm font-semibold text-gray-900">Connect</h3>
             <div className="mt-4 flex space-x-4">
               {footerLinks.social.map((item) => {
                 const Icon = item.icon;
@@ -80,7 +80,7 @@ export default function Footer() {
                   <a
                     key={item.name}
                     href={item.href}
-                    className="text-white/70 hover:text-shopify-green"
+                    className="text-gray-600 hover:text-shopify-green"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -94,13 +94,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 border-t border-green-900 pt-8">
-          <p className="text-center text-sm text-white/70">
-            &copy; {new Date().getFullYear()} Shopify Learn. Built with Next.js
-            and Tailwind CSS.
+        <div className="mt-8 border-t border-gray-200 pt-8">
+          <p className="text-center text-sm text-gray-600">
+            &copy; {new Date().getFullYear()} Shopify Learn. Built with Next.js and Tailwind CSS.
           </p>
         </div>
       </div>
     </footer>
   );
 }
+
