@@ -5,7 +5,8 @@ import Badge from "@/components/ui/Badge";
 
 export const metadata = {
   title: "Liquid Cheatsheet - Shopify Learn",
-  description: "Master Shopify's templating language with our comprehensive Liquid reference.",
+  description:
+    "Master Shopify's templating language with our comprehensive Liquid reference.",
 };
 
 export default function LiquidCheatsheet() {
@@ -13,15 +14,14 @@ export default function LiquidCheatsheet() {
     <ContentLayout
       title="Liquid Cheatsheet"
       description="Your comprehensive reference for Shopify's Liquid templating language."
-      previousPage={{ title: "GitHub Config", href: "/github-config" }}
-      nextPage={{ title: "Cart APIs", href: "/cart-apis" }}
     >
       <div className="space-y-8">
         <section>
           <h2 className="text-3xl font-bold text-gray-900">What is Liquid?</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Liquid is an open-source templating language created by Shopify. It's the backbone of Shopify 
-            themes and is used to load dynamic content on storefronts.
+            Liquid is an open-source templating language created by Shopify.
+            It's the backbone of Shopify themes and is used to load dynamic
+            content on storefronts.
           </p>
         </section>
 
@@ -31,10 +31,12 @@ export default function LiquidCheatsheet() {
             <Card>
               <CardHeader>
                 <Badge variant="info">Output</Badge>
-                <CardTitle className="mt-4 text-xl">{{ "{{ }}" }}</CardTitle>
+                <CardTitle className="mt-4 text-xl">{"{{ }}"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">Outputs content to the page</p>
+                <p className="text-gray-600 mb-4">
+                  Outputs content to the page
+                </p>
                 <CodeBlock
                   code={`{{ product.title }}
 {{ 'Hello World' }}
@@ -46,10 +48,12 @@ export default function LiquidCheatsheet() {
             <Card>
               <CardHeader>
                 <Badge variant="warning">Logic</Badge>
-                <CardTitle className="mt-4 text-xl">{% "{%" %}</CardTitle>
+                <CardTitle className="mt-4 text-xl">{"{% %}"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">Executes logic and control flow</p>
+                <p className="text-gray-600 mb-4">
+                  Executes logic and control flow
+                </p>
                 <CodeBlock
                   code={`{% if product.available %}
   In Stock
@@ -81,7 +85,9 @@ export default function LiquidCheatsheet() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Conditional Logic</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Conditional Logic
+          </h2>
           <CodeBlock
             code={`{% if product.available %}
   <button>Add to Cart</button>
@@ -212,4 +218,3 @@ export default function LiquidCheatsheet() {
     </ContentLayout>
   );
 }
-

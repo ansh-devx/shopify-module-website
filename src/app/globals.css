@@ -58,6 +58,23 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /*
+      Tailwind v4 color utilities (e.g. text-gray-900, bg-gray-50) are backed by
+      our @theme CSS variables above.
+      By redefining this grayscale ramp for dark mode, the existing UI classes
+      automatically adapt without having to add `dark:` variants everywhere.
+    */
+    --gray-50: #0b0f14;
+    --gray-100: #111827;
+    --gray-200: #1f2937;
+    --gray-300: #374151;
+    --gray-400: #4b5563;
+    --gray-500: #6b7280;
+    --gray-600: #9ca3af;
+    --gray-700: #d1d5db;
+    --gray-800: #e5e7eb;
+    --gray-900: #f9fafb;
   }
 }
 
@@ -68,6 +85,22 @@ body {
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+  If a page renders the fixed bottom navigation bar (ContentLayout), ensure the
+  document can scroll a bit past the last content so the footer isn't hidden
+  behind the bar.
+*/
+@supports selector(body:has(*)) {
+  body:has([data-bottom-nav]) {
+    padding-bottom: 5rem;
+  }
+}
+
+/* Fallback for browsers that don't support :has() (or if it is disabled). */
+body[data-has-bottom-nav="true"] {
+  padding-bottom: 5rem;
 }
 
 /* Smooth scrolling */
