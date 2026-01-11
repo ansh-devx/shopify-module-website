@@ -27,11 +27,7 @@ Card.displayName = "Card";
 
 const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("mb-4 flex flex-col space-y-1.5", className)}
-      {...props}
-    />
+    <div ref={ref} className={cn("mb-4 space-y-1.5", className)} {...props} />
   )
 );
 

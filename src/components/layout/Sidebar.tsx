@@ -43,10 +43,10 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const itemContent = (
     <div
       className={cn(
-        "flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors",
+        "flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors rounded-md",
         level === 0 && "text-white",
         level > 0 && "text-white/80",
-        isActive && "border-l-2 border-shopify-green bg-gray-800/50 text-white",
+        isActive && "bg-[#2e3739] text-white",
         !isActive && hasActiveChild && "text-white",
         !isActive && !hasActiveChild && "hover:bg-gray-800/30"
       )}
@@ -86,7 +86,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
       )}
 
       {hasChildren && isOpen && (
-        <div className="mt-1 space-y-1">
+        <div className="mt-1 space-y-1 ml-8">
           {item.children?.map((child) => (
             <SidebarItem
               key={child.id}
