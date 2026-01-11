@@ -1,0 +1,203 @@
+name: Slack Notifications
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    types: [opened, closed, reopened, synchronize]
+  create:
+  delete:
+  pull_request_review:
+    types: [submitted]
+  issues:
+    types: [opened, closed, reopened]
+
+jobs:
+  notify-push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack on Push
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          COMMIT_MSG=$(echo '${{ github.event.head_commit.message }}' | head -n 1)
+          BRANCH_NAME="${{ github.ref_name }}"
+          AUTHOR="${{ github.event.head_commit.author.name }}"
+          COMMIT_URL="${{ github.event.head_commit.url }}"
+          REPO_NAME="${{ github.repository }}"
+          
+          curl -X POST -H 'Content-Type: application/json' -d "{
+            \"text\": \"📝 *New Commit Pushed*\",
+            \"blocks\": [
+              {
+                \"type\": \"header\",
+                \"text\": {
+                  \"type\": \"plain_text\",
+                  \"text\": \"📝 New Commit Pushed\"
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"fields\": [
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Repository:*\n${REPO_NAME}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Branch:*\n\`${BRANCH_NAME}\`\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Author:*\n${AUTHOR}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Commit:*\n<${COMMIT_URL}|\`${{ github.event.head_commit.id }}\`>\"
+                  }
+                ]
+              },
+              {
+                \"type\": \"section\",
+                \"text\": {
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"*Message:* ${COMMIT_MSG}\"
+                }
+              }
+            ]
+          }" $SLACK_WEBHOOK_URL
+
+  notify-branch:
+    if: github.event_name == 'create' || github.event_name == 'delete'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack on Branch Create/Delete
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ github.event_name }}" == "create" ]; then
+            ACTION="🌿 *New Branch Created*"
+            EMOJI="🌿"
+          else
+            ACTION="🗑️ *Branch Deleted*"
+            EMOJI="🗑️"
+          fi
+          
+          BRANCH_NAME="${{ github.ref_name }}"
+          REPO_NAME="${{ github.repository }}"
+          ACTOR="${{ github.actor }}"
+          
+          curl -X POST -H 'Content-Type: application/json' -d "{
+            \"text\": \"${ACTION}\",
+            \"blocks\": [
+              {
+                \"type\": \"header\",
+                \"text\": {
+                  \"type\": \"plain_text\",
+                  \"text\": \"${ACTION}\"
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"fields\": [
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Repository:*\n${REPO_NAME}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Branch:*\n\`${BRANCH_NAME}\`\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*By:*\n${ACTOR}\"
+                  }
+                ]
+              }
+            ]
+          }" $SLACK_WEBHOOK_URL
+
+  notify-pr:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack on PR
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          ACTION="${{ github.event.action }}"
+          case $ACTION in
+            opened)
+              EMOJI="🔀"
+              ACTION_TEXT="New Pull Request Opened"
+              ;;
+            closed)
+              if [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+                EMOJI="✅"
+                ACTION_TEXT="Pull Request Merged"
+              else
+                EMOJI="❌"
+                ACTION_TEXT="Pull Request Closed"
+              fi
+              ;;
+            reopened)
+              EMOJI="🔄"
+              ACTION_TEXT="Pull Request Reopened"
+              ;;
+            synchronize)
+              EMOJI="🔄"
+              ACTION_TEXT="Pull Request Updated"
+              ;;
+          esac
+
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          HEAD_BRANCH="${{ github.event.pull_request.head.ref }}"
+          REPO_NAME="${{ github.repository }}"
+
+          curl -X POST -H 'Content-Type: application/json' -d "{
+            \"text\": \"${EMOJI} ${ACTION_TEXT}\",
+            \"blocks\": [
+              {
+                \"type\": \"header\",
+                \"text\": {
+                  \"type\": \"plain_text\",
+                  \"text\": \"${EMOJI} ${ACTION_TEXT}\"
+                }
+              },
+              {
+                \"type\": \"section\",
+                \"fields\": [
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Repository:*\n${REPO_NAME}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*PR:*\n<${PR_URL}|#${PR_NUMBER}>\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Author:*\n${AUTHOR}\"
+                  },
+                  {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Branches:*\n\`${HEAD_BRANCH}\` → \`${BASE_BRANCH}\`\"
+                  }
+                ]
+              },
+              {
+                \"type\": \"section\",
+                \"text\": {
+                  \"type\": \"mrkdwn\",
+                  \"text\": \"*Title:* ${PR_TITLE}\"
+                }
+              }
+            ]
+          }" $SLACK_WEBHOOK_URL
+
