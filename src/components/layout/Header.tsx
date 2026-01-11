@@ -14,7 +14,7 @@ export default function Header() {
         <div className="flex flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="text-2xl font-bold text-shopify-green">
-              Shopify Learn
+              Shopify Academy
             </span>
           </Link>
         </div>

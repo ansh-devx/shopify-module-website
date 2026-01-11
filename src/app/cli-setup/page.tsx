@@ -5,7 +5,7 @@ import Badge from "@/components/ui/Badge";
 import { Terminal, Zap, CheckCircle } from "lucide-react";
 
 export const metadata = {
-  title: "Shopify CLI + Tailwind Setup - Shopify Learn",
+  title: "Shopify CLI + Tailwind Setup - Shopify Academy",
   description:
     "Set up your development environment with Shopify CLI and integrate Tailwind CSS.",
 };

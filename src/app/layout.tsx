@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shopify Learn - Master Shopify Development",
+  title: "Shopify Academy - Master Shopify Development",
   description:
     "Your comprehensive guide to mastering Shopify development. Learn about Shopify CLI, Liquid, APIs, Functions, and more.",
   keywords: [

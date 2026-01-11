@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 
 export const metadata = {
-  title: "Liquid Cheatsheet - Shopify Learn",
+  title: "Liquid Cheatsheet - Shopify Academy",
   description:
     "Master Shopify's templating language with our comprehensive Liquid reference.",
 };

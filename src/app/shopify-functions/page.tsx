@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Zap, ShoppingCart, Truck, CreditCard } from "lucide-react";
 
 export const metadata = {
-  title: "Shopify Functions - Shopify Learn",
+  title: "Shopify Functions - Shopify Academy",
   description:
     "Extend Shopify's backend with custom business logic using Functions.",
 };

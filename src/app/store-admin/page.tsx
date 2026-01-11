@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Shopify Admin Walkthrough - Shopify Learn",
+  title: "Shopify Admin Walkthrough - Shopify Academy",
   description:
     "A practical walkthrough of the Shopify Admin: URL structure, products, collections, files, menus, analytics, discounts, and orders.",
 };

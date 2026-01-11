@@ -4,7 +4,7 @@ import CodeBlock from "@/components/code-block/CodeBlock";
 import { UserPlus, Store, Settings, BarChart } from "lucide-react";
 
 export const metadata = {
-  title: "Partners Dashboard - Shopify Learn",
+  title: "Partners Dashboard - Shopify Academy",
   description:
     "Learn how to navigate the Shopify Partners Dashboard and accept store organization invitations.",
 };

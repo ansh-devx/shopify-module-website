@@ -3,7 +3,7 @@ import CodeBlock from "@/components/code-block/CodeBlock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export const metadata = {
-  title: "Cart & Section APIs - Shopify Learn",
+  title: "Cart & Section APIs - Shopify Academy",
   description:
     "Build dynamic shopping experiences with Cart APIs and Section Rendering.",
 };

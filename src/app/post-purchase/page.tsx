@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Package, Truck, CheckCircle } from "lucide-react";
 
 export const metadata = {
-  title: "Post Purchase & Shopify Flow - Shopify Learn",
+  title: "Post Purchase & Shopify Flow - Shopify Academy",
   description:
     "Understand order processing, Shopify Flow, and post-purchase automation.",
 };

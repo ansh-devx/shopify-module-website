@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Github, Download, Upload, GitBranch } from "lucide-react";
 
 export const metadata = {
-  title: "GitHub Configuration - Shopify Learn",
+  title: "GitHub Configuration - Shopify Academy",
   description:
     "Version control your Shopify theme using GitHub and best practices.",
 };

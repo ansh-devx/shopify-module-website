@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Smartphone, Code, DollarSign, Users } from "lucide-react";
 
 export const metadata = {
-  title: "Shopify Apps - Shopify Learn",
+  title: "Shopify Apps - Shopify Academy",
   description: "Learn how to build, deploy, and monetize Shopify apps.",
 };
 

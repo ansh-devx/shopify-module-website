@@ -4,7 +4,7 @@ import Badge from "@/components/ui/Badge";
 import { TrendingUp, Globe, Users, DollarSign } from "lucide-react";
 
 export const metadata = {
-  title: "What is Shopify - Shopify Learn",
+  title: "What is Shopify - Shopify Academy",
   description:
     "Discover Shopify's platform, its global growth, and why it's the leading e-commerce solution.",
 };
