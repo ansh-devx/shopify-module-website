@@ -14,8 +14,6 @@ export default function LiquidCheatsheet() {
     <ContentLayout
       title="Liquid Cheatsheet"
       description="Your comprehensive reference for Shopify's Liquid templating language."
-      previousPage={{ title: "GitHub Config", href: "/github-config" }}
-      nextPage={{ title: "Cart APIs", href: "/cart-apis" }}
     >
       <div className="space-y-8">
         <section>

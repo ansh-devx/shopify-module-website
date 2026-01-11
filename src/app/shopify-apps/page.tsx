@@ -13,14 +13,16 @@ export default function ShopifyApps() {
     <ContentLayout
       title="Shopify Apps"
       description="Learn how to build, deploy, and monetize Shopify apps that extend the Shopify platform."
-      previousPage={{ title: "Post Purchase", href: "/post-purchase" }}
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What are Shopify Apps?</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            What are Shopify Apps?
+          </h2>
           <p className="mt-4 text-lg text-gray-700">
-            Shopify apps extend the functionality of Shopify stores. They can add features, 
-            integrate with third-party services, and provide custom solutions for merchants.
+            Shopify apps extend the functionality of Shopify stores. They can
+            add features, integrate with third-party services, and provide
+            custom solutions for merchants.
           </p>
         </section>
 
@@ -34,7 +36,8 @@ export default function ShopifyApps() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Listed in the Shopify App Store, available to all merchants. Can be free or paid.
+                  Listed in the Shopify App Store, available to all merchants.
+                  Can be free or paid.
                 </p>
               </CardContent>
             </Card>
@@ -45,7 +48,8 @@ export default function ShopifyApps() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Built for a specific store or client. Not listed in the App Store.
+                  Built for a specific store or client. Not listed in the App
+                  Store.
                 </p>
               </CardContent>
             </Card>
@@ -53,8 +57,12 @@ export default function ShopifyApps() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Creating Your First App</h2>
-          <p className="mt-4 text-gray-700">Use Shopify CLI to scaffold a new app:</p>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Creating Your First App
+          </h2>
+          <p className="mt-4 text-gray-700">
+            Use Shopify CLI to scaffold a new app:
+          </p>
           <CodeBlock
             code={`# Create a new app
 npm init @shopify/app@latest
@@ -98,7 +106,8 @@ npm run dev`}
         <section>
           <h2 className="text-3xl font-bold text-gray-900">Authentication</h2>
           <p className="mt-4 text-gray-700">
-            Shopify apps use OAuth 2.0 for authentication. The CLI handles this automatically:
+            Shopify apps use OAuth 2.0 for authentication. The CLI handles this
+            automatically:
           </p>
           <CodeBlock
             code={`// app/shopify.server.ts
@@ -163,17 +172,21 @@ export async function loader({ request }) {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Add custom blocks to product pages, order details, and more in the admin.
+                  Add custom blocks to product pages, order details, and more in
+                  the admin.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Checkout UI Extensions</CardTitle>
+                <CardTitle className="text-lg">
+                  Checkout UI Extensions
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Customize the checkout experience with custom fields and components.
+                  Customize the checkout experience with custom fields and
+                  components.
                 </p>
               </CardContent>
             </Card>
@@ -303,4 +316,3 @@ shopify app deploy
     </ContentLayout>
   );
 }
-

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import Sidebar from "@/components/layout/Sidebar";
+import ScrollToTop from "@/components/ScrollToTop";
+import SearchProvider from "@/components/search/SearchProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,12 +40,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1 bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
-            {children}
-          </main>
-        </div>
+        <SearchProvider>
+          <ScrollToTop />
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <div className="flex flex-1">
+              <Sidebar />
+              <main className="ml-64 flex-1 bg-black text-white">
+                {children}
+              </main>
+            </div>
+          </div>
+        </SearchProvider>
       </body>
     </html>
   );

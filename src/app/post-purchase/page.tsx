@@ -1,11 +1,12 @@
 import ContentLayout from "@/components/layout/ContentLayout";
 import CodeBlock from "@/components/code-block/CodeBlock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Package, Truck, CheckCircle, RefreshCw } from "lucide-react";
+import { Package, Truck, CheckCircle } from "lucide-react";
 
 export const metadata = {
   title: "Post Purchase & Shopify Flow - Shopify Learn",
-  description: "Understand order processing, Shopify Flow, and post-purchase automation.",
+  description:
+    "Understand order processing, Shopify Flow, and post-purchase automation.",
 };
 
 export default function PostPurchase() {
@@ -13,15 +14,13 @@ export default function PostPurchase() {
     <ContentLayout
       title="Post Purchase & Shopify Flow"
       description="Learn about order lifecycle, post-purchase experiences, and automation with Shopify Flow."
-      previousPage={{ title: "Shopify Functions", href: "/shopify-functions" }}
-      nextPage={{ title: "Shopify Apps", href: "/shopify-apps" }}
     >
       <div className="space-y-8">
         <section>
           <h2 className="text-3xl font-bold text-gray-900">Order Lifecycle</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Understanding the order lifecycle is crucial for building post-purchase experiences 
-            and automations in Shopify.
+            Understanding the order lifecycle is crucial for building
+            post-purchase experiences and automations in Shopify.
           </p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <Card>
@@ -72,51 +71,10 @@ export default function PostPurchase() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Order Status API</h2>
-          <p className="mt-4 text-gray-700">
-            Access order information programmatically:
-          </p>
-          <CodeBlock
-            code={`// GraphQL query to get order details
-query getOrder($id: ID!) {
-  order(id: $id) {
-    id
-    name
-    email
-    createdAt
-    financialStatus
-    fulfillmentStatus
-    totalPrice
-    lineItems(first: 10) {
-      edges {
-        node {
-          title
-          quantity
-          variant {
-            price
-          }
-        }
-      }
-    }
-    shippingAddress {
-      address1
-      city
-      province
-      country
-      zip
-    }
-  }
-}`}
-            language="graphql"
-            filename="order-query.graphql"
-          />
-        </section>
-
-        <section>
           <h2 className="text-3xl font-bold text-gray-900">Shopify Flow</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Shopify Flow is a powerful automation tool that lets you build workflows to automate 
-            tasks and processes in your store.
+            Shopify Flow is a powerful automation tool that lets you build
+            workflows to automate tasks and processes in your store.
           </p>
           <div className="mt-6 space-y-4">
             <h3 className="text-xl font-semibold">Key Concepts</h3>
@@ -124,7 +82,8 @@ query getOrder($id: ID!) {
               <div className="rounded-lg border border-gray-200 p-4">
                 <h4 className="font-semibold text-shopify-green">Triggers</h4>
                 <p className="mt-2 text-sm text-gray-600">
-                  Events that start a workflow (e.g., order created, product updated)
+                  Events that start a workflow (e.g., order created, product
+                  updated)
                 </p>
               </div>
               <div className="rounded-lg border border-gray-200 p-4">
@@ -144,30 +103,187 @@ query getOrder($id: ID!) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Common Flow Examples</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            How to Create a Shopify Flow
+          </h2>
+          <p className="mt-4 text-gray-700">
+            Follow these steps to create your first automation workflow:
+          </p>
+          <div className="mt-6 space-y-6">
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  1
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Access Shopify Flow
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    In your Shopify admin, go to{" "}
+                    <strong>
+                      Settings → Apps and sales channels → Shopify Flow
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  2
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Create a New Workflow
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Click <strong>&quot;Create workflow&quot;</strong> button
+                  </p>
+                  <p className="mt-1 text-sm text-white/60">
+                    You can start from a template or build from scratch
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  3
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Select a Trigger
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Choose what event starts your workflow:
+                  </p>
+                  <ul className="mt-2 list-disc list-inside space-y-1 text-sm text-white/60">
+                    <li>Order created</li>
+                    <li>Order paid</li>
+                    <li>Order fulfilled</li>
+                    <li>Product created or updated</li>
+                    <li>Customer created</li>
+                    <li>Inventory quantity changed</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  4
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Add Conditions (Optional)
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Set rules to filter when actions should run:
+                  </p>
+                  <ul className="mt-2 list-disc list-inside space-y-1 text-sm text-white/60">
+                    <li>Order total is greater than $500</li>
+                    <li>Customer has a specific tag</li>
+                    <li>Product is in a certain collection</li>
+                    <li>Inventory level is below threshold</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  5
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Add Actions
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Choose what happens when conditions are met:
+                  </p>
+                  <ul className="mt-2 list-disc list-inside space-y-1 text-sm text-white/60">
+                    <li>Send email notification</li>
+                    <li>Add tags to customer or order</li>
+                    <li>Send Slack message</li>
+                    <li>Update inventory</li>
+                    <li>Create a task</li>
+                    <li>Call a webhook (for custom integrations)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  6
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Test and Activate
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Click <strong>&quot;Turn on workflow&quot;</strong> to activate
+                  </p>
+                  <p className="mt-1 text-sm text-white/60">
+                    Monitor the workflow runs in the Flow dashboard to ensure
+                    it&apos;s working correctly
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Common Flow Examples
+          </h2>
           <div className="mt-6 space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">High-Value Order Alert</CardTitle>
+                <CardTitle className="text-xl">
+                  High-Value Order Alert
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 text-sm">
-                  <p><strong>Trigger:</strong> Order created</p>
-                  <p><strong>Condition:</strong> Order total &gt; $500</p>
-                  <p><strong>Action:</strong> Send email to manager</p>
+                  <p>
+                    <strong>Trigger:</strong> Order created
+                  </p>
+                  <p>
+                    <strong>Condition:</strong> Order total &gt; $500
+                  </p>
+                  <p>
+                    <strong>Action:</strong> Send email to manager
+                  </p>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">Auto-Tag VIP Customers</CardTitle>
+                <CardTitle className="text-xl">
+                  Auto-Tag VIP Customers
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 text-sm">
-                  <p><strong>Trigger:</strong> Order created</p>
-                  <p><strong>Condition:</strong> Customer lifetime value &gt; $1000</p>
-                  <p><strong>Action:</strong> Add "VIP" tag to customer</p>
+                  <p>
+                    <strong>Trigger:</strong> Order created
+                  </p>
+                  <p>
+                    <strong>Condition:</strong> Customer lifetime value &gt;
+                    $1000
+                  </p>
+                  <p>
+                    <strong>Action:</strong> Add &quot;VIP&quot; tag to customer
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -178,9 +294,15 @@ query getOrder($id: ID!) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 text-sm">
-                  <p><strong>Trigger:</strong> Product variant updated</p>
-                  <p><strong>Condition:</strong> Inventory quantity &lt; 10</p>
-                  <p><strong>Action:</strong> Send Slack notification</p>
+                  <p>
+                    <strong>Trigger:</strong> Product variant updated
+                  </p>
+                  <p>
+                    <strong>Condition:</strong> Inventory quantity &lt; 10
+                  </p>
+                  <p>
+                    <strong>Action:</strong> Send Slack notification
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -188,77 +310,49 @@ query getOrder($id: ID!) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Post-Purchase Extensions</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Post-Purchase Automation Ideas
+          </h2>
           <p className="mt-4 text-gray-700">
-            Create custom post-purchase experiences using Shopify's checkout extensions:
+            Use Shopify Flow to automate post-purchase tasks:
           </p>
-          <CodeBlock
-            code={`// Create a post-purchase extension
-shopify app generate extension
-
-// Select "Post-purchase UI"
-// This allows you to show offers after checkout`}
-            language="bash"
-            filename="terminal"
-          />
-        </section>
-
-        <section>
-          <h2 className="text-3xl font-bold text-gray-900">Order Status Page Customization</h2>
-          <CodeBlock
-            code={`<!-- Customize order status page with Liquid -->
-<div class="order-status">
-  <h2>Thank you, {{ order.customer.first_name }}!</h2>
-  <p>Order #{{ order.name }}</p>
-  
-  {% if order.fulfillment_status == 'fulfilled' %}
-    <div class="tracking-info">
-      <h3>Tracking Information</h3>
-      {% for fulfillment in order.fulfillments %}
-        <p>Tracking: {{ fulfillment.tracking_number }}</p>
-        <a href="{{ fulfillment.tracking_url }}">Track Package</a>
-      {% endfor %}
-    </div>
-  {% endif %}
-  
-  <div class="order-items">
-    {% for line_item in order.line_items %}
-      <div class="item">
-        <img src="{{ line_item.image | img_url: '100x100' }}">
-        <span>{{ line_item.title }}</span>
-        <span>{{ line_item.quantity }} × {{ line_item.price | money }}</span>
-      </div>
-    {% endfor %}
-  </div>
-</div>`}
-            language="liquid"
-            filename="order-status.liquid"
-          />
-        </section>
-
-        <section>
-          <h2 className="text-3xl font-bold text-gray-900">Webhooks for Order Events</h2>
-          <CodeBlock
-            code={`// Subscribe to order webhooks
-{
-  "webhook": {
-    "topic": "orders/create",
-    "address": "https://your-app.com/webhooks/orders/create",
-    "format": "json"
-  }
-}
-
-// Available order webhooks:
-// - orders/create
-// - orders/updated
-// - orders/paid
-// - orders/cancelled
-// - orders/fulfilled
-// - fulfillments/create
-// - fulfillments/update`}
-            language="json"
-            filename="webhooks.json"
-          />
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <h3 className="text-lg font-semibold text-white">
+                Order Confirmation
+              </h3>
+              <p className="mt-2 text-sm text-white/70">
+                Send personalized thank you emails with order details and
+                estimated delivery dates
+              </p>
+            </div>
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <h3 className="text-lg font-semibold text-white">
+                Fulfillment Notifications
+              </h3>
+              <p className="mt-2 text-sm text-white/70">
+                Automatically notify customers when their order is packed and
+                shipped
+              </p>
+            </div>
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <h3 className="text-lg font-semibold text-white">
+                Review Requests
+              </h3>
+              <p className="mt-2 text-sm text-white/70">
+                Send review requests 7 days after delivery to gather customer
+                feedback
+              </p>
+            </div>
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <h3 className="text-lg font-semibold text-white">
+                Loyalty Programs
+              </h3>
+              <p className="mt-2 text-sm text-white/70">
+                Award points or discounts to customers based on purchase history
+              </p>
+            </div>
+          </div>
         </section>
 
         <section>
@@ -278,4 +372,3 @@ shopify app generate extension
     </ContentLayout>
   );
 }
-

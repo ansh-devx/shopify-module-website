@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export const metadata = {
   title: "Cart & Section APIs - Shopify Learn",
-  description: "Build dynamic shopping experiences with Cart APIs and Section Rendering.",
+  description:
+    "Build dynamic shopping experiences with Cart APIs and Section Rendering.",
 };
 
 export default function CartAPIs() {
@@ -12,20 +13,23 @@ export default function CartAPIs() {
     <ContentLayout
       title="Cart & Section Rendering APIs"
       description="Learn how to build dynamic, AJAX-powered shopping experiences using Shopify's Cart and Section Rendering APIs."
-      previousPage={{ title: "Liquid Cheatsheet", href: "/liquid-cheatsheet" }}
-      nextPage={{ title: "Shopify Functions", href: "/shopify-functions" }}
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Cart API Overview</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Cart API Overview
+          </h2>
           <p className="mt-4 text-lg text-gray-700">
-            The Shopify Cart API allows you to interact with the cart using JavaScript, enabling 
-            dynamic cart updates without page reloads. Perfect for modern, app-like experiences.
+            The Shopify Cart API allows you to interact with the cart using
+            JavaScript, enabling dynamic cart updates without page reloads.
+            Perfect for modern, app-like experiences.
           </p>
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Get Cart Contents</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Get Cart Contents
+          </h2>
           <CodeBlock
             code={`// Get cart as JSON
 fetch('/cart.js')
@@ -132,10 +136,12 @@ fetch('/cart/update.js', {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Section Rendering API</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Section Rendering API
+          </h2>
           <p className="mt-4 text-gray-700">
-            The Section Rendering API allows you to re-render specific sections of your theme 
-            without reloading the entire page.
+            The Section Rendering API allows you to re-render specific sections
+            of your theme without reloading the entire page.
           </p>
           <CodeBlock
             code={`// Render a specific section
@@ -162,7 +168,9 @@ fetch('/cart?sections=cart-drawer,cart-icon-bubble')
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Complete AJAX Cart Example</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Complete AJAX Cart Example
+          </h2>
           <CodeBlock
             code={`class AjaxCart {
   constructor() {
@@ -232,4 +240,3 @@ new AjaxCart();`}
     </ContentLayout>
   );
 }
-

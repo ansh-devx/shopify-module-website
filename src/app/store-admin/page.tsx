@@ -21,11 +21,6 @@ export default function StoreAdmin() {
     <ContentLayout
       title="Shopify Admin Walkthrough"
       description="Learn where everything lives in the Shopify Admin and how to manage products, collections, content, discounts, analytics, and orders."
-      previousPage={{
-        title: "Partners Dashboard",
-        href: "/partners-dashboard",
-      }}
-      nextPage={{ title: "CLI Setup", href: "/cli-setup" }}
     >
       <div className="space-y-8">
         {/* Introduction */}

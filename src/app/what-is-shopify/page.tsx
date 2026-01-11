@@ -14,7 +14,6 @@ export default function WhatIsShopify() {
     <ContentLayout
       title="What is Shopify?"
       description="Discover Shopify, its global growth, and why it is a leading commerce platform for both merchants and developers."
-      nextPage={{ title: "Partners Dashboard", href: "/partners-dashboard" }}
     >
       <div className="space-y-8">
         {/* Introduction */}
