@@ -111,7 +111,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -125,7 +125,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-xl border border-green-900 bg-black p-6 shadow-2xl transition-all">
+              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-xl border border-gray-700/50 bg-[#151d1e] p-6 shadow-2xl transition-all">
                 <SearchInput
                   value={query}
                   onChange={setQuery}

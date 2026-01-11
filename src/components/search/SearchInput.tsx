@@ -32,12 +32,12 @@ export default function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search documentation..."
-        className="w-full rounded-lg border border-green-900 bg-black py-3 pl-12 pr-12 text-lg text-white placeholder-white/40 focus:border-shopify-green focus:outline-none focus:ring-2 focus:ring-shopify-green/50"
+        className="w-full rounded-lg border border-gray-700/50 bg-gray-800/30 py-3 pl-12 pr-12 text-lg text-white placeholder-gray-500 focus:border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600/50"
       />
       {value && (
         <button
           onClick={onClear}
-          className="absolute inset-y-0 right-0 flex items-center pr-4 text-white/60 hover:text-white"
+          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-4 text-white/60 hover:text-white"
           aria-label="Clear search"
         >
           <X className="h-5 w-5" />

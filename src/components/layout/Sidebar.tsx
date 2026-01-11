@@ -19,7 +19,6 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const router = useRouter();
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.href;
-  const Icon = item.icon;
 
   // Check if any child is active
   const hasActiveChild = item.children?.some(
@@ -44,19 +43,19 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const itemContent = (
     <div
       className={cn(
-        "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors",
         level === 0 && "text-white",
         level > 0 && "text-white/80",
-        isActive && "bg-green-900 text-shopify-green",
+        isActive && "border-l-2 border-shopify-green bg-gray-800/50 text-white",
         !isActive && hasActiveChild && "text-white",
-        !isActive && !hasActiveChild && "hover:bg-green-950"
+        !isActive && !hasActiveChild && "hover:bg-gray-800/30"
       )}
       style={{ paddingLeft: `${level * 12 + 12}px` }}
     >
       {hasChildren && (
         <button
           onClick={handleToggle}
-          className="flex items-center justify-center"
+          className="flex cursor-pointer items-center justify-center"
           aria-label={isOpen ? "Collapse" : "Expand"}
         >
           {isOpen ? (
@@ -66,7 +65,6 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
           )}
         </button>
       )}
-      {Icon && <Icon className="h-4 w-4 shrink-0" />}
       <span className="flex-1">{item.title}</span>
     </div>
   );
@@ -146,7 +144,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 overflow-y-auto border-r border-green-900 bg-black">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 overflow-y-auto bg-[#151d1e]">
       <div className="p-4">
         <div className="mb-4">
           <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-white/60">

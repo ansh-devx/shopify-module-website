@@ -105,10 +105,10 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
     <button
       onClick={onClick}
       className={cn(
-        "flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors",
+        "flex w-full cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors",
         isSelected
-          ? "bg-green-900 text-shopify-green"
-          : "text-white hover:bg-green-950"
+          ? "bg-gray-800/50 text-white"
+          : "text-white hover:bg-gray-800/30"
       )}
     >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}

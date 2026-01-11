@@ -46,7 +46,7 @@ export default function RootLayout({
             <Header />
             <div className="flex flex-1">
               <Sidebar />
-              <main className="ml-64 flex-1 bg-black text-white">
+              <main className="ml-64 flex-1 bg-[#0d1213] text-white">
                 {children}
               </main>
             </div>

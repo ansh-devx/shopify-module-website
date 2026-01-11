@@ -53,7 +53,7 @@ export default function CodeBlock({
           </div>
           <button
             onClick={copyToClipboard}
-            className="flex items-center gap-1.5 rounded px-2 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
+            className="flex cursor-pointer items-center gap-1.5 rounded px-2 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
             aria-label="Copy code"
           >
             {copied ? (
@@ -93,7 +93,7 @@ export default function CodeBlock({
       {!filename && !language && (
         <button
           onClick={copyToClipboard}
-          className="absolute right-2 top-2 rounded bg-white/10 p-2 text-white/70 opacity-0 transition-opacity hover:bg-white/15 hover:text-white group-hover:opacity-100"
+          className="absolute right-2 top-2 cursor-pointer rounded bg-white/10 p-2 text-white/70 opacity-0 transition-opacity hover:bg-white/15 hover:text-white group-hover:opacity-100"
           aria-label="Copy code"
         >
           {copied ? (
