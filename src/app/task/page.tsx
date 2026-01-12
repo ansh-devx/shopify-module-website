@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "task: Build a Product Details Page - Shopify Learn",
+  title: "Task: Build a Product Details Page - Shopify Learn",
   description:
-    "Your task: Build a complete PDP from Figma using Shopify themes, sections, templates, and more.",
+    "Task: Build a complete PDP from Figma using Shopify themes, sections, templates, and more.",
 };
 
 const taskSteps = [
