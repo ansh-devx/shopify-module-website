@@ -131,7 +131,7 @@ export const navigationStructure: NavigationItem[] = [
     children: [
       {
         id: "liquid-cheatsheet",
-        title: "Liquid Cheatsheet",
+        title: "Liquid",
         href: "/liquid-cheatsheet",
       },
     ],

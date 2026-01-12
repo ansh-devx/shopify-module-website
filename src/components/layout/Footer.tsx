@@ -9,7 +9,7 @@ const footerLinks = {
     { name: "CLI Setup", href: "/cli-setup" },
   ],
   resources: [
-    { name: "Liquid Cheatsheet", href: "/liquid-cheatsheet" },
+    { name: "Liquid", href: "/liquid-cheatsheet" },
     { name: "Cart APIs", href: "/cart-apis" },
     { name: "Shopify Functions", href: "/shopify-functions" },
     { name: "Shopify Apps", href: "/shopify-apps" },

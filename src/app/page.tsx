@@ -54,9 +54,9 @@ const learningPaths = [
     badge: "Development",
   },
   {
-    title: "Liquid Cheatsheet",
+    title: "Liquid",
     description:
-      "Master Shopify's templating language with our comprehensive Liquid reference.",
+      "Learn the basics of Liquid, Shopify's templating language for building themes.",
     icon: Code,
     href: "/liquid-cheatsheet",
     badge: "Reference",
