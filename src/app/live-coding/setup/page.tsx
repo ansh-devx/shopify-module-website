@@ -12,23 +12,33 @@ export default function WorkshopSetup() {
         <section>
           <h2 className="text-3xl font-bold text-gray-900">IDE Setup</h2>
           <p className="mt-4 text-lg text-gray-700">
-            We recommend using Visual Studio Code (VS Code) as your IDE for Shopify theme development.
+            We recommend using Visual Studio Code (VS Code) as your IDE for
+            Shopify theme development.
           </p>
 
           <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <h3 className="text-xl font-semibold text-gray-900">Recommended VS Code Extensions</h3>
+            <h3 className="text-xl font-semibold text-gray-900">
+              Recommended VS Code Extensions
+            </h3>
             <ul className="mt-4 space-y-2 text-gray-700">
               <li className="flex items-start">
                 <span className="mr-2 text-shopify-green">•</span>
-                <span><strong>Shopify Liquid</strong> - Syntax highlighting and snippets for Liquid</span>
+                <span>
+                  <strong>Shopify Liquid</strong> - Syntax highlighting and
+                  snippets for Liquid
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2 text-shopify-green">•</span>
-                <span><strong>Prettier</strong> - Code formatter</span>
+                <span>
+                  <strong>Prettier</strong> - Code formatter
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2 text-shopify-green">•</span>
-                <span><strong>GitLens</strong> - Enhanced Git integration</span>
+                <span>
+                  <strong>GitLens</strong> - Enhanced Git integration
+                </span>
               </li>
             </ul>
           </div>
@@ -36,28 +46,41 @@ export default function WorkshopSetup() {
 
         {/* Initiate Project */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Initiate Project with GitHub</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Initiate Project with GitHub
+          </h2>
           <p className="mt-4 text-lg text-gray-700">
             Set up your project with version control using GitHub.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Step 1: Create a GitHub Organization</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+            Step 1: Create a GitHub Organization
+          </h3>
           <p className="mt-2 text-gray-700">
             Create a GitHub organization to manage your Shopify projects.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Step 2: Create a Repository</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+            Step 2: Create a Repository
+          </h3>
           <p className="mt-2 text-gray-700">
             Create a new repository with a valid name for your theme.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Step 3: Clone or Initialize</h3>
-          <p className="mt-2 text-gray-700">For cloning an existing theme:</p>
+          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+            Step 3: Clone the Skeleton Theme
+          </h3>
+          <p className="mt-2 text-gray-700">
+            Clone the Shopify Skeleton Theme to get started quickly:
+          </p>
           <CodeBlock
-            code={`git clone https://github.com/my-repo/my-repo-dev.git`}
+            code={`git clone https://github.com/shopify-quickstart/themex.git`}
             language="bash"
             filename="terminal"
           />
+          <p className="mt-4 text-gray-700">
+            Or use Shopify CLI to initialize a new theme:
+          </p>
 
           <p className="mt-4 text-gray-700">For initializing a new project:</p>
           <CodeBlock
@@ -81,14 +104,25 @@ git push -u origin main`}
             language="bash"
             filename="terminal"
           />
+
+          <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <h4 className="font-semibold text-gray-900">shopify theme init</h4>
+            <p className="mt-2 text-sm text-gray-700">
+              Creates a new Shopify theme directory with the basic theme
+              structure. This command scaffolds a fresh theme with default files
+              and folders, ready for development.
+            </p>
+          </div>
         </section>
 
         {/* shopify theme dev */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">shopify theme dev</h2>
+          <h2 className="text-3xl font-bold text-gray-900">
+            shopify theme dev
+          </h2>
           <p className="mt-4 text-lg text-gray-700">
-            A command that starts a local development server for your Shopify theme, allowing you to develop 
-            and preview your theme in real-time without affecting your live store.
+            Starts a local development server that syncs your theme files to a
+            development store in real-time.
           </p>
 
           <CodeBlock
@@ -97,8 +131,24 @@ git push -u origin main`}
             filename="terminal"
           />
 
+          <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <h4 className="font-semibold text-gray-900">shopify theme dev</h4>
+            <p className="mt-2 text-sm text-gray-700">
+              Starts a local development server that watches for file changes
+              and automatically syncs them to your development store. Provides a
+              preview URL for testing your theme without affecting the live
+              store. Use{" "}
+              <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">
+                --store
+              </code>{" "}
+              to specify which store to connect to.
+            </p>
+          </div>
+
           <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <h4 className="font-semibold text-blue-900">💡 What happens when you run this command?</h4>
+            <h4 className="font-semibold text-blue-900">
+              💡 What happens when you run this command?
+            </h4>
             <ul className="mt-2 space-y-1 text-sm text-blue-800">
               <li>• Starts a local development server</li>
               <li>• Watches for file changes</li>
@@ -108,8 +158,28 @@ git push -u origin main`}
             </ul>
           </div>
         </section>
+
+        {/* Shopify CLI Commands Reference */}
+        <section>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Shopify CLI Commands
+          </h2>
+          <p className="mt-4 text-lg text-gray-700">
+            For a complete list of all Shopify CLI commands and their options,
+            visit the official documentation:
+          </p>
+          <div className="mt-4">
+            <a
+              href="https://shopify.dev/docs/themes/tools/cli/commands"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-shopify-blue hover:underline font-medium"
+            >
+              Shopify CLI Commands Reference →
+            </a>
+          </div>
+        </section>
       </div>
     </ContentLayout>
   );
 }
-
