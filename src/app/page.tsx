@@ -109,44 +109,23 @@ export default function Home() {
       {/* Hero Section */}
       <section className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
-          <Badge variant="success" className="mb-6 text-base">
-            Free Learning Platform
-          </Badge>
           <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
-            Master{" "}
+            Welcome to{" "}
             <span className="text-shopify-green">Shopify Development</span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-            Your comprehensive guide to building powerful e-commerce
-            experiences.
+            Your internal onboarding guide to get up to speed with Shopify.
             <br />
-            From basics to advanced concepts, all in one place.
+            Learn the fundamentals, tools, and practices our team uses every
+            day.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button size="lg" asChild>
-              <Link href="/what-is-shopify">Start Learning</Link>
+              <Link href="/what-is-shopify">Get Started</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/liquid-cheatsheet">View Cheatsheet</Link>
+              <Link href="/liquid-cheatsheet">Quick Reference</Link>
             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-          <div className="text-center">
-            <div className="text-4xl font-bold text-shopify-green">10+</div>
-            <div className="mt-2 text-sm text-gray-600">Learning Modules</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-shopify-green">100%</div>
-            <div className="mt-2 text-sm text-gray-600">Free Content</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-shopify-green">∞</div>
-            <div className="mt-2 text-sm text-gray-600">Possibilities</div>
           </div>
         </div>
       </section>
@@ -155,10 +134,10 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Learning Paths
+            Learning Topics
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Choose your path and start building amazing Shopify experiences
+            Explore topics at your own pace, from basics to advanced concepts
           </p>
         </div>
 
@@ -188,19 +167,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Getting Started Section */}
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
         <Card className="bg-gradient-to-r from-shopify-green to-shopify-teal text-white">
           <CardContent className="p-12 text-center">
             <h2 className="text-3xl font-bold sm:text-4xl">
-              Ready to Start Your Journey?
+              Ready to dive in?
             </h2>
             <p className="mt-4 text-lg opacity-90">
-              Join thousands of developers learning Shopify development
+              Start with the basics and build your Shopify knowledge step by
+              step
             </p>
             <div className="mt-8">
               <Button size="lg" variant="secondary" asChild>
-                <Link href="/what-is-shopify">Get Started Now</Link>
+                <Link href="/what-is-shopify">Begin Learning</Link>
               </Button>
             </div>
           </CardContent>

@@ -147,7 +147,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 overflow-y-auto bg-[#151d1e]">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-72 overflow-y-auto bg-[#151d1e]">
       <div className="p-4">
         <div className="mb-4">
           <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-white/60">
