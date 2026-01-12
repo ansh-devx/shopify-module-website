@@ -1,37 +1,32 @@
 import ContentLayout from "@/components/layout/ContentLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import CodeBlock from "@/components/code-block/CodeBlock";
-import { UserPlus, Store, Settings, BarChart } from "lucide-react";
+import { Store, Users, Settings } from "lucide-react";
 
 export const metadata = {
   title: "Partners Dashboard - Shopify Learn",
   description:
-    "Learn how to navigate the Shopify Partners Dashboard and accept store organization invitations.",
+    "Learn how to navigate the Shopify Partners Dashboard and accept store invitations.",
 };
 
 export default function PartnersDashboard() {
   return (
     <ContentLayout
       title="Partners Dashboard"
-      description="Learn how to navigate the Shopify Partners Dashboard and manage your development stores."
+      description="Your central hub for accessing development stores and managing Shopify projects."
     >
       <div className="space-y-8">
         {/* Introduction */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
-            What is the Partners Dashboard?
-          </h2>
           <p className="mt-4 text-lg text-gray-700">
-            The Shopify Partners Dashboard is your central hub for building
-            apps, themes, and managing client stores. It's free to join and
-            provides access to development tools, resources, and revenue
-            opportunities.
+            The Partners Dashboard is where you&apos;ll access development
+            stores, view projects, and manage your Shopify work. You&apos;ll
+            need a Partner account to work with Shopify.
           </p>
         </section>
 
-        {/* Getting Started */}
+        {/* Access */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Getting Started</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Getting Access</h2>
           <div className="mt-6 space-y-4">
             <div className="flex gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
@@ -58,10 +53,12 @@ export default function PartnersDashboard() {
                 2
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold">Complete Your Profile</h3>
+                <h3 className="text-xl font-semibold">
+                  Join Your Organization
+                </h3>
                 <p className="mt-2 text-gray-600">
-                  Add your business information, payment details, and areas of
-                  expertise.
+                  Ask your team lead to invite you to the partner organization.
+                  You&apos;ll receive an email invitation to join.
                 </p>
               </div>
             </div>
@@ -70,12 +67,11 @@ export default function PartnersDashboard() {
                 3
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold">
-                  Create Development Stores
-                </h3>
+                <h3 className="text-xl font-semibold">Access Stores</h3>
                 <p className="mt-2 text-gray-600">
-                  Set up unlimited free development stores for testing and
-                  client work.
+                  Once added, you&apos;ll see development stores in your
+                  dashboard. Only the partner owner can create new development
+                  stores.
                 </p>
               </div>
             </div>
@@ -85,9 +81,9 @@ export default function PartnersDashboard() {
         {/* Key Features */}
         <section>
           <h2 className="text-3xl font-bold text-gray-900">
-            Dashboard Features
+            What You&apos;ll Find Here
           </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
             <Card>
               <CardHeader>
                 <Store className="h-8 w-8 text-shopify-green" />
@@ -97,45 +93,33 @@ export default function PartnersDashboard() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Create and manage unlimited development stores for testing
-                  apps, themes, and client projects.
+                  Access development stores for testing themes, apps, and client
+                  work. Each store is visible to the creator and team members
+                  with access.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <BarChart className="h-8 w-8 text-shopify-blue" />
-                <CardTitle className="mt-4 text-xl">Analytics</CardTitle>
+                <Users className="h-8 w-8 text-shopify-blue" />
+                <CardTitle className="mt-4 text-xl">Store Access</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Track app installs, revenue, and performance metrics in
-                  real-time.
+                  Access stores you&apos;ve been added to. Store creators can
+                  add team members as staff or collaborators.
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
                 <Settings className="h-8 w-8 text-shopify-purple" />
-                <CardTitle className="mt-4 text-xl">App Management</CardTitle>
+                <CardTitle className="mt-4 text-xl">Projects</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Build, test, and publish apps to the Shopify App Store.
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <UserPlus className="h-8 w-8 text-shopify-teal" />
-                <CardTitle className="mt-4 text-xl">
-                  Team Collaboration
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Invite team members and manage permissions for your partner
-                  account.
+                  View and manage apps, themes, and other projects linked to
+                  your partner account.
                 </p>
               </CardContent>
             </Card>
@@ -148,45 +132,17 @@ export default function PartnersDashboard() {
             Accepting Store Invitations
           </h2>
           <p className="mt-4 text-lg text-gray-700">
-            When a merchant invites you to collaborate on their store, you'll
-            receive an email invitation.
+            When you&apos;re invited to collaborate on a store, you&apos;ll
+            receive an email invitation:
           </p>
-          <div className="mt-6 space-y-4">
-            <h3 className="text-xl font-semibold">Steps to Accept:</h3>
-            <ol className="list-decimal list-inside space-y-2 text-gray-700">
-              <li>Check your email for the invitation from Shopify</li>
-              <li>Click the "Accept Invitation" button in the email</li>
-              <li>Log in to your Partners account (or create one if needed)</li>
-              <li>
-                The store will appear in your Partners Dashboard under "Stores"
-              </li>
-              <li>Click on the store to access the admin panel</li>
-            </ol>
-          </div>
-        </section>
-
-        {/* Best Practices */}
-        <section>
-          <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
-          <div className="mt-6 space-y-4 rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li>
-                Keep your development stores organized with clear naming
-                conventions
-              </li>
-              <li>
-                Regularly update your partner profile and payment information
-              </li>
-              <li>
-                Use development stores for testing before deploying to
-                production
-              </li>
-              <li>Monitor your analytics to understand app performance</li>
-              <li>
-                Stay updated with Shopify's partner resources and documentation
-              </li>
-            </ul>
-          </div>
+          <ol className="mt-4 space-y-2 text-gray-700 list-decimal list-inside">
+            <li>Check your email for the invitation from Shopify</li>
+            <li>Click the &quot;Accept Invitation&quot; button</li>
+            <li>
+              The store will appear in your Partners Dashboard under Stores
+            </li>
+            <li>Click on the store to access the admin panel</li>
+          </ol>
         </section>
       </div>
     </ContentLayout>
