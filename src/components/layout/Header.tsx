@@ -36,7 +36,7 @@ export default function Header() {
               <Search className="h-4 w-4" />
               <span className="hidden sm:inline">Search</span>
             </div>
-            <kbd className="hidden rounded border border-[#24393d] bg-gray-800/50 px-2 py-0.5 text-xs text-gray-400 group-hover:border-gray-600 sm:inline">
+            <kbd className="hidden rounded border border-[#24393d] bg-[#2e3739] px-2 py-0.5 text-xs text-gray-400 group-hover:border-gray-600 sm:inline">
               ⌘K
             </kbd>
           </button>
