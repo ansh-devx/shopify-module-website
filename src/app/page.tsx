@@ -13,7 +13,6 @@ import {
   Users,
   Settings,
   Terminal,
-  Github,
   Code,
   ShoppingCart,
   Zap,
@@ -52,14 +51,6 @@ const learningPaths = [
       "Set up your development environment with Shopify CLI and integrate Tailwind CSS.",
     icon: Terminal,
     href: "/cli-setup",
-    badge: "Development",
-  },
-  {
-    title: "GitHub Configuration",
-    description:
-      "Version control your Shopify theme using GitHub and best practices.",
-    icon: Github,
-    href: "/github-config",
     badge: "Development",
   },
   {

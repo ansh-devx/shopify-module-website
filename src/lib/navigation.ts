@@ -3,7 +3,6 @@ import {
   Store,
   Settings,
   Terminal,
-  GitBranch,
   Code,
   ShoppingCart,
   Zap,
@@ -124,12 +123,6 @@ export const navigationStructure: NavigationItem[] = [
         href: "/live-coding/metaobjects",
       },
     ],
-  },
-  {
-    id: "github",
-    title: "GitHub Configuration",
-    href: "/github-config",
-    icon: GitBranch,
   },
   {
     id: "liquid",
