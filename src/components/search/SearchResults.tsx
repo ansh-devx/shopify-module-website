@@ -108,7 +108,7 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
         "flex w-full cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors",
         isSelected
           ? "bg-gray-800/50 text-white"
-          : "text-white hover:bg-gray-800/30"
+          : "text-white hover:bg-[#151d1e]"
       )}
     >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}
@@ -129,4 +129,3 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
     </button>
   );
 }
-

@@ -107,15 +107,14 @@ export default function Home() {
           <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
             Your internal onboarding guide to get up to speed with Shopify.
             <br />
-            Learn the fundamentals, tools, and practices our team uses every
-            day.
+            Learn by building a complete Product Details Page from Figma.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button size="lg" asChild>
-              <Link href="/what-is-shopify">Get Started</Link>
+              <Link href="/task">View Task</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/liquid-cheatsheet">Quick Reference</Link>
+              <Link href="/what-is-shopify">Learn Basics First</Link>
             </Button>
           </div>
         </div>
@@ -163,15 +162,15 @@ export default function Home() {
         <Card className="bg-gradient-to-r from-shopify-green to-shopify-teal text-white">
           <CardContent className="p-12 text-center">
             <h2 className="text-3xl font-bold sm:text-4xl">
-              Ready to dive in?
+              Ready to Start Your task?
             </h2>
             <p className="mt-4 text-lg opacity-90">
-              Start with the basics and build your Shopify knowledge step by
-              step
+              Build a complete PDP from Figma. Learn Shopify concepts naturally
+              as you work through each step.
             </p>
             <div className="mt-8">
               <Button size="lg" variant="secondary" asChild>
-                <Link href="/what-is-shopify">Begin Learning</Link>
+                <Link href="/task">View task Details</Link>
               </Button>
             </div>
           </CardContent>

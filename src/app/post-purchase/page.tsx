@@ -185,7 +185,7 @@ export default function PostPurchase() {
                     Set rules to filter when actions should run:
                   </p>
                   <ul className="mt-2 list-disc list-inside space-y-1 text-sm text-white/60">
-                    <li>Order total is greater than $500</li>
+                    <li>Order total is greater than Rs. 50,000</li>
                     <li>Customer has a specific tag</li>
                     <li>Product is in a certain collection</li>
                     <li>Inventory level is below threshold</li>
@@ -228,7 +228,8 @@ export default function PostPurchase() {
                     Test and Activate
                   </h3>
                   <p className="mt-2 text-white/80">
-                    Click <strong>&quot;Turn on workflow&quot;</strong> to activate
+                    Click <strong>&quot;Turn on workflow&quot;</strong> to
+                    activate
                   </p>
                   <p className="mt-1 text-sm text-white/60">
                     Monitor the workflow runs in the Flow dashboard to ensure
@@ -257,7 +258,7 @@ export default function PostPurchase() {
                     <strong>Trigger:</strong> Order created
                   </p>
                   <p>
-                    <strong>Condition:</strong> Order total &gt; $500
+                    <strong>Condition:</strong> Order total &gt; Rs. 50,000
                   </p>
                   <p>
                     <strong>Action:</strong> Send email to manager
@@ -278,8 +279,8 @@ export default function PostPurchase() {
                     <strong>Trigger:</strong> Order created
                   </p>
                   <p>
-                    <strong>Condition:</strong> Customer lifetime value &gt;
-                    $1000
+                    <strong>Condition:</strong> Customer lifetime value &gt; Rs.
+                    1,00,000
                   </p>
                   <p>
                     <strong>Action:</strong> Add &quot;VIP&quot; tag to customer
@@ -355,10 +356,175 @@ export default function PostPurchase() {
           </div>
         </section>
 
+        {/* task Requirement */}
+        <section>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Task: Cancel Order Automation
+          </h2>
+          <p className="mt-4 text-lg text-gray-700">
+            For your task, you need to create a Shopify Flow that automatically
+            cancels orders when the customer email contains{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">
+              @devxlabs.ai
+            </code>{" "}
+            and sends a Slack notification.
+          </p>
+
+          <div className="mt-6 space-y-4">
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  1
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Create New Workflow
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Go to{" "}
+                    <strong>
+                      Settings → Apps and sales channels → Shopify Flow
+                    </strong>{" "}
+                    and click <strong>&quot;Create workflow&quot;</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  2
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Set Trigger
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Select <strong>&quot;Order created&quot;</strong> as the
+                    trigger. This will start the workflow when an order is
+                    created.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  3
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Add Condition
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Add a condition:{" "}
+                    <strong>
+                      &quot;Order customer email contains @devxlabs.ai&quot;
+                    </strong>
+                    .
+                  </p>
+                  <p className="mt-2 text-sm text-white/60">
+                    In Flow, you&apos;ll find this under Order → Customer email
+                    → Contains.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  4
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Add Cancel Order Action
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Add an action: <strong>&quot;Cancel order&quot;</strong>.
+                    This will automatically cancel orders that meet the
+                    condition.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  5
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Add Slack Notification
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Add another action:{" "}
+                    <strong>&quot;Send Slack message&quot;</strong> with the
+                    message <strong>&quot;Your Order is cancelled&quot;</strong>
+                    .
+                  </p>
+                  <p className="mt-2 text-sm text-white/60">
+                    <strong>Note:</strong> You&apos;ll need to connect your
+                    Slack workspace first. Go to Flow settings to add the Slack
+                    integration.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                  6
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    Activate Workflow
+                  </h3>
+                  <p className="mt-2 text-white/80">
+                    Click <strong>&quot;Turn on workflow&quot;</strong> to
+                    activate it. Test it by placing an order with an email
+                    containing{" "}
+                    <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">
+                      @devxlabs.ai
+                    </code>
+                    .
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+            <h4 className="font-semibold text-blue-900">💡 Workflow Summary</h4>
+            <div className="mt-2 space-y-1 text-sm text-blue-800">
+              <p>
+                <strong>Trigger:</strong> Order created
+              </p>
+              <p>
+                <strong>Condition:</strong> Order customer email contains
+                @devxlabs.ai
+              </p>
+              <p>
+                <strong>Actions:</strong>
+              </p>
+              <ul className="ml-4 list-disc list-inside">
+                <li>Cancel the order</li>
+                <li>
+                  Send Slack notification: &quot;Your Order is cancelled&quot;
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <section>
           <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
           <div className="mt-6 rounded-lg border border-shopify-teal/20 bg-shopify-teal/5 p-6">
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+            <ul className="list-disc list-inside space-y-2 text-white/80">
               <li>Always test workflows in a development store first</li>
               <li>Use clear naming conventions for Flow workflows</li>
               <li>Monitor webhook delivery and handle failures gracefully</li>

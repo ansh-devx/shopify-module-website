@@ -19,13 +19,13 @@ export default function PriceFiltersPage() {
           <CodeBlock
             code={`<!-- Basic money filter -->
 {{ product.price | money }}
-<!-- Output: $29.99 -->
+<!-- Output: Rs. 2,999 -->
 
 {{ 2999 | money }}
-<!-- Output: $29.99 -->
+<!-- Output: Rs. 2,999 -->
 
 {{ variant.price | money }}
-<!-- Output: $49.99 -->`}
+<!-- Output: Rs. 4,999 -->`}
             language="liquid"
             filename="money-filter.liquid"
           />
@@ -37,10 +37,10 @@ export default function PriceFiltersPage() {
           <CodeBlock
             code={`<!-- Remove currency symbol -->
 {{ product.price | money_without_currency }}
-<!-- Output: 29.99 -->
+<!-- Output: 2999 -->
 
 <!-- Useful for calculations or custom formatting -->
-<span class="currency-symbol">$</span>
+<span class="currency-symbol">Rs.</span>
 <span class="price-amount">{{ product.price | money_without_currency }}</span>`}
             language="liquid"
             filename="money-without-currency.liquid"
@@ -53,10 +53,10 @@ export default function PriceFiltersPage() {
           <CodeBlock
             code={`<!-- Include currency code -->
 {{ product.price | money_with_currency }}
-<!-- Output: $29.99 USD -->
+<!-- Output: Rs. 2,999 INR -->
 
 {{ variant.price | money_with_currency }}
-<!-- Output: $49.99 USD -->`}
+<!-- Output: Rs. 4,999 INR -->`}
             language="liquid"
             filename="money-with-currency.liquid"
           />
@@ -143,7 +143,7 @@ export default function PriceFiltersPage() {
   </div>
 {% endif %}
 
-<!-- Example output: $2.99/100g -->`}
+<!-- Example output: Rs. 299/100g -->`}
             language="liquid"
             filename="unit-price.liquid"
           />
@@ -160,9 +160,9 @@ export default function PriceFiltersPage() {
 
 <!-- Add custom styling -->
 <div class="custom-price">
-  <span class="currency">$</span>
+  <span class="currency">Rs.</span>
   <span class="amount">{{ product.price | money_without_currency }}</span>
-  <span class="currency-code">USD</span>
+  <span class="currency-code">INR</span>
 </div>`}
             language="liquid"
             filename="custom-price-format.liquid"

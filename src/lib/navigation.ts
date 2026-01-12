@@ -14,6 +14,10 @@ import {
   Layout,
   Box,
   ExternalLink,
+  Target,
+  Image as ImageIcon,
+  Tag,
+  Menu,
   LucideIcon,
 } from "lucide-react";
 
@@ -32,6 +36,12 @@ export const navigationStructure: NavigationItem[] = [
     title: "Overview",
     href: "/",
     icon: Home,
+  },
+  {
+    id: "task",
+    title: "Task",
+    href: "/task",
+    icon: Target,
   },
   {
     id: "getting-started",
@@ -56,46 +66,14 @@ export const navigationStructure: NavigationItem[] = [
     ],
   },
   {
-    id: "shopify-cli",
-    title: "Shopify CLI",
-    icon: Terminal,
+    id: "building-pdp",
+    title: "Building Your PDP",
+    icon: Layout,
     children: [
       {
-        id: "cli-prerequisites",
-        title: "Prerequisites",
-        href: "/cli-setup/prerequisites",
-      },
-      {
-        id: "cli-installation",
-        title: "Installation",
-        href: "/cli-setup/installation",
-      },
-      {
-        id: "cli-getting-started",
-        title: "Getting Started",
-        href: "/cli-setup/getting-started",
-      },
-    ],
-  },
-  {
-    id: "live-coding",
-    title: "Live Coding Workshop",
-    icon: Code,
-    children: [
-      {
-        id: "workshop-setup",
-        title: "Workshop Setup",
+        id: "theme-setup",
+        title: "Theme Setup",
         href: "/live-coding/setup",
-      },
-      {
-        id: "sections",
-        title: "Sections & Schema",
-        href: "/live-coding/sections",
-      },
-      {
-        id: "snippets",
-        title: "Snippets",
-        href: "/live-coding/snippets",
       },
       {
         id: "templates",
@@ -108,9 +86,29 @@ export const navigationStructure: NavigationItem[] = [
         href: "/live-coding/product-object",
       },
       {
-        id: "price-filters",
-        title: "Price Filters",
-        href: "/live-coding/price-filters",
+        id: "sections",
+        title: "Sections & Schema",
+        href: "/live-coding/sections",
+      },
+      {
+        id: "snippets",
+        title: "Snippets",
+        href: "/live-coding/snippets",
+      },
+      {
+        id: "theme-editor",
+        title: "Theme Editor",
+        href: "/task/theme-editor",
+      },
+      {
+        id: "images-assets",
+        title: "Images & Assets",
+        href: "/task/images-assets",
+      },
+      {
+        id: "header-navigation",
+        title: "Header & Navigation",
+        href: "/task/header-navigation",
       },
       {
         id: "metafields",
@@ -125,46 +123,62 @@ export const navigationStructure: NavigationItem[] = [
     ],
   },
   {
-    id: "liquid",
-    title: "Liquid",
-    icon: FileCode,
+    id: "advanced-features",
+    title: "Advanced Features",
+    icon: ShoppingCart,
     children: [
       {
-        id: "liquid-cheatsheet",
-        title: "Liquid",
-        href: "/liquid-cheatsheet",
+        id: "cart-apis",
+        title: "Cart APIs",
+        href: "/cart-apis",
+      },
+      {
+        id: "discounts",
+        title: "Discounts",
+        href: "/task/discounts",
       },
     ],
   },
   {
-    id: "cart-apis",
-    title: "Cart APIs",
-    icon: ShoppingCart,
-    href: "/cart-apis",
-  },
-  {
-    id: "shopify-functions",
-    title: "Shopify Functions",
-    href: "/shopify-functions",
-    icon: Zap,
-  },
-  {
-    id: "post-purchase",
-    title: "Post Purchase",
-    href: "/post-purchase",
+    id: "automation",
+    title: "Automation",
     icon: CreditCard,
+    children: [
+      {
+        id: "shopify-flow",
+        title: "Shopify Flow",
+        href: "/post-purchase",
+      },
+    ],
   },
   {
-    id: "shopify-apps",
-    title: "Shopify Apps",
-    href: "/shopify-apps",
-    icon: Package,
+    id: "advanced-challenge",
+    title: "Advanced Challenge",
+    icon: Zap,
+    children: [
+      {
+        id: "shopify-functions",
+        title: "Shopify Functions",
+        href: "/shopify-functions",
+      },
+    ],
   },
   {
-    id: "official-docs",
-    title: "Read Official Docs",
-    href: "https://shopify.dev",
-    icon: ExternalLink,
-    isExternal: true,
+    id: "reference",
+    title: "Reference",
+    icon: FileCode,
+    children: [
+      {
+        id: "liquid",
+        title: "Liquid",
+        href: "/liquid-cheatsheet",
+      },
+      {
+        id: "official-docs",
+        title: "Official Docs",
+        href: "https://shopify.dev",
+        isExternal: true,
+      },
+    ],
   },
 ];

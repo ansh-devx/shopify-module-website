@@ -73,6 +73,7 @@ function getPageContent(id: string, href: string): string {
   // Map of page IDs to their searchable content
   const pageContent: Record<string, string> = {
     overview: "Shopify learning platform master development e-commerce",
+    task: "Task PDP product details page Figma design build learn",
     "what-is-shopify":
       "Shopify platform global growth e-commerce solution online store",
     "partners-dashboard":
@@ -82,21 +83,25 @@ function getPageContent(id: string, href: string): string {
     "cli-prerequisites": "Prerequisites requirements Node.js Ruby development",
     "cli-installation": "Installation setup Shopify CLI command line tools",
     "cli-getting-started": "Getting started CLI commands theme development",
-    "workshop-setup": "Workshop setup IDE Visual Studio Code extensions",
+    "theme-setup": "Theme setup skeleton theme clone Shopify CLI development",
     sections: "Sections schema customizable theme editor liquid",
     snippets: "Snippets reusable liquid code templates",
-    templates: "Templates JSON structure page types product collection",
+    templates: "Templates JSON structure page types product collection task",
     "product-object": "Product object liquid variables properties",
     "price-filters": "Price filters money formatting currency",
     metafields: "Metafields custom data metadata",
     metaobjects: "Metaobjects custom content types",
-    github: "GitHub configuration version control git integration",
+    "theme-editor": "Theme editor navigation customize sections blocks",
+    "images-assets": "Images assets upload content files sections",
+    "header-navigation": "Header navigation menu integration Figma design",
     "liquid-cheatsheet":
       "Liquid cheatsheet templating language syntax filters tags",
     "cart-apis": "Cart APIs AJAX section rendering dynamic shopping",
+    discounts: "Discounts automatic codes 20 percent quantity task",
+    "shopify-flow": "Shopify Flow automation cancel order email Slack",
     "shopify-functions":
-      "Shopify Functions backend logic customization discounts",
-    "post-purchase": "Post purchase order processing flow automation",
+      "Shopify Functions backend logic customization discounts pack pricing",
+    "post-purchase": "Post purchase order processing flow automation cancel",
     "shopify-apps": "Shopify apps build deploy monetize development",
   };
 
@@ -121,4 +126,3 @@ export function getPopularPages(): SearchableItem[] {
 
   return allPages.filter((page) => popularIds.includes(page.id));
 }
-

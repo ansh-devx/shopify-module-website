@@ -41,7 +41,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const itemContent = (
     <div
       className={cn(
-        "flex items-center gap-2 px-8 py-2 text-sm font-medium transition-colors rounded-md hover:bg-gray-800/30",
+        "flex items-center gap-2 px-8 py-2 text-sm font-medium transition-colors rounded-md hover:bg-[#2e3739]",
         level === 0 && "text-white",
         level > 0 && "text-white/80",
         isActive && "bg-[#2e3739] text-white",
@@ -85,7 +85,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
         <div
           className={cn(
             "overflow-hidden transition-all duration-300 ease-in-out",
-            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
           )}
         >
           <div className="mt-1 space-y-1 ml-8">

@@ -235,8 +235,8 @@ export default function LiquidCheatsheet() {
             Number Filters
           </h3>
           <CodeBlock
-            code={`{{ 1999 | money }}                 → $19.99
-{{ 1999 | money_with_currency }}  → $19.99 USD
+            code={`{{ 1999 | money }}                 → Rs. 1,999
+{{ 1999 | money_with_currency }}  → Rs. 1,999 INR
 {{ 4.5612 | round: 2 }}           → 4.56
 {{ 16 | divided_by: 4 }}          → 4
 {{ 5 | times: 2 }}                → 10

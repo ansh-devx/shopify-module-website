@@ -125,7 +125,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-xl border border-gray-700/50 bg-[#151d1e] p-6 shadow-2xl transition-all">
+              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-xl border border-[#24393d] bg-[#151d1e] p-6 shadow-2xl transition-all">
                 <SearchInput
                   value={query}
                   onChange={setQuery}
@@ -146,4 +146,3 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     </Transition>
   );
 }
-

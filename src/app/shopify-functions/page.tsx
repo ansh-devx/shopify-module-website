@@ -2,6 +2,7 @@ import ContentLayout from "@/components/layout/ContentLayout";
 import CodeBlock from "@/components/code-block/CodeBlock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Zap, ShoppingCart, Truck, CreditCard } from "lucide-react";
+import PackPricingChallenge from "@/components/task/PackPricingChallenge";
 
 export const metadata = {
   title: "Shopify Functions - Shopify Learn",
@@ -91,6 +92,9 @@ export default function ShopifyFunctions() {
             </Card>
           </div>
         </section>
+
+        {/* Pack Pricing Challenge */}
+        <PackPricingChallenge />
 
         <section>
           <h2 className="text-3xl font-bold text-gray-900">
@@ -282,16 +286,16 @@ shopify app function logs`}
             Example: Checkout Validation
           </h2>
           <CodeBlock
-            code={`// Prevent checkout if cart total is less than $50
+            code={`// Prevent checkout if cart total is less than Rs. 5,000
 export default (input) => {
   const cartTotal = input.cart.cost.totalAmount.amount;
-  const minimumAmount = 50;
+  const minimumAmount = 500000; // Amount in cents (Rs. 5,000 = 500,000 cents)
 
   if (cartTotal < minimumAmount) {
     return {
       errors: [
         {
-          localizedMessage: \`Minimum order amount is $\${minimumAmount}\`,
+          localizedMessage: \`Minimum order amount is Rs. 5,000\`,
           target: "cart"
         }
       ]
