@@ -25,11 +25,11 @@ export default function SearchResults({
   // Show popular pages if no query
   if (!query && popularPages && popularPages.length > 0) {
     return (
-      <div className="mt-4 max-h-96 overflow-y-auto">
-        <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-white/60">
+      <div className="mt-8 max-h-96 overflow-y-auto">
+        <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/60">
           Popular Pages
         </div>
-        <div className="space-y-1">
+        <div className="space-y-4">
           {popularPages.map((page, index) => (
             <ResultItem
               key={page.id}
@@ -47,7 +47,9 @@ export default function SearchResults({
   if (query && results.length === 0) {
     return (
       <div className="mt-8 text-center">
-        <p className="text-lg text-white/80">No results found for "{query}"</p>
+        <p className="text-lg text-white/80">
+          No results found for &quot;{query}&quot;
+        </p>
         <p className="mt-4 text-sm text-white/60">
           Try searching with different keywords or{" "}
           <a
@@ -106,9 +108,7 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
       onClick={onClick}
       className={cn(
         "flex w-full cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors",
-        isSelected
-          ? "bg-gray-800/50 text-white"
-          : "text-white hover:bg-[#151d1e]"
+        isSelected ? "bg-[#2e3739] text-white" : "text-white hover:bg-[#2e3739]"
       )}
     >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}

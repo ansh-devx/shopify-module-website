@@ -30,7 +30,7 @@ export default function DiscountsPage() {
             Types of Discounts in Shopify
           </h2>
           <p className="mt-4 text-lg text-gray-700">
-            Shopify offers several discount types. Understanding them helps you
+            Shopify offers four main discount types. Understanding them helps you
             choose the right one for your needs.
           </p>
 
@@ -38,17 +38,17 @@ export default function DiscountsPage() {
             <Card className="border-[#24393d] bg-[#151d1e]">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
-                  Automatic Discounts
+                  Amount off Product
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-white/80">
-                  Applied automatically at checkout when conditions are met. No
-                  code required.
+                  Discount a fixed amount from specific products or variants.
+                  Example: Rs. 500 off on selected products.
                 </p>
                 <p className="mt-3 text-sm text-white/60">
-                  <strong>Examples:</strong> Buy X get Y, Percentage off, Fixed
-                  amount off, Free shipping
+                  <strong>Use when:</strong> You want to give a fixed rupee
+                  discount on specific products
                 </p>
               </CardContent>
             </Card>
@@ -56,16 +56,49 @@ export default function DiscountsPage() {
             <Card className="border-[#24393d] bg-[#151d1e]">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
-                  Discount Codes
+                  Amount off Order
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-white/80">
-                  Customers enter a code at checkout to apply the discount.
-                  Requires code entry.
+                  Discount a fixed amount from the entire order total. Example:
+                  Rs. 1,000 off on orders over Rs. 10,000.
                 </p>
                 <p className="mt-3 text-sm text-white/60">
-                  <strong>Examples:</strong> SUMMER20, WELCOME10, FREESHIP
+                  <strong>Use when:</strong> You want to give a fixed rupee
+                  discount based on order total
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-[#24393d] bg-[#151d1e]">
+              <CardHeader>
+                <CardTitle className="text-xl text-white">Free Shipping</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white/80">
+                  Offer free shipping when conditions are met. Example: Free
+                  shipping on orders over Rs. 5,000.
+                </p>
+                <p className="mt-3 text-sm text-white/60">
+                  <strong>Use when:</strong> You want to incentivize customers
+                  with free shipping
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-[#24393d] bg-[#151d1e]">
+              <CardHeader>
+                <CardTitle className="text-xl text-white">BXGY (Buy X Get Y)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white/80">
+                  Buy a certain quantity, get another item or discount. Example:
+                  Buy 2 Get 1 Free, Buy 3 Get 20% Off.
+                </p>
+                <p className="mt-3 text-sm text-white/60">
+                  <strong>Use when:</strong> You want to offer quantity-based
+                  promotions
                 </p>
               </CardContent>
             </Card>
@@ -76,7 +109,8 @@ export default function DiscountsPage() {
             <p className="mt-2 text-sm text-blue-800">
               You need to create an <strong>automatic discount</strong> that
               gives 20% off when customers buy 2 or more of a specific product.
-              This should be an automatic discount, not a code.
+              This should be an automatic discount, not a code. For percentage
+              discounts like this, you can use <strong>Amount off Product</strong> with percentage option.
             </p>
           </div>
         </section>
@@ -135,8 +169,9 @@ export default function DiscountsPage() {
                     Choose Discount Type
                   </h3>
                   <p className="mt-2 text-white/80">
-                    Select <strong>&quot;Percentage off&quot;</strong> and set
-                    it to <strong>20%</strong>.
+                    Select <strong>&quot;Amount off Product&quot;</strong> and
+                    choose <strong>&quot;Percentage&quot;</strong>, then set it to{" "}
+                    <strong>20%</strong>.
                   </p>
                 </div>
               </div>
@@ -220,65 +255,44 @@ export default function DiscountsPage() {
           </div>
         </section>
 
-        {/* Additional Discount Types */}
+        {/* Discount Codes vs Automatic */}
         <section>
           <h2 className="text-3xl font-bold text-gray-900">
-            Other Discount Types (Reference)
+            Discount Codes vs Automatic Discounts
           </h2>
-          <p className="mt-4 text-lg text-gray-700">
-            Shopify supports many discount types. Here are some common ones:
-          </p>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <Card className="border-[#24393d] bg-[#151d1e]">
               <CardHeader>
-                <CardTitle className="text-lg text-white">
-                  Buy X Get Y
+                <CardTitle className="text-xl text-white">
+                  Automatic Discounts
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
-                  Buy a certain quantity, get another item or discount (e.g.,
-                  Buy 2 Get 1 Free)
+                <p className="text-white/80">
+                  Applied automatically at checkout when conditions are met. No
+                  code required from customers.
+                </p>
+                <p className="mt-3 text-sm text-white/60">
+                  <strong>Best for:</strong> Quantity-based discounts, customer
+                  segments, order value discounts
                 </p>
               </CardContent>
             </Card>
 
             <Card className="border-[#24393d] bg-[#151d1e]">
               <CardHeader>
-                <CardTitle className="text-lg text-white">
-                  Fixed Amount Off
+                <CardTitle className="text-xl text-white">
+                  Discount Codes
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
-                  Discount a fixed amount (e.g., Rs. 500 off)
+                <p className="text-white/80">
+                  Customers enter a code at checkout to apply the discount.
+                  Requires code entry and sharing.
                 </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-[#24393d] bg-[#151d1e]">
-              <CardHeader>
-                <CardTitle className="text-lg text-white">
-                  Free Shipping
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-white/80">
-                  Offer free shipping when conditions are met
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-[#24393d] bg-[#151d1e]">
-              <CardHeader>
-                <CardTitle className="text-lg text-white">
-                  Customer-Specific
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-white/80">
-                  Discounts for specific customer groups or segments
+                <p className="mt-3 text-sm text-white/60">
+                  <strong>Best for:</strong> Email campaigns, social media
+                  promotions, one-time offers
                 </p>
               </CardContent>
             </Card>
