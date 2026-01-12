@@ -12,19 +12,30 @@ export default function SectionsPage() {
         <section>
           <h2 className="text-3xl font-bold text-gray-900">What are Sections?</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Sections are reusable modules of content that can be added, removed, and reordered by merchants 
-            using the theme editor. They make your theme customizable without editing code.
+            Sections are reusable modules of content that can be added, removed,
+            and reordered by merchants using the theme editor. They make your
+            theme customizable without editing code.
           </p>
         </section>
 
-        {/* Schema */}
+        {/* Creating a Section */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Section Schema</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Creating a Section</h2>
           <p className="mt-4 text-lg text-gray-700">
-            The schema makes your section customizable in the Shopify theme editor without editing code.
+            Sections are stored in the{" "}
+            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+              sections/
+            </code>{" "}
+            directory and have a{" "}
+            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+              .liquid
+            </code>{" "}
+            extension.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Hero Section</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+            Example: Hero Section
+          </h3>
           <CodeBlock
             code={`<div class="hero-section" style="background-color: {{ section.settings.background_color }};">
   <div class="container">
@@ -82,15 +93,35 @@ export default function SectionsPage() {
           />
         </section>
 
+        {/* Schema */}
+        <section>
+          <h2 className="text-3xl font-bold text-gray-900">Section Schema</h2>
+          <p className="mt-4 text-lg text-gray-700">
+            The schema makes your section customizable in the Shopify theme
+            editor without editing code. It defines what settings merchants can
+            edit.
+          </p>
+          <p className="mt-4 text-lg text-gray-700">
+            The schema is defined in a{" "}
+            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+              {"{% schema %}"}
+            </code>{" "}
+            block at the end of your section file.
+          </p>
+        </section>
+
         {/* Blocks */}
         <section>
           <h2 className="text-3xl font-bold text-gray-900">Blocks</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Blocks are repeatable content units within a section. They allow merchants to add multiple 
-            instances of similar content.
+            Blocks are repeatable content units within a section. They allow
+            merchants to add multiple instances of similar content, like adding
+            multiple feature cards to a features section.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Features Section with Blocks</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+            Example: Features Section with Blocks
+          </h3>
           <CodeBlock
             code={`<div class="features-section">
   <h2>{{ section.settings.title }}</h2>
@@ -98,7 +129,7 @@ export default function SectionsPage() {
     {% for block in section.blocks %}
       <div class="feature-item" {{ block.shopify_attributes }}>
         {% if block.settings.icon %}
-          <img src="{{ block.settings.icon | img_url: '100x100' }}" alt="{{ block.settings.title }}">
+          <img src="{{ block.settings.icon | image_url: width: 100 }}" alt="{{ block.settings.title }}">
         {% endif %}
         <h3>{{ block.settings.title }}</h3>
         <p>{{ block.settings.description }}</p>
@@ -167,4 +198,3 @@ export default function SectionsPage() {
     </ContentLayout>
   );
 }
-

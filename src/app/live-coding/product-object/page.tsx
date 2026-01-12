@@ -128,19 +128,19 @@ export default function ProductObjectPage() {
           <CodeBlock
             code={`<!-- Featured Image -->
 {% if product.featured_image %}
-  <img src="{{ product.featured_image | img_url: 'large' }}" 
+  <img src="{{ product.featured_image | image_url: width: 800 }}" 
        alt="{{ product.featured_image.alt }}">
 {% endif %}
 
 <!-- All Product Images -->
 {% for image in product.images %}
-  <img src="{{ image | img_url: 'medium' }}" 
+  <img src="{{ image | image_url: width: 400 }}" 
        alt="{{ image.alt }}">
 {% endfor %}
 
 <!-- Variant Image -->
 {% if variant.image %}
-  <img src="{{ variant.image | img_url: 'large' }}" 
+  <img src="{{ variant.image | image_url: width: 800 }}" 
        alt="{{ variant.image.alt }}">
 {% endif %}`}
             language="liquid"

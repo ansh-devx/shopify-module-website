@@ -31,7 +31,7 @@ export default function SnippetsPage() {
   <a href="{{ product.url }}">
     {% if product.featured_image %}
       <img 
-        src="{{ product.featured_image | img_url: 'medium' }}" 
+        src="{{ product.featured_image | image_url: width: 400 }}" 
         alt="{{ product.featured_image.alt | escape }}"
         loading="lazy"
       >

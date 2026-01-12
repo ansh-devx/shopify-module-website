@@ -190,7 +190,7 @@ export default function MetaobjectsPage() {
 
 <div class="team-member">
   {% if team_member.photo %}
-    <img src="{{ team_member.photo | img_url: 'medium' }}" 
+    <img src="{{ team_member.photo | image_url: width: 400 }}" 
          alt="{{ team_member.name }}">
   {% endif %}
   
@@ -232,7 +232,7 @@ export default function MetaobjectsPage() {
   {% for member in team_members %}
     <div class="team-card">
       {% if member.photo %}
-        <img src="{{ member.photo | img_url: 'medium' }}" 
+        <img src="{{ member.photo | image_url: width: 400 }}" 
              alt="{{ member.name }}">
       {% endif %}
       <h3>{{ member.name }}</h3>

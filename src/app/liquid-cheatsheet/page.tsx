@@ -206,8 +206,8 @@ export default function LiquidCheatsheet() {
                   code={`{{ 'style.css' | asset_url }}
 {{ 'logo.png' | asset_url | img_tag }}
 {{ product.url | within: collection }}
-{{ product.featured_image | img_url: '300x300' }}
-{{ 'image.jpg' | img_url: '500x', crop: 'center' }}`}
+{{ product.featured_image | image_url: width: 300 }}
+{{ 'image.jpg' | image_url: width: 500 }}`}
                   language="liquid"
                 />
               </CardContent>
