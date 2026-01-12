@@ -27,10 +27,8 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
 
   const handleToggle = () => {
     if (hasChildren) {
-      // Toggle the accordion state
       onToggle(item.id);
 
-      // If we're opening this section (it was closed), navigate to first child
       if (!isOpen && item.children && item.children.length > 0) {
         const firstChild = item.children[0];
         if (firstChild.href) {
@@ -43,19 +41,17 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const itemContent = (
     <div
       className={cn(
-        "flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors rounded-md",
+        "flex items-center gap-2 px-8 py-2 text-sm font-medium transition-colors rounded-md hover:bg-gray-800/30",
         level === 0 && "text-white",
         level > 0 && "text-white/80",
         isActive && "bg-[#2e3739] text-white",
-        !isActive && hasActiveChild && "text-white",
-        !isActive && !hasActiveChild && "hover:bg-gray-800/30"
+        !isActive && hasActiveChild && "text-white"
       )}
-      style={{ paddingLeft: `${level * 12 + 12}px` }}
     >
       {hasChildren && (
         <button
           onClick={handleToggle}
-          className="flex cursor-pointer items-center justify-center"
+          className="absolute left-6 flex cursor-pointer items-center justify-center"
           aria-label={isOpen ? "Collapse" : "Expand"}
         >
           {isOpen ? (
@@ -85,17 +81,24 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
         </div>
       )}
 
-      {hasChildren && isOpen && (
-        <div className="mt-1 space-y-1 ml-8">
-          {item.children?.map((child) => (
-            <SidebarItem
-              key={child.id}
-              item={child}
-              level={level + 1}
-              isOpen={false}
-              onToggle={() => {}}
-            />
-          ))}
+      {hasChildren && (
+        <div
+          className={cn(
+            "overflow-hidden transition-all duration-300 ease-in-out",
+            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="mt-1 space-y-1 ml-8">
+            {item.children?.map((child) => (
+              <SidebarItem
+                key={child.id}
+                item={child}
+                level={level + 1}
+                isOpen={false}
+                onToggle={() => {}}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>
