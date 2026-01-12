@@ -207,7 +207,7 @@ export default function TaskPage() {
             </p>
             <div className="mt-6">
               <a
-                href="#"
+                href="https://www.figma.com/design/Wb8TZIgBie0K489tMBdv4s/On-boarding?node-id=0-1363&t=etZANBAfXVZ9VnfC-11"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-shopify-green hover:text-shopify-green/80 font-medium"
