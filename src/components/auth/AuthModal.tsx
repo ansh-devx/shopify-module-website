@@ -9,8 +9,8 @@ export default function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Blurred backdrop */}
+    <div className="fixed inset-y-0 left-72 right-0 z-50 flex items-center justify-center">
+      {/* Blurred backdrop - only covers main content area, not sidebar */}
       <div className="absolute inset-0 bg-[#0d1213]/80 backdrop-blur-md"></div>
 
       {/* Modal Card */}
@@ -42,7 +42,7 @@ export default function AuthModal() {
           {/* Google Sign In Button */}
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-200 transition-all duration-200 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-black hover:text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-200 transition-all duration-200 hover:shadow-lg"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
@@ -69,4 +69,3 @@ export default function AuthModal() {
     </div>
   );
 }
-

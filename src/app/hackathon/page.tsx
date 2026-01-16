@@ -22,8 +22,8 @@ export default function Hackathon() {
   if (!session) {
     return (
       <>
-        {/* Blurred content in background */}
-        <div className="blur-sm pointer-events-none">
+        {/* Content in background (will be blurred by AuthModal backdrop) */}
+        <div className="pointer-events-none">
           <ContentLayout
             title="Hackathon"
             description="Join our Shopify development hackathon and showcase your skills!"
