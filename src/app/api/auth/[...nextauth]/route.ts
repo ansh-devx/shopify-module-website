@@ -1,8 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import type { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
+import { UserRole } from "@/generated/prisma/enums";
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -10,17 +13,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/hackathon', // Redirect to hackathon page if sign-in needed
+    signIn: "/hackathon",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, user }) {
+      if (session.user) {
+        session.user.id = user.id;
+        session.user.role = (user as any).role || UserRole.MEMBER;
+      }
       return session;
     },
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
+  },
+  events: {
+    async createUser({ user }) {
+      // Set default role to MEMBER for new users
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { role: UserRole.MEMBER },
+      });
     },
   },
 };
@@ -28,4 +38,3 @@ export const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
