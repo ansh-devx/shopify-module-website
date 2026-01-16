@@ -4,6 +4,15 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { UserRole } from "@/generated/prisma/enums";
 
+// Validate environment variables
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error("Missing Google OAuth credentials");
+}
+
+if (!process.env.NEXTAUTH_SECRET) {
+  throw new Error("Missing NEXTAUTH_SECRET");
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -15,6 +24,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/hackathon",
   },
+  debug: process.env.NODE_ENV === "development",
   callbacks: {
     async session({ session, user }) {
       if (session.user) {
@@ -26,11 +36,15 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     async createUser({ user }) {
-      // Set default role to MEMBER for new users
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { role: UserRole.MEMBER },
-      });
+      try {
+        // Set default role to MEMBER for new users
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { role: UserRole.MEMBER },
+        });
+      } catch (error) {
+        console.error("Error setting default role:", error);
+      }
     },
   },
 };
