@@ -1,7 +1,6 @@
 require("dotenv").config({ path: ".env" });
 
-const { PrismaClient } = require("../src/generated/prisma/client");
-const { UserRole } = require("../src/generated/prisma/enums");
+const { PrismaClient, UserRole } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
