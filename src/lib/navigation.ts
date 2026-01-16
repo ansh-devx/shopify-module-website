@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   Tag,
   Menu,
+  Trophy,
   LucideIcon,
 } from "lucide-react";
 
@@ -180,5 +181,11 @@ export const navigationStructure: NavigationItem[] = [
         isExternal: true,
       },
     ],
+  },
+  {
+    id: "hackathon",
+    title: "Hackathon",
+    href: "/hackathon",
+    icon: Trophy,
   },
 ];
