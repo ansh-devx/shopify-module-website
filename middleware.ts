@@ -1,15 +1,34 @@
 import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
-export default withAuth({
-  pages: {
-    signIn: "/login",
-  },
-  callbacks: {
-    authorized: ({ token }) => !!token,
-  },
-});
+export default withAuth(
+  function middleware(req) {
+    // Allow access to home page without authentication
+    if (req.nextUrl.pathname === "/") {
+      return NextResponse.next();
+    }
 
-// Protect all routes except login, hackathon, api, and public assets
+    // For all other protected routes, check authentication
+    return NextResponse.next();
+  },
+  {
+    pages: {
+      signIn: "/login",
+    },
+    callbacks: {
+      authorized: ({ token, req }) => {
+        // Allow home page without authentication
+        if (req.nextUrl.pathname === "/") {
+          return true;
+        }
+        // Require authentication for all other routes
+        return !!token;
+      },
+    },
+  },
+);
+
+// Protect all routes except login, hackathon, home, api, and public assets
 export const config = {
   matcher: [
     /*
