@@ -9,7 +9,7 @@ export default withAuth({
   },
 });
 
-// Protect all routes except login, api, and public assets
+// Protect all routes except login, hackathon, api, and public assets
 export const config = {
   matcher: [
     /*
@@ -19,7 +19,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - login (login page)
+     * - hackathon (hackathon page - publicly accessible with auth modal)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|login).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|login|hackathon).*)",
   ],
 };

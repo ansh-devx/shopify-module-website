@@ -8,6 +8,7 @@ import TimerDisplay from "@/components/hackathon/TimerDisplay";
 import QuestionLink from "@/components/hackathon/QuestionLink";
 import AdminMenu from "@/components/hackathon/AdminMenu";
 import RegisterButton from "@/components/hackathon/RegisterButton";
+import AuthModal from "@/components/auth/AuthModal";
 import { HackathonSettings } from "@/types";
 
 export default function Hackathon() {
@@ -77,9 +78,31 @@ export default function Hackathon() {
     );
   }
 
-  // User is authenticated (middleware ensures this), show full content
+  // Show auth modal if not authenticated
   if (!session?.user) {
-    return null;
+    return (
+      <>
+        {/* Content in background (will be blurred by AuthModal backdrop) */}
+        <div className="pointer-events-none">
+          <ContentLayout
+            title="Hackathon"
+            description="Join our Shopify development hackathon and showcase your skills!"
+          >
+            <div className="space-y-8">
+              <section>
+                <p className="mt-4 text-lg text-white/70">
+                  Welcome to the Shopify Development Hackathon! This is your
+                  opportunity to build innovative solutions using Shopify&apos;s
+                  powerful platform.
+                </p>
+              </section>
+            </div>
+          </ContentLayout>
+        </div>
+        {/* Auth Modal */}
+        <AuthModal fullScreen={true} />
+      </>
+    );
   }
 
   return (
