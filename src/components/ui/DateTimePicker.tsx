@@ -69,17 +69,28 @@ export default function DateTimePicker({
 
     // Format date as YYYY-MM-DD without timezone conversion
     const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(
-      day
+      day,
     ).padStart(2, "0")}`;
     onChange({ ...value, date: dateString });
     setShowCalendar(false);
   };
 
-  const handleTimeSelect = (hour: number, minute: number) => {
+  const handleHourSelect = (hour: number) => {
+    const currentMinute = value.time ? parseInt(value.time.split(":")[1]) : 0;
     const timeString = `${String(hour).padStart(2, "0")}:${String(
-      minute
+      currentMinute,
     ).padStart(2, "0")}`;
     onChange({ ...value, time: timeString });
+    // Don't close the picker - let user select minutes
+  };
+
+  const handleMinuteSelect = (minute: number) => {
+    const currentHour = value.time ? parseInt(value.time.split(":")[0]) : 0;
+    const timeString = `${String(currentHour).padStart(2, "0")}:${String(
+      minute,
+    ).padStart(2, "0")}`;
+    onChange({ ...value, time: timeString });
+    // Close picker after selecting minute
     setShowTimePicker(false);
   };
 
@@ -118,19 +129,23 @@ export default function DateTimePicker({
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-4">
         {/* Date Picker */}
         <div className="relative" ref={calendarRef}>
           <button
             type="button"
             onClick={() => setShowCalendar(!showCalendar)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-shopify-green focus:border-transparent text-left flex items-center justify-between bg-white"
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-shopify-green focus:ring-2 focus:ring-shopify-green focus:border-shopify-green text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
           >
-            <span className={value.date ? "text-black" : "text-black"}>
+            <span
+              className={
+                value.date ? "text-black font-medium" : "text-black/50"
+              }
+            >
               {formatDisplayDate()}
             </span>
             <svg
-              className="w-5 h-5 text-gray-400"
+              className="w-5 h-5 text-shopify-green"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -145,7 +160,7 @@ export default function DateTimePicker({
           </button>
 
           {showCalendar && (
-            <div className="absolute z-50 mt-2 bg-black rounded-lg shadow-xl border border-white/20 p-4 w-80">
+            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-5 w-80">
               {/* Month Navigation */}
               <div className="flex items-center justify-between mb-4">
                 <button
@@ -154,11 +169,11 @@ export default function DateTimePicker({
                     setSelectedMonth(
                       new Date(
                         selectedMonth.getFullYear(),
-                        selectedMonth.getMonth() - 1
-                      )
+                        selectedMonth.getMonth() - 1,
+                      ),
                     )
                   }
-                  className="p-1 hover:bg-white/10 rounded text-white"
+                  className="p-2 hover:bg-gray-100 rounded-lg text-black transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -174,18 +189,20 @@ export default function DateTimePicker({
                     />
                   </svg>
                 </button>
-                <span className="font-semibold text-white">{monthName}</span>
+                <span className="font-semibold text-black text-base">
+                  {monthName}
+                </span>
                 <button
                   type="button"
                   onClick={() =>
                     setSelectedMonth(
                       new Date(
                         selectedMonth.getFullYear(),
-                        selectedMonth.getMonth() + 1
-                      )
+                        selectedMonth.getMonth() + 1,
+                      ),
                     )
                   }
-                  className="p-1 hover:bg-white/10 rounded text-white"
+                  className="p-2 hover:bg-gray-100 rounded-lg text-black transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -208,7 +225,7 @@ export default function DateTimePicker({
                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
                   <div
                     key={day}
-                    className="text-center text-xs font-medium text-white/60 py-1"
+                    className="text-center text-xs font-semibold text-black/70 py-2"
                   >
                     {day}
                   </div>
@@ -225,7 +242,7 @@ export default function DateTimePicker({
                   const date = new Date(
                     selectedMonth.getFullYear(),
                     selectedMonth.getMonth(),
-                    day
+                    day,
                   );
                   const disabled = isDateDisabled(date);
                   const isSelected =
@@ -237,17 +254,21 @@ export default function DateTimePicker({
                       type="button"
                       onClick={() => handleDateSelect(day)}
                       disabled={disabled}
+                      style={
+                        disabled
+                          ? { backgroundColor: "#e5e7eb", color: "#9ca3af" }
+                          : isSelected
+                            ? {}
+                            : {}
+                      }
                       className={`
-                        p-2 text-sm rounded-lg transition-colors
-                        ${
-                          disabled
-                            ? "text-white/20 cursor-not-allowed"
-                            : "hover:bg-white/10 text-white"
-                        }
+                        p-2.5 text-sm rounded-lg transition-all duration-150 font-medium
                         ${
                           isSelected
-                            ? "bg-shopify-green text-white hover:bg-shopify-green"
-                            : ""
+                            ? "bg-shopify-green text-white hover:bg-shopify-green shadow-sm"
+                            : !disabled
+                              ? "text-black hover:bg-black hover:text-white"
+                              : "cursor-not-allowed"
                         }
                       `}
                     >
@@ -265,13 +286,17 @@ export default function DateTimePicker({
           <button
             type="button"
             onClick={() => setShowTimePicker(!showTimePicker)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-shopify-green focus:border-transparent text-left flex items-center justify-between bg-white"
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-shopify-green focus:ring-2 focus:ring-shopify-green focus:border-shopify-green text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
           >
-            <span className={value.time ? "text-black" : "text-black"}>
+            <span
+              className={
+                value.time ? "text-black font-medium" : "text-black/50"
+              }
+            >
               {formatDisplayTime()}
             </span>
             <svg
-              className="w-5 h-5 text-gray-400"
+              className="w-5 h-5 text-shopify-green"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -286,72 +311,90 @@ export default function DateTimePicker({
           </button>
 
           {showTimePicker && (
-            <div className="absolute z-50 mt-2 bg-black rounded-lg shadow-xl border border-white/20 p-4 w-64">
+            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-5 w-80">
+              <div className="mb-3">
+                <div className="text-sm font-semibold text-black mb-1">
+                  Select Time
+                </div>
+                <div className="text-xs text-black/60">
+                  Choose hour first, then minute
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 {/* Hours */}
                 <div>
-                  <div className="text-xs font-medium text-white/60 mb-2">
+                  <div className="text-xs font-semibold text-black/70 mb-2 uppercase tracking-wide">
                     Hour
                   </div>
-                  <div className="max-h-48 overflow-y-auto border border-white/20 rounded">
-                    {hours.map((hour) => (
-                      <button
-                        key={hour}
-                        type="button"
-                        onClick={() => {
-                          const currentMinute = value.time
-                            ? parseInt(value.time.split(":")[1])
-                            : 0;
-                          handleTimeSelect(hour, currentMinute);
-                        }}
-                        className={`
-                          w-full px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors
-                          ${
-                            value.time &&
-                            parseInt(value.time.split(":")[0]) === hour
-                              ? "bg-shopify-green text-white hover:bg-shopify-green"
-                              : "text-white"
-                          }
-                        `}
-                      >
-                        {String(hour).padStart(2, "0")}
-                      </button>
-                    ))}
+                  <div className="max-h-56 overflow-y-auto border border-gray-200 rounded-lg">
+                    {hours.map((hour) => {
+                      const isSelected =
+                        value.time &&
+                        parseInt(value.time.split(":")[0]) === hour;
+                      return (
+                        <button
+                          key={hour}
+                          type="button"
+                          onClick={() => handleHourSelect(hour)}
+                          className={`
+                            w-full px-4 py-2.5 text-sm font-medium text-left transition-all duration-150
+                            ${
+                              isSelected
+                                ? "bg-shopify-green text-white shadow-sm"
+                                : "text-black hover:bg-black hover:text-white"
+                            }
+                          `}
+                        >
+                          {String(hour).padStart(2, "0")}:00
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Minutes */}
                 <div>
-                  <div className="text-xs font-medium text-white/60 mb-2">
+                  <div className="text-xs font-semibold text-black/70 mb-2 uppercase tracking-wide">
                     Minute
                   </div>
-                  <div className="border border-white/20 rounded">
-                    {minutes.map((minute) => (
-                      <button
-                        key={minute}
-                        type="button"
-                        onClick={() => {
-                          const currentHour = value.time
-                            ? parseInt(value.time.split(":")[0])
-                            : 0;
-                          handleTimeSelect(currentHour, minute);
-                        }}
-                        className={`
-                          w-full px-3 py-2 text-sm text-left hover:bg-white/10 transition-colors
-                          ${
-                            value.time &&
-                            parseInt(value.time.split(":")[1]) === minute
-                              ? "bg-shopify-green text-white hover:bg-shopify-green"
-                              : "text-white"
-                          }
-                        `}
-                      >
-                        {String(minute).padStart(2, "0")}
-                      </button>
-                    ))}
+                  <div className="border border-gray-200 rounded-lg overflow-hidden">
+                    {minutes.map((minute) => {
+                      const isSelected =
+                        value.time &&
+                        parseInt(value.time.split(":")[1]) === minute;
+                      return (
+                        <button
+                          key={minute}
+                          type="button"
+                          onClick={() => handleMinuteSelect(minute)}
+                          className={`
+                            w-full px-4 py-2.5 text-sm font-medium text-left transition-all duration-150
+                            ${
+                              isSelected
+                                ? "bg-shopify-green text-white shadow-sm"
+                                : "text-black hover:bg-black hover:text-white"
+                            }
+                          `}
+                        >
+                          :{String(minute).padStart(2, "0")}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
+
+              {value.time && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="text-xs text-black/60 mb-1">
+                    Selected Time
+                  </div>
+                  <div className="text-lg font-bold text-shopify-green">
+                    {formatDisplayTime()}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -7,13 +7,9 @@ interface AdminMenuProps {
 }
 
 export default function AdminMenu({ userRole }: AdminMenuProps) {
-  // Only show menu for admin and superadmin
-  if (userRole === UserRole.MEMBER) {
-    return null;
-  }
-
   return (
     <div className="flex items-center gap-2">
+      {/* Admin Dashboard - visible to admin and superadmin */}
       {(userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN) && (
         <a
           href="/hackathon/admin"
@@ -43,6 +39,7 @@ export default function AdminMenu({ userRole }: AdminMenuProps) {
         </a>
       )}
 
+      {/* Superadmin Dashboard - visible to superadmin only */}
       {userRole === UserRole.SUPERADMIN && (
         <a
           href="/hackathon/superadmin"

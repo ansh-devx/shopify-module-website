@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/hackathon",
+    signIn: "/login",
   },
   debug: process.env.NODE_ENV === "development",
   callbacks: {
