@@ -16,8 +16,13 @@ interface TimeRemaining {
   status: "before" | "during" | "after";
 }
 
-export default function TimerDisplay({ startTime, endTime }: TimerDisplayProps) {
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
+export default function TimerDisplay({
+  startTime,
+  endTime,
+}: TimerDisplayProps) {
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
+    null,
+  );
 
   useEffect(() => {
     const calculateTime = () => {
@@ -54,14 +59,17 @@ export default function TimerDisplay({ startTime, endTime }: TimerDisplayProps) 
 
   if (!timeRemaining) return null;
 
+  // Don't show timer after hackathon ends - QuestionLink handles that state
+  if (timeRemaining.status === "after") return null;
+
   const getStatusColor = () => {
     switch (timeRemaining.status) {
       case "before":
         return "bg-shopify-blue/10 text-shopify-blue";
       case "during":
         return "bg-shopify-green/10 text-shopify-green";
-      case "after":
-        return "bg-shopify-red/10 text-shopify-red";
+      default:
+        return "";
     }
   };
 
@@ -71,8 +79,8 @@ export default function TimerDisplay({ startTime, endTime }: TimerDisplayProps) 
         return "Starts in";
       case "during":
         return "Ends in";
-      case "after":
-        return "Hackathon Ended";
+      default:
+        return "";
     }
   };
 
@@ -82,40 +90,33 @@ export default function TimerDisplay({ startTime, endTime }: TimerDisplayProps) 
         <CardTitle className="text-center">{getStatusText()}</CardTitle>
       </CardHeader>
       <CardContent>
-        {timeRemaining.status !== "after" ? (
-          <div className="grid grid-cols-4 gap-4 text-center">
-            <div>
-              <div className="text-3xl font-bold">
-                {String(timeRemaining.days).padStart(2, "0")}
-              </div>
-              <div className="text-sm opacity-75">Days</div>
+        <div className="grid grid-cols-4 gap-4 text-center">
+          <div>
+            <div className="text-3xl font-bold">
+              {String(timeRemaining.days).padStart(2, "0")}
             </div>
-            <div>
-              <div className="text-3xl font-bold">
-                {String(timeRemaining.hours).padStart(2, "0")}
-              </div>
-              <div className="text-sm opacity-75">Hours</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold">
-                {String(timeRemaining.minutes).padStart(2, "0")}
-              </div>
-              <div className="text-sm opacity-75">Minutes</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold">
-                {String(timeRemaining.seconds).padStart(2, "0")}
-              </div>
-              <div className="text-sm opacity-75">Seconds</div>
-            </div>
+            <div className="text-sm opacity-75">Days</div>
           </div>
-        ) : (
-          <p className="text-center text-lg font-semibold">
-            Thank you for participating!
-          </p>
-        )}
+          <div>
+            <div className="text-3xl font-bold">
+              {String(timeRemaining.hours).padStart(2, "0")}
+            </div>
+            <div className="text-sm opacity-75">Hours</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold">
+              {String(timeRemaining.minutes).padStart(2, "0")}
+            </div>
+            <div className="text-sm opacity-75">Minutes</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold">
+              {String(timeRemaining.seconds).padStart(2, "0")}
+            </div>
+            <div className="text-sm opacity-75">Seconds</div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
 }
-

@@ -3,10 +3,10 @@
 import { useSession } from "next-auth/react";
 import ContentLayout from "@/components/layout/ContentLayout";
 import RoleGuard from "@/components/auth/RoleGuard";
-import { UserRole } from "@/types";
-import LogoutButton from "@/components/auth/LogoutButton";
+import { UserRole, HackathonSettings } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { useEffect, useState } from "react";
+import HackathonFilter from "@/components/hackathon/HackathonFilter";
+import { useEffect, useState, useRef } from "react";
 
 interface User {
   id: string;
@@ -16,18 +16,55 @@ interface User {
   score?: number;
 }
 
+interface ScoreEntry {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  score: number;
+  hackathonSettings: {
+    id: string;
+    startTime: string;
+    endTime: string;
+    isActive: boolean;
+  };
+}
+
 export default function SuperadminDashboard() {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
+  const [scores, setScores] = useState<ScoreEntry[]>([]);
+  const [selectedHackathonId, setSelectedHackathonId] = useState<string | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const hasFetchedUsers = useRef(false);
+  const hasFetchedScores = useRef(false);
+  const lastFetchedHackathonId = useRef<string | null>(null);
 
   useEffect(() => {
+    if (hasFetchedUsers.current) return;
+    hasFetchedUsers.current = true;
+
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (!selectedHackathonId) return;
+    // Reset the ref if hackathon changed
+    if (lastFetchedHackathonId.current !== selectedHackathonId) {
+      hasFetchedScores.current = false;
+      lastFetchedHackathonId.current = selectedHackathonId;
+    }
+    if (hasFetchedScores.current) return;
+    hasFetchedScores.current = true;
+
+    fetchScores();
+  }, [selectedHackathonId]);
 
   const fetchUsers = async () => {
     try {
@@ -40,6 +77,22 @@ export default function SuperadminDashboard() {
       console.error("Failed to fetch users:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchScores = async () => {
+    if (!selectedHackathonId) return;
+
+    try {
+      const response = await fetch(
+        `/api/hackathon/scores?hackathonSettingsId=${selectedHackathonId}`,
+      );
+      const data = await response.json();
+      if (data.success) {
+        setScores(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch scores:", error);
     }
   };
 
@@ -67,17 +120,26 @@ export default function SuperadminDashboard() {
   };
 
   const updateScore = async (userId: string, score: number) => {
+    if (!selectedHackathonId) {
+      setMessage({ type: "error", text: "Please select a hackathon first" });
+      return;
+    }
+
     try {
       const response = await fetch("/api/hackathon/scores", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, score }),
+        body: JSON.stringify({
+          userId,
+          score,
+          hackathonSettingsId: selectedHackathonId,
+        }),
       });
 
       const data = await response.json();
       if (response.ok) {
         setMessage({ type: "success", text: "Score updated!" });
-        fetchUsers();
+        fetchScores();
       } else {
         setMessage({
           type: "error",
@@ -89,14 +151,16 @@ export default function SuperadminDashboard() {
     }
   };
 
+  const handleHackathonChange = (hackathonId: string) => {
+    setSelectedHackathonId(hackathonId);
+  };
+
   return (
     <RoleGuard requiredRole={UserRole.SUPERADMIN}>
       <ContentLayout
         title="Superadmin Dashboard"
         description="Manage users, scores, and roles"
       >
-        <LogoutButton />
-
         <div className="space-y-8">
           {message && (
             <div
@@ -116,7 +180,7 @@ export default function SuperadminDashboard() {
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-gray-600">Loading users...</p>
+                <p className="text-black">Loading users...</p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -125,7 +189,6 @@ export default function SuperadminDashboard() {
                         <th className="text-left py-2 px-4">Email</th>
                         <th className="text-left py-2 px-4">Name</th>
                         <th className="text-left py-2 px-4">Role</th>
-                        <th className="text-left py-2 px-4">Score</th>
                         <th className="text-left py-2 px-4">Actions</th>
                       </tr>
                     </thead>
@@ -140,7 +203,7 @@ export default function SuperadminDashboard() {
                               onChange={(e) =>
                                 updateUserRole(
                                   user.id,
-                                  e.target.value as UserRole
+                                  e.target.value as UserRole,
                                 )
                               }
                               className="px-2 py-1 border border-gray-300 rounded"
@@ -153,13 +216,71 @@ export default function SuperadminDashboard() {
                             </select>
                           </td>
                           <td className="py-3 px-4">
+                            <button
+                              onClick={() => fetchUsers()}
+                              className="text-shopify-green hover:underline"
+                            >
+                              Refresh
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Score Management Section */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Score Management</CardTitle>
+                <HackathonFilter
+                  selectedHackathonId={selectedHackathonId}
+                  onHackathonChange={handleHackathonChange}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              {!selectedHackathonId ? (
+                <p className="text-white">
+                  Please select a hackathon to manage scores
+                </p>
+              ) : scores.length === 0 ? (
+                <p className="text-white">
+                  No participants for this hackathon yet
+                </p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b border-gray-200">
+                      <tr>
+                        <th className="text-left py-2 px-4">Email</th>
+                        <th className="text-left py-2 px-4">Name</th>
+                        <th className="text-left py-2 px-4">Score</th>
+                        <th className="text-left py-2 px-4">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scores.map((scoreEntry) => (
+                        <tr
+                          key={scoreEntry.id}
+                          className="border-b border-gray-100"
+                        >
+                          <td className="py-3 px-4">{scoreEntry.userEmail}</td>
+                          <td className="py-3 px-4">
+                            {scoreEntry.userName || "-"}
+                          </td>
+                          <td className="py-3 px-4">
                             <input
                               type="number"
-                              defaultValue={user.score || 0}
+                              defaultValue={scoreEntry.score}
                               onBlur={(e) =>
                                 updateScore(
-                                  user.id,
-                                  parseInt(e.target.value) || 0
+                                  scoreEntry.userId,
+                                  parseInt(e.target.value) || 0,
                                 )
                               }
                               className="w-20 px-2 py-1 border border-gray-300 rounded"
@@ -167,7 +288,7 @@ export default function SuperadminDashboard() {
                           </td>
                           <td className="py-3 px-4">
                             <button
-                              onClick={() => fetchUsers()}
+                              onClick={() => fetchScores()}
                               className="text-shopify-green hover:underline"
                             >
                               Refresh

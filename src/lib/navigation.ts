@@ -185,7 +185,18 @@ export const navigationStructure: NavigationItem[] = [
   {
     id: "hackathon",
     title: "Hackathon",
-    href: "/hackathon",
     icon: Trophy,
+    children: [
+      {
+        id: "hackathon-main",
+        title: "Main",
+        href: "/hackathon",
+      },
+      {
+        id: "hackathon-leaderboard",
+        title: "Leaderboard",
+        href: "/hackathon/leaderboard",
+      },
+    ],
   },
 ];

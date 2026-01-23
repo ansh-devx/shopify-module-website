@@ -7,7 +7,22 @@ import { UserRole } from "@/types";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import DateTimePicker from "@/components/ui/DateTimePicker";
-import { useState } from "react";
+import HackathonFilter from "@/components/hackathon/HackathonFilter";
+import { useState, useEffect, useRef } from "react";
+
+interface ScoreEntry {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  score: number;
+  hackathonSettings: {
+    id: string;
+    startTime: string;
+    endTime: string;
+    isActive: boolean;
+  };
+}
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
@@ -23,6 +38,84 @@ export default function AdminDashboard() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+
+  // Score Management State
+  const [scores, setScores] = useState<ScoreEntry[]>([]);
+  const [selectedHackathonId, setSelectedHackathonId] = useState<string | null>(
+    null,
+  );
+  const [scoresLoading, setScoresLoading] = useState(false);
+  const hasFetchedScores = useRef(false);
+  const lastFetchedHackathonId = useRef<string | null>(null);
+
+  // Fetch scores for selected hackathon
+  useEffect(() => {
+    if (!selectedHackathonId) return;
+    // Reset the ref if hackathon changed
+    if (lastFetchedHackathonId.current !== selectedHackathonId) {
+      hasFetchedScores.current = false;
+      lastFetchedHackathonId.current = selectedHackathonId;
+    }
+    if (hasFetchedScores.current) return;
+    hasFetchedScores.current = true;
+
+    fetchScores();
+  }, [selectedHackathonId]);
+
+  const fetchScores = async () => {
+    if (!selectedHackathonId) return;
+
+    setScoresLoading(true);
+    try {
+      const response = await fetch(
+        `/api/hackathon/scores?hackathonSettingsId=${selectedHackathonId}`,
+      );
+      const data = await response.json();
+      if (data.success) {
+        setScores(data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch scores:", error);
+    } finally {
+      setScoresLoading(false);
+    }
+  };
+
+  const updateScore = async (userId: string, score: number) => {
+    if (!selectedHackathonId) {
+      setMessage({ type: "error", text: "Please select a hackathon first" });
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/hackathon/scores", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          score,
+          hackathonSettingsId: selectedHackathonId,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage({ type: "success", text: "Score updated!" });
+        fetchScores();
+      } else {
+        setMessage({
+          type: "error",
+          text: data.error || "Failed to update score",
+        });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: "An error occurred" });
+    }
+  };
+
+  const handleHackathonChange = (hackathonId: string) => {
+    setSelectedHackathonId(hackathonId);
+  };
 
   // Get minimum date (today) in YYYY-MM-DD format
   const getMinDate = () => {
@@ -42,7 +135,7 @@ export default function AdminDashboard() {
     }
 
     const startDateTime = new Date(
-      `${formData.startDate}T${formData.startTime}`
+      `${formData.startDate}T${formData.startTime}`,
     );
     const endDateTime = new Date(`${formData.endDate}T${formData.endTime}`);
     const now = new Date();
@@ -76,7 +169,7 @@ export default function AdminDashboard() {
 
     try {
       const startDateTime = new Date(
-        `${formData.startDate}T${formData.startTime}`
+        `${formData.startDate}T${formData.startTime}`,
       );
       const endDateTime = new Date(`${formData.endDate}T${formData.endTime}`);
 
@@ -118,14 +211,24 @@ export default function AdminDashboard() {
     <RoleGuard requiredRole={UserRole.ADMIN}>
       <ContentLayout
         title="Admin Dashboard"
-        description="Manage hackathon settings and questions"
+        description="Manage hackathon settings and scores"
       >
-        <LogoutButton />
-
         <div className="space-y-8">
+          {message && (
+            <div
+              className={`p-4 rounded-lg ${
+                message.type === "success"
+                  ? "bg-shopify-green/10 text-shopify-green"
+                  : "bg-shopify-red/10 text-shopify-red"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
           <Card>
             <CardHeader>
-              <CardTitle>Hackathon Settings</CardTitle>
+              <CardTitle>Create New Hackathon</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -178,26 +281,101 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                {message && (
-                  <div
-                    className={`p-4 rounded-lg ${
-                      message.type === "success"
-                        ? "bg-shopify-green/10 text-shopify-green"
-                        : "bg-shopify-red/10 text-shopify-red"
-                    }`}
-                  >
-                    {message.text}
-                  </div>
-                )}
-
                 <button
                   type="submit"
                   disabled={loading}
                   className="w-full bg-shopify-green hover:bg-shopify-green/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50"
                 >
-                  {loading ? "Updating..." : "Update Settings"}
+                  {loading ? "Creating Hackathon..." : "Create Hackathon"}
                 </button>
               </form>
+            </CardContent>
+          </Card>
+
+          {/* Score Management Section */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Manage Scores</CardTitle>
+                <HackathonFilter
+                  selectedHackathonId={selectedHackathonId}
+                  onHackathonChange={handleHackathonChange}
+                  filterByCreator={true}
+                />
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                {session?.user.role === "SUPERADMIN"
+                  ? "You can manage scores for all hackathons"
+                  : "You can only manage scores for hackathons you created"}
+              </p>
+            </CardHeader>
+            <CardContent>
+              {!selectedHackathonId ? (
+                <p className="text-white">
+                  Please select a hackathon to manage scores
+                </p>
+              ) : scoresLoading ? (
+                <p className="text-white">Loading scores...</p>
+              ) : scores.length === 0 ? (
+                <p className="text-white">
+                  No participants for this hackathon yet
+                </p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead className="border-b border-gray-200">
+                      <tr>
+                        <th className="text-left py-2 px-4 text-white">
+                          Email
+                        </th>
+                        <th className="text-left py-2 px-4 text-white">Name</th>
+                        <th className="text-left py-2 px-4 text-white">
+                          Score
+                        </th>
+                        <th className="text-left py-2 px-4 text-white">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scores.map((scoreEntry) => (
+                        <tr
+                          key={scoreEntry.id}
+                          className="border-b border-gray-100"
+                        >
+                          <td className="py-3 px-4 text-white">
+                            {scoreEntry.userEmail}
+                          </td>
+                          <td className="py-3 px-4 text-white">
+                            {scoreEntry.userName || "-"}
+                          </td>
+                          <td className="py-3 px-4">
+                            <input
+                              type="number"
+                              defaultValue={scoreEntry.score}
+                              onBlur={(e) =>
+                                updateScore(
+                                  scoreEntry.userId,
+                                  parseInt(e.target.value) || 0,
+                                )
+                              }
+                              className="w-20 px-2 py-1 border border-gray-300 rounded text-white"
+                            />
+                          </td>
+                          <td className="py-3 px-4">
+                            <button
+                              onClick={() => fetchScores()}
+                              className="text-shopify-green hover:underline"
+                            >
+                              Refresh
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

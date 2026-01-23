@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { useSearch } from "@/components/search/SearchProvider";
+import UserProfile from "@/components/auth/UserProfile";
 
 export default function Header() {
   const { openSearch } = useSearch();
@@ -25,7 +26,7 @@ export default function Header() {
         </div>
 
         {/* Search button */}
-        <div className="flex items-center gap-3 w-[400px]">
+        <div className="flex items-center gap-3 w-[400px] mr-4">
           <button
             type="button"
             onClick={openSearch}
@@ -40,6 +41,11 @@ export default function Header() {
               ⌘ K
             </kbd>
           </button>
+        </div>
+
+        {/* User Profile */}
+        <div className="flex items-center gap-4">
+          <UserProfile />
         </div>
       </nav>
     </header>

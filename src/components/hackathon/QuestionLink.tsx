@@ -23,7 +23,7 @@ export default function QuestionLink({
 }: QuestionLinkProps) {
   const [status, setStatus] = useState<"before" | "during" | "after">("before");
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -107,12 +107,6 @@ export default function QuestionLink({
               <h3 className="text-xl font-bold text-shopify-green mb-2">
                 Hackathon is Live!
               </h3>
-              <p className="text-sm text-gray-600">
-                Ends in: {timeRemaining.days}d{" "}
-                {String(timeRemaining.hours).padStart(2, "0")}h{" "}
-                {String(timeRemaining.minutes).padStart(2, "0")}m{" "}
-                {String(timeRemaining.seconds).padStart(2, "0")}s
-              </p>
             </div>
             <a
               href={questionLink}

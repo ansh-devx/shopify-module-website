@@ -3,14 +3,20 @@
 import { signIn } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
-export default function AuthModal() {
+export default function AuthModal({
+  fullScreen = false,
+}: {
+  fullScreen?: boolean;
+}) {
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/hackathon" });
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
-    <div className="fixed inset-y-0 left-72 right-0 z-50 flex items-center justify-center">
-      {/* Blurred backdrop - only covers main content area, not sidebar */}
+    <div
+      className={`${fullScreen ? "fixed inset-0" : "fixed inset-y-0 left-72 right-0"} z-50 flex items-center justify-center`}
+    >
+      {/* Blurred backdrop */}
       <div className="absolute inset-0 bg-[#0d1213]/80 backdrop-blur-md"></div>
 
       {/* Modal Card */}
