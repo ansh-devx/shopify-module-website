@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import AuthModal from "@/components/auth/AuthModal";
 
 export default function LoginPage() {
@@ -10,11 +10,16 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const hasRedirected = useRef(false);
 
   useEffect(() => {
-    // If user is already authenticated, redirect to callback URL or home
-    if (status === "authenticated" && session) {
-      router.push(callbackUrl);
+    // If user is authenticated and we haven't redirected yet
+    if (status === "authenticated" && session?.user && !hasRedirected.current) {
+      hasRedirected.current = true;
+      console.log("User authenticated, redirecting to:", callbackUrl);
+
+      // Use router.replace for client-side navigation
+      router.replace(callbackUrl);
     }
   }, [status, session, router, callbackUrl]);
 
@@ -27,13 +32,9 @@ export default function LoginPage() {
     );
   }
 
-  // If authenticated, show loading while redirecting
+  // If authenticated, don't show anything (will redirect)
   if (status === "authenticated") {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0d1213]">
-        <div className="text-white text-lg">Redirecting...</div>
-      </div>
-    );
+    return null;
   }
 
   // Show login page for unauthenticated users
