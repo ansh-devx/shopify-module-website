@@ -19,6 +19,7 @@ import {
   Tag,
   Menu,
   Trophy,
+  Key,
   LucideIcon,
 } from "lucide-react";
 
@@ -198,5 +199,11 @@ export const navigationStructure: NavigationItem[] = [
         href: "/hackathon/leaderboard",
       },
     ],
+  },
+  {
+    id: "app-access-token",
+    title: "App Access Token",
+    href: "/app-access-token",
+    icon: Key,
   },
 ];

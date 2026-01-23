@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { UserRole } from "@/types";
 import { useEffect, useState } from "react";
+import Loader from "@/components/ui/Loader";
 
 interface RoleGuardProps {
   children: React.ReactNode;
@@ -52,11 +53,7 @@ export default function RoleGuard({
 
   // Show loading state
   if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white text-lg">Loading...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   // Show fallback if not authorized and fallback provided

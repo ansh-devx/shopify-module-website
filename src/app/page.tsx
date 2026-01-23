@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Card,
@@ -19,8 +21,9 @@ import {
   Package,
   Smartphone,
 } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from "next-auth/react";
+import AuthModal from "@/components/auth/AuthModal";
+import Loader from "@/components/ui/Loader";
 
 const learningPaths = [
   {
@@ -96,15 +99,33 @@ const learningPaths = [
   },
 ];
 
-export default async function Home() {
-  // Verify session on server side
-  const session = await getServerSession(authOptions);
+export default function Home() {
+  const { data: session, status } = useSession();
 
-  console.log(
-    "Homepage - Session:",
-    session ? "Authenticated" : "Not authenticated",
-  );
+  // Show loading state
+  if (status === "loading") {
+    return <Loader />;
+  }
 
+  // Show auth modal if not authenticated
+  if (!session?.user) {
+    return (
+      <>
+        {/* Content in background (will be blurred by AuthModal backdrop) */}
+        <div className="pointer-events-none">
+          <HomeContent />
+        </div>
+        {/* Auth Modal */}
+        <AuthModal fullScreen={true} />
+      </>
+    );
+  }
+
+  // Show full content when authenticated
+  return <HomeContent />;
+}
+
+function HomeContent() {
   return (
     <div className="bg-[#0d1213]">
       {/* Hero Section */}

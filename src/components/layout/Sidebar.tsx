@@ -22,7 +22,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
 
   // Check if any child is active
   const hasActiveChild = item.children?.some(
-    (child) => pathname === child.href || pathname.startsWith(child.href + "/")
+    (child) => pathname === child.href || pathname.startsWith(child.href + "/"),
   );
 
   const handleToggle = () => {
@@ -45,7 +45,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
         level === 0 && "text-white",
         level > 0 && "text-white/80",
         isActive && "bg-[#2e3739] text-white",
-        !isActive && hasActiveChild && "text-white"
+        !isActive && hasActiveChild && "text-white",
       )}
     >
       {hasChildren && (
@@ -85,7 +85,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
         <div
           className={cn(
             "overflow-hidden transition-all duration-300 ease-in-out",
-            isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+            isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0",
           )}
         >
           <div className="mt-1 space-y-1 ml-8">
@@ -162,6 +162,14 @@ export default function Sidebar() {
                   <div className="border-t border-white/20 mb-4"></div>
                   <h2 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-2">
                     Events
+                  </h2>
+                </div>
+              )}
+              {item.id === "app-access-token" && (
+                <div className="my-4 px-3">
+                  <div className="border-t border-white/20 mb-4"></div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-2">
+                    Config
                   </h2>
                 </div>
               )}

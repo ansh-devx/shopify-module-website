@@ -10,6 +10,7 @@ import AdminMenu from "@/components/hackathon/AdminMenu";
 import RegisterButton from "@/components/hackathon/RegisterButton";
 import AuthModal from "@/components/auth/AuthModal";
 import { HackathonSettings } from "@/types";
+import Loader from "@/components/ui/Loader";
 
 export default function Hackathon() {
   const { data: session, status } = useSession();
@@ -71,11 +72,7 @@ export default function Hackathon() {
 
   // Show loading state
   if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white text-lg">Loading...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   // Show auth modal if not authenticated

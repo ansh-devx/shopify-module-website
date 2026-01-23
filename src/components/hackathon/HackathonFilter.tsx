@@ -66,6 +66,7 @@ export default function HackathonFilter({
   if (loading) {
     return (
       <div className="flex items-center gap-2">
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-shopify-green border-t-transparent"></div>
         <span className="text-sm text-gray-500">Loading hackathons...</span>
       </div>
     );

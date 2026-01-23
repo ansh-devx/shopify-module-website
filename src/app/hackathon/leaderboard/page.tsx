@@ -7,6 +7,7 @@ import Leaderboard from "@/components/hackathon/Leaderboard";
 import HackathonFilter from "@/components/hackathon/HackathonFilter";
 import AdminMenu from "@/components/hackathon/AdminMenu";
 import { UserRole } from "@/types";
+import Loader from "@/components/ui/Loader";
 
 export default function LeaderboardPage() {
   const { data: session, status } = useSession();
@@ -20,11 +21,7 @@ export default function LeaderboardPage() {
 
   // Show loading state
   if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white text-lg">Loading...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   // User is authenticated (middleware ensures this), show full content
