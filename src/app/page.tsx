@@ -19,6 +19,8 @@ import {
   Package,
   Smartphone,
 } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const learningPaths = [
   {
@@ -94,7 +96,15 @@ const learningPaths = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  // Verify session on server side
+  const session = await getServerSession(authOptions);
+
+  console.log(
+    "Homepage - Session:",
+    session ? "Authenticated" : "Not authenticated",
+  );
+
   return (
     <div className="bg-[#0d1213]">
       {/* Hero Section */}
