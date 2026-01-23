@@ -66,7 +66,7 @@ export default function UserProfile() {
             <Link
               href="/profile"
               onClick={() => setShowDropdown(false)}
-              className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors duration-150"
+              className="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-white transition-colors duration-150"
             >
               Profile
             </Link>
@@ -85,4 +85,3 @@ export default function UserProfile() {
     </div>
   );
 }
-
