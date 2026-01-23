@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export default function AuthModal({
@@ -8,8 +9,11 @@ export default function AuthModal({
 }: {
   fullScreen?: boolean;
 }) {
+  const pathname = usePathname();
+
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/" });
+    // Redirect back to current page after login
+    signIn("google", { callbackUrl: pathname || "/" });
   };
 
   return (

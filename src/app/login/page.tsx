@@ -2,10 +2,10 @@
 
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import AuthModal from "@/components/auth/AuthModal";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -32,5 +32,19 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0d1213]">
       <AuthModal fullScreen={true} />
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-[#0d1213]">
+          <div className="text-white text-lg">Loading...</div>
+        </div>
+      }
+    >
+      <LoginPageContent />
+    </Suspense>
   );
 }
