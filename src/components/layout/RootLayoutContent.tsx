@@ -1,8 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -14,18 +13,10 @@ export default function RootLayoutContent({
   children: React.ReactNode;
 }>) {
   const { status } = useSession();
-  const router = useRouter();
   const pathname = usePathname();
 
   // Check if we're on the login page
   const isLoginPage = pathname === "/login";
-
-  useEffect(() => {
-    // Redirect to login if not authenticated (but not if already on login page)
-    if (status === "unauthenticated" && !isLoginPage) {
-      router.push("/login");
-    }
-  }, [status, router, isLoginPage]);
 
   // Show loading state while checking authentication
   if (status === "loading") {
@@ -41,11 +32,8 @@ export default function RootLayoutContent({
     return <>{children}</>;
   }
 
-  // Only render content with Header/Sidebar if authenticated
-  if (status !== "authenticated") {
-    return null;
-  }
-
+  // For all other pages, render with Header/Sidebar
+  // The middleware already handles authentication, so we don't need to check here
   return (
     <SearchProvider>
       <ScrollToTop />
