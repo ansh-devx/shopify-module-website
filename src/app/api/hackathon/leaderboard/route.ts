@@ -19,28 +19,39 @@ export async function GET(request: NextRequest) {
       if (!activeHackathon) {
         return NextResponse.json(
           { success: false, error: "No active hackathon found" },
-          { status: 404 }
+          { status: 404 },
         );
       }
 
       hackathonSettingsId = activeHackathon.id;
     }
 
-    // Fetch all scores for this hackathon
+    // Fetch all scores for this hackathon with user role information
     const scores = await prisma.score.findMany({
       where: {
         hackathonSettingsId,
       },
-      orderBy: [
-        { score: "desc" },
-        { userName: "asc" },
-      ],
+      orderBy: [{ score: "desc" }, { userName: "asc" }],
       select: {
         userId: true,
         userName: true,
         userEmail: true,
         score: true,
+        user: {
+          select: {
+            role: true,
+          },
+        },
       },
+    });
+
+    // Filter out admins/superadmins with 0 score (they only created the question)
+    const filteredScores = scores.filter((entry) => {
+      const isAdmin =
+        entry.user.role === "ADMIN" || entry.user.role === "SUPERADMIN";
+      const hasZeroScore = entry.score === 0;
+      // Exclude admins with 0 score from the leaderboard
+      return !(isAdmin && hasZeroScore);
     });
 
     // Calculate ranks and format response
@@ -48,7 +59,7 @@ export async function GET(request: NextRequest) {
     let previousScore = -1;
     let sameRankCount = 0;
 
-    const leaderboard = scores.map((entry, index) => {
+    const leaderboard = filteredScores.map((entry, index) => {
       // Handle tied scores
       if (entry.score !== previousScore) {
         currentRank = index + 1;
@@ -58,6 +69,10 @@ export async function GET(request: NextRequest) {
       }
       previousScore = entry.score;
 
+      const isAdmin =
+        entry.user.role === "ADMIN" || entry.user.role === "SUPERADMIN";
+      const hasZeroScore = entry.score === 0;
+
       return {
         rank: currentRank,
         userId: entry.userId,
@@ -66,12 +81,14 @@ export async function GET(request: NextRequest) {
         score: entry.score,
         isCurrentUser: session?.user?.id === entry.userId,
         isRegistered: true,
+        userRole: entry.user.role,
+        isAdminWithZeroScore: isAdmin && hasZeroScore,
       };
     });
 
     // Find current user's rank
     const currentUserEntry = leaderboard.find(
-      (entry) => entry.userId === session?.user?.id
+      (entry) => entry.userId === session?.user?.id,
     );
 
     return NextResponse.json({
@@ -84,8 +101,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching leaderboard:", err);
     return NextResponse.json(
       { success: false, error: "Failed to fetch leaderboard" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

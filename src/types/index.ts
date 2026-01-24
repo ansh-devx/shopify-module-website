@@ -34,6 +34,8 @@ export interface LeaderboardEntry {
   score: number;
   isCurrentUser: boolean;
   isRegistered: boolean;
+  userRole?: UserRole;
+  isAdminWithZeroScore?: boolean;
 }
 
 export interface HackathonRegistration {
