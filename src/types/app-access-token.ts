@@ -109,4 +109,5 @@ export const REDIRECT_URL = "https://your-app-domain.com/auth/callback";
 /**
  * Shopify Partners Dashboard URL
  */
-export const PARTNERS_DASHBOARD_URL = "https://partners.shopify.com/";
+export const PARTNERS_DASHBOARD_URL =
+  "https://dev.shopify.com/dashboard/129018938/apps";
