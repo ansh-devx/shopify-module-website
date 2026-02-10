@@ -27,6 +27,12 @@ export const authOptions: NextAuthOptions = {
   },
   debug: process.env.NODE_ENV === "development",
   callbacks: {
+    async signIn({ user }) {
+      const email = user?.email?.trim().toLowerCase();
+      if (!email) return false;
+      if (!email.endsWith("@devxlabs.ai")) return false;
+      return true;
+    },
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;

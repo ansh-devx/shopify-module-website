@@ -1,125 +1,249 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
+import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { Plus } from "lucide-react";
 import Loader from "@/components/ui/Loader";
 import AuthModal from "@/components/auth/AuthModal";
 import Modal from "@/components/ui/Modal";
 import TokensTable from "@/components/app-access-token/TokensTable";
-import AppAccessTokenWizard from "@/components/app-access-token/AppAccessTokenWizard";
-import { UserRole } from "@/types";
+import GenerateTokenForm from "@/components/app-access-token/GenerateTokenForm";
+import CopyableText from "@/components/app-access-token/form/CopyableText";
+import { getToken, listTokens } from "@/lib/tokenGeneratorApi";
+import type { TokenListItem } from "@/lib/tokenGeneratorApi";
 
-export default function AppAccessTokenPage() {
+const ERROR_MESSAGES: Record<string, string> = {
+  invalid_hmac:
+    "Verification failed. Please try generating the token again.",
+  invalid_state:
+    "Session expired or invalid. Please start from the beginning and generate a new token.",
+  invalid_shop: "Invalid store. Please check the store name and try again.",
+  token_exchange_failed:
+    "We couldn't get the token from Shopify. Please try again.",
+  missing_params:
+    "Something went wrong during the redirect. Please try again.",
+};
+
+function getErrorMessage(errorValue: string): string {
+  return ERROR_MESSAGES[errorValue] ?? "Something went wrong. Please try again.";
+}
+
+function AppAccessTokenContent() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const code = searchParams.get("code");
+  const errorParam = searchParams.get("error");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tokens, setTokens] = useState<TokenListItem[]>([]);
+  const [tokensLoading, setTokensLoading] = useState(false);
+  const [tokensError, setTokensError] = useState<string | null>(null);
 
-  // TODO: Replace with actual API call to fetch tokens
-  const tokens: any[] = [];
+  // Token success mode: single-use code exchange
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [tokenError, setTokenError] = useState<string | null>(null);
+  const tokenFetchedRef = useRef(false);
 
-  // Show loading state
+  useEffect(() => {
+    if (!code || tokenFetchedRef.current) return;
+    tokenFetchedRef.current = true;
+    getToken(code)
+      .then((res) => setAccessToken(res.access_token))
+      .catch((err) =>
+        setTokenError(err instanceof Error ? err.message : "Invalid or expired code")
+      );
+  }, [code]);
+
+  // After showing token, clear from UI and remove ?code= from URL
+  const clearTokenAndUrl = () => {
+    setAccessToken(null);
+    router.replace("/app-access-token");
+  };
+
+  // Fetch tokens when logged in and in main mode (no code, no error)
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user?.id || code || errorParam) {
+      return;
+    }
+    setTokensLoading(true);
+    setTokensError(null);
+    listTokens(session.user.id)
+      .then((res) => setTokens(res.tokens))
+      .catch((err) =>
+        setTokensError(err instanceof Error ? err.message : "Failed to load tokens")
+      )
+      .finally(() => setTokensLoading(false));
+  }, [status, session?.user?.id, code, errorParam]);
+
   if (status === "loading") {
     return <Loader />;
   }
 
-  // Show auth modal if not authenticated
   if (!session?.user) {
     return (
       <>
-        {/* Blurred background */}
         <div className="pointer-events-none">
           <div className="min-h-screen bg-[#0d1213]" />
         </div>
-        {/* Auth Modal */}
         <AuthModal fullScreen={true} />
       </>
     );
   }
 
-  // Check if user is superadmin
-  const isSuperadmin = session.user.role === UserRole.SUPERADMIN;
+  const userId = session.user.id;
 
-  // Handle successful token creation
-  const handleTokenCreated = () => {
-    setIsModalOpen(false);
-    // TODO: Refresh tokens list from API
-  };
-
-  return (
-    <>
-      {isSuperadmin ? (
-        // Show the table and modal for superadmin users
-        <div className="min-h-screen bg-[#0d1213] p-8">
-          <div className="mx-auto max-w-7xl">
-            {/* Header */}
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-white">
-                  App Access Tokens
-                </h1>
-                <p className="mt-2 text-white/60">
-                  Manage your Shopify app access tokens for API integration
-                </p>
+  // Success: we have ?code= and have fetched the token
+  if (code) {
+    return (
+      <div className="min-h-screen bg-[#0d1213] p-8">
+        <div className="mx-auto max-w-2xl">
+          <h1 className="mb-6 text-3xl font-bold text-white">
+            App Access Token
+          </h1>
+          {tokenError ? (
+            <div className="rounded-xl border border-amber-500/50 bg-amber-500/10 p-6 text-amber-200">
+              <p>This link has already been used or has expired.</p>
+              <Link
+                href="/app-access-token"
+                className="mt-4 inline-block text-shopify-green hover:underline"
+              >
+                Back to Token Generator
+              </Link>
+            </div>
+          ) : accessToken ? (
+            <div className="space-y-6">
+              <CopyableText label="Access token (copy now; it won’t be shown again)" text={accessToken} />
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={clearTokenAndUrl}
+                  className="rounded-lg bg-shopify-green px-4 py-2 font-medium text-white hover:bg-shopify-green/90"
+                >
+                  Done, clear and go back
+                </button>
+                <Link
+                  href="/app-access-token"
+                  className="text-white/70 hover:text-white"
+                >
+                  Back to Token Generator
+                </Link>
               </div>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 rounded-lg bg-shopify-green px-6 py-3 font-semibold text-white transition-all hover:bg-shopify-green/90 hover:shadow-lg"
-              >
-                <Plus className="h-5 w-5" />
-                Create New Token
-              </button>
             </div>
+          ) : (
+            <p className="text-white/70">Exchanging code for token…</p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
-            {/* Tokens Table */}
-            <TokensTable
-              tokens={tokens}
-              // TODO: Implement edit and delete handlers
-              // onEdit={(token) => console.log("Edit", token)}
-              // onDelete={(token) => console.log("Delete", token)}
-            />
-
-            {/* Create Token Modal */}
-            <Modal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              title="Create App Access Token"
-              size="lg"
+  // Error: backend redirected with ?error=
+  if (errorParam) {
+    const message = getErrorMessage(errorParam);
+    return (
+      <div className="min-h-screen bg-[#0d1213] p-8">
+        <div className="mx-auto max-w-2xl">
+          <h1 className="mb-6 text-3xl font-bold text-white">
+            Something went wrong
+          </h1>
+          <div className="rounded-xl border border-red-500/50 bg-red-500/10 p-6 text-red-200">
+            <p>{message}</p>
+            <Link
+              href="/app-access-token"
+              className="mt-4 inline-block text-shopify-green hover:underline"
             >
-              <AppAccessTokenWizard onSuccess={handleTokenCreated} />
-            </Modal>
+              Back to Token Generator
+            </Link>
           </div>
         </div>
-      ) : (
-        /* Coming Soon Message - Only visible for non-superadmins */
-        <div className="flex items-center justify-center min-h-screen bg-gray-50">
-          <div className="border-2 border-shopify-green rounded-2xl p-12 max-w-md text-center shadow-2xl">
-            <div className="mb-6">
-              <svg
-                className="mx-auto h-20 w-20 text-shopify-green"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-3xl font-bold text-shopify-green mb-4">
-              Coming Soon
-            </h3>
-            <p className="text-lg text-gray-500 mb-2">
-              App Access Token management is currently restricted
-            </p>
-            <p className="text-sm text-gray-500">
-              This feature will be available to all users soon
+      </div>
+    );
+  }
+
+  // Main mode: Generate Token button + table
+  return (
+    <div className="min-h-screen bg-[#0d1213] p-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white">
+              App Access Tokens
+            </h1>
+            <p className="mt-2 text-white/60">
+              Manage your Shopify app access tokens for API integration
             </p>
           </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 rounded-lg bg-shopify-green px-6 py-3 font-semibold text-white transition-all hover:bg-shopify-green/90 hover:shadow-lg"
+          >
+            <Plus className="h-5 w-5" />
+            Generate Token
+          </button>
         </div>
-      )}
-    </>
+
+        {tokensError && (
+          <div className="mb-6 rounded-lg border border-red-500/50 bg-red-500/10 p-4 text-red-200">
+            <p>{tokensError}</p>
+            <button
+              type="button"
+              onClick={() => {
+                setTokensError(null);
+                if (session?.user?.id) {
+                  setTokensLoading(true);
+                  listTokens(session.user.id)
+                    .then((res) => setTokens(res.tokens))
+                    .catch((err) => setTokensError(err instanceof Error ? err.message : "Failed to load tokens"))
+                    .finally(() => setTokensLoading(false));
+                }
+              }}
+              className="mt-2 text-sm underline"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {tokensLoading ? (
+          <div className="rounded-xl border border-gray-600 bg-[#151d1e] p-12 text-center text-white/60">
+            Loading tokens…
+          </div>
+        ) : (
+          <TokensTable tokens={tokens} />
+        )}
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Generate Token"
+          size="lg"
+        >
+          <GenerateTokenForm
+            userId={userId}
+            onSuccess={() => {
+              setIsModalOpen(false);
+              if (session?.user?.id) {
+                setTokensLoading(true);
+                listTokens(session.user.id)
+                  .then((res) => setTokens(res.tokens))
+                  .catch((err) => setTokensError(err instanceof Error ? err.message : "Failed to load tokens"))
+                  .finally(() => setTokensLoading(false));
+              }
+            }}
+          />
+        </Modal>
+      </div>
+    </div>
+  );
+}
+
+export default function AppAccessTokenPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <AppAccessTokenContent />
+    </Suspense>
   );
 }
