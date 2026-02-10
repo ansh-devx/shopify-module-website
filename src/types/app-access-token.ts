@@ -102,6 +102,18 @@ export const API_TYPE_OPTIONS: RadioOption[] = [
 ];
 
 /**
+ * Token list item from GET /tokens (backend API)
+ */
+export interface TokenListItemBackend {
+  id: string;
+  store: string;
+  scopes: string;
+  token: string;
+  app_name: string;
+  created_at: number;
+}
+
+/**
  * Redirect URL constant
  */
 export const REDIRECT_URL = "https://your-app-domain.com/auth/callback";
