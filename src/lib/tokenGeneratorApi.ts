@@ -41,10 +41,12 @@ export interface TokenListItem {
 }
 
 export interface TokensPagination {
+  page: number;
   limit: number;
-  count: number;
+  totalItems: number;
+  totalPages: number;
   hasMore: boolean;
-  nextToken?: string;
+  hasPrevious: boolean;
 }
 
 export interface ListTokensResponse {
@@ -54,7 +56,7 @@ export interface ListTokensResponse {
 
 export interface ListTokensOptions {
   limit?: number; // 1–100, default 10
-  nextToken?: string;
+  page?: number; // 1-based, default 1
 }
 
 async function handleResponse<T>(res: Response, parseJson = true): Promise<T> {
@@ -98,9 +100,8 @@ export async function listTokens(
   params.set("userId", userId);
   const limit = options.limit ?? 10;
   params.set("limit", String(Math.min(100, Math.max(1, limit))));
-  if (options.nextToken?.trim()) {
-    params.set("nextToken", options.nextToken.trim());
-  }
+  const page = options.page ?? 1;
+  params.set("page", String(Math.max(1, page)));
   const res = await fetch(`${base}/tokens?${params.toString()}`, {
     method: "GET",
   });

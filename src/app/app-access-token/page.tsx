@@ -17,19 +17,19 @@ import type { TokenListItem } from "@/lib/tokenGeneratorApi";
 const TOKENS_PAGE_SIZE = 10;
 
 const ERROR_MESSAGES: Record<string, string> = {
-  invalid_hmac:
-    "Verification failed. Please try generating the token again.",
+  invalid_hmac: "Verification failed. Please try generating the token again.",
   invalid_state:
     "Session expired or invalid. Please start from the beginning and generate a new token.",
   invalid_shop: "Invalid store. Please check the store name and try again.",
   token_exchange_failed:
     "We couldn't get the token from Shopify. Please try again.",
-  missing_params:
-    "Something went wrong during the redirect. Please try again.",
+  missing_params: "Something went wrong during the redirect. Please try again.",
 };
 
 function getErrorMessage(errorValue: string): string {
-  return ERROR_MESSAGES[errorValue] ?? "Something went wrong. Please try again.";
+  return (
+    ERROR_MESSAGES[errorValue] ?? "Something went wrong. Please try again."
+  );
 }
 
 function AppAccessTokenContent() {
@@ -44,7 +44,7 @@ function AppAccessTokenContent() {
   const [tokensLoading, setTokensLoading] = useState(false);
   const [tokensLoadingMore, setTokensLoadingMore] = useState(false);
   const [tokensError, setTokensError] = useState<string | null>(null);
-  const [nextToken, setNextToken] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
 
   // Token success mode: single-use code exchange
@@ -58,7 +58,9 @@ function AppAccessTokenContent() {
     getToken(code)
       .then((res) => setAccessToken(res.access_token))
       .catch((err) =>
-        setTokenError(err instanceof Error ? err.message : "Invalid or expired code")
+        setTokenError(
+          err instanceof Error ? err.message : "Invalid or expired code",
+        ),
       );
   }, [code]);
 
@@ -71,40 +73,50 @@ function AppAccessTokenContent() {
   const fetchFirstPage = (uid: string) => {
     setTokensLoading(true);
     setTokensError(null);
-    setNextToken(null);
+    setCurrentPage(1);
     setHasMore(false);
-    listTokens(uid, { limit: TOKENS_PAGE_SIZE })
+    listTokens(uid, { limit: TOKENS_PAGE_SIZE, page: 1 })
       .then((res) => {
         setTokens(res.tokens);
         setHasMore(res.pagination?.hasMore ?? false);
-        setNextToken(res.pagination?.nextToken ?? null);
+        setCurrentPage(res.pagination?.page ?? 1);
       })
       .catch((err) =>
-        setTokensError(err instanceof Error ? err.message : "Failed to load tokens")
+        setTokensError(
+          err instanceof Error ? err.message : "Failed to load tokens",
+        ),
       )
       .finally(() => setTokensLoading(false));
   };
 
   const loadMore = () => {
-    if (!session?.user?.id || !nextToken || tokensLoadingMore) return;
+    if (!session?.user?.id || !hasMore || tokensLoadingMore) return;
+    const nextPage = currentPage + 1;
     setTokensLoadingMore(true);
     listTokens(session.user.id, {
       limit: TOKENS_PAGE_SIZE,
-      nextToken,
+      page: nextPage,
     })
       .then((res) => {
         setTokens((prev) => [...prev, ...res.tokens]);
         setHasMore(res.pagination?.hasMore ?? false);
-        setNextToken(res.pagination?.nextToken ?? null);
+        setCurrentPage(res.pagination?.page ?? nextPage);
       })
       .catch((err) =>
-        setTokensError(err instanceof Error ? err.message : "Failed to load more tokens")
+        setTokensError(
+          err instanceof Error ? err.message : "Failed to load more tokens",
+        ),
       )
       .finally(() => setTokensLoadingMore(false));
   };
 
   useEffect(() => {
-    if (status !== "authenticated" || !session?.user?.id || code || errorParam) {
+    if (
+      status !== "authenticated" ||
+      !session?.user?.id ||
+      code ||
+      errorParam
+    ) {
       return;
     }
     let cancelled = false;
@@ -112,20 +124,22 @@ function AppAccessTokenContent() {
     const applyLoading = () => {
       setTokensLoading(true);
       setTokensError(null);
-      setNextToken(null);
+      setCurrentPage(1);
       setHasMore(false);
     };
     queueMicrotask(applyLoading);
-    listTokens(uid, { limit: TOKENS_PAGE_SIZE })
+    listTokens(uid, { limit: TOKENS_PAGE_SIZE, page: 1 })
       .then((res) => {
         if (cancelled) return;
         setTokens(res.tokens);
         setHasMore(res.pagination?.hasMore ?? false);
-        setNextToken(res.pagination?.nextToken ?? null);
+        setCurrentPage(res.pagination?.page ?? 1);
       })
       .catch((err) => {
         if (cancelled) return;
-        setTokensError(err instanceof Error ? err.message : "Failed to load tokens");
+        setTokensError(
+          err instanceof Error ? err.message : "Failed to load tokens",
+        );
       })
       .finally(() => {
         if (!cancelled) setTokensLoading(false);
@@ -172,7 +186,10 @@ function AppAccessTokenContent() {
             </div>
           ) : accessToken ? (
             <div className="space-y-6">
-              <CopyableText label="Access token (copy now; it won’t be shown again)" text={accessToken} />
+              <CopyableText
+                label="Access token (copy now; it won’t be shown again)"
+                text={accessToken}
+              />
               <div className="flex items-center gap-4">
                 <button
                   type="button"
@@ -226,9 +243,7 @@ function AppAccessTokenContent() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white">
-              App Access Tokens
-            </h1>
+            <h1 className="text-3xl font-bold text-white">App Access Tokens</h1>
             <p className="mt-2 text-white/60">
               Manage your Shopify app access tokens for API integration
             </p>
@@ -247,7 +262,9 @@ function AppAccessTokenContent() {
             <p>{tokensError}</p>
             <button
               type="button"
-              onClick={() => session?.user?.id && fetchFirstPage(session.user.id)}
+              onClick={() =>
+                session?.user?.id && fetchFirstPage(session.user.id)
+              }
               className="mt-2 text-sm underline"
             >
               Retry

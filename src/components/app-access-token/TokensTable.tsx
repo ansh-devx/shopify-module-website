@@ -57,9 +57,9 @@ export default function TokensTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-600">
-              {tokens.map((token) => (
+              {tokens.map((token, index) => (
                 <tr
-                  key={token.id}
+                  key={`${token.id}-${index}`}
                   className="transition-colors hover:bg-white/5"
                 >
                   <td className="px-6 py-4 text-sm font-medium text-white">
