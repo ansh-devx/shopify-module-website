@@ -91,6 +91,9 @@ export default function GenerateTokenForm({
       err.store =
         "Use a store subdomain (e.g. mystore) or full hostname (e.g. mystore.myshopify.com)";
     }
+    if (!values.appName.trim()) {
+      err.appName = "App name is required";
+    }
     if (!clientId) {
       err.clientId = "Client ID is required";
     } else if (!isValidClientId(values.clientId)) {
@@ -121,7 +124,7 @@ export default function GenerateTokenForm({
     try {
       const res = await generateInstallUrl({
         store: values.store.trim(),
-        appName: values.appName.trim() || undefined,
+        appName: values.appName.trim(),
         clientId: values.clientId.trim(),
         secret: values.secret,
         scopes: values.scopes.trim(),
@@ -162,6 +165,8 @@ export default function GenerateTokenForm({
           value={values.appName}
           onChange={(v) => update({ appName: v })}
           placeholder="my-app"
+          required
+          error={fieldErrors.appName}
         />
         <FormInput
           label="Client ID"
