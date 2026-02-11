@@ -40,23 +40,37 @@ export interface TokenListItem {
   created_at: number;
 }
 
+export interface TokensPagination {
+  limit: number;
+  count: number;
+  hasMore: boolean;
+  nextToken?: string;
+}
+
 export interface ListTokensResponse {
   tokens: TokenListItem[];
+  pagination: TokensPagination;
+}
+
+export interface ListTokensOptions {
+  limit?: number; // 1–100, default 10
+  nextToken?: string;
 }
 
 async function handleResponse<T>(res: Response, parseJson = true): Promise<T> {
   const body = parseJson ? await res.json().catch(() => ({})) : {};
   if (!res.ok) {
-    const message = typeof (body as { error?: string }).error === "string"
-      ? (body as { error: string }).error
-      : res.statusText || "Request failed";
+    const message =
+      typeof (body as { error?: string }).error === "string"
+        ? (body as { error: string }).error
+        : res.statusText || "Request failed";
     throw new Error(message);
   }
   return body as T;
 }
 
 export async function generateInstallUrl(
-  body: GenerateInstallUrlBody
+  body: GenerateInstallUrlBody,
 ): Promise<GenerateInstallUrlResponse> {
   const base = getApiBaseUrl();
   const res = await fetch(`${base}/generate-install-url`, {
@@ -75,11 +89,20 @@ export async function getToken(code: string): Promise<GetTokenResponse> {
   return handleResponse<GetTokenResponse>(res);
 }
 
-export async function listTokens(userId: string): Promise<ListTokensResponse> {
+export async function listTokens(
+  userId: string,
+  options: ListTokensOptions = {},
+): Promise<ListTokensResponse> {
   const base = getApiBaseUrl();
-  const res = await fetch(
-    `${base}/tokens?userId=${encodeURIComponent(userId)}`,
-    { method: "GET" }
-  );
+  const params = new URLSearchParams();
+  params.set("userId", userId);
+  const limit = options.limit ?? 10;
+  params.set("limit", String(Math.min(100, Math.max(1, limit))));
+  if (options.nextToken?.trim()) {
+    params.set("nextToken", options.nextToken.trim());
+  }
+  const res = await fetch(`${base}/tokens?${params.toString()}`, {
+    method: "GET",
+  });
   return handleResponse<ListTokensResponse>(res);
 }
