@@ -14,8 +14,8 @@ interface FormInputProps {
   required?: boolean;
   error?: string;
   helpText?: string;
-  showToggle?: boolean; // For password visibility
-  autoFocus?: boolean; // Auto-focus on mount
+  showToggle?: boolean;
+  autoFocus?: boolean;
 }
 
 export default function FormInput({
@@ -41,7 +41,6 @@ export default function FormInput({
         : "password"
       : type;
 
-  // Auto-focus on mount if autoFocus is true
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
@@ -72,8 +71,7 @@ export default function FormInput({
           }
           className={cn(
             "w-full px-4 py-3 rounded-lg border-2 transition-all duration-150",
-            "bg-[#151d1e] text-white placeholder-white/40",
-            "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+            "bg-[#151d1e] text-white placeholder-white/40 outline-none",
             error
               ? "border-red-500 focus:border-red-500"
               : "border-gray-600 hover:border-gray-500 focus:border-shopify-green",

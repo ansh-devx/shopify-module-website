@@ -14,6 +14,8 @@ import CopyableText from "@/components/app-access-token/form/CopyableText";
 import { getToken, listTokens } from "@/lib/tokenGeneratorApi";
 import type { TokenListItem } from "@/lib/tokenGeneratorApi";
 
+const TOKENS_PAGE_SIZE = 10;
+
 const ERROR_MESSAGES: Record<string, string> = {
   invalid_hmac:
     "Verification failed. Please try generating the token again.",
@@ -40,7 +42,10 @@ function AppAccessTokenContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokens, setTokens] = useState<TokenListItem[]>([]);
   const [tokensLoading, setTokensLoading] = useState(false);
+  const [tokensLoadingMore, setTokensLoadingMore] = useState(false);
   const [tokensError, setTokensError] = useState<string | null>(null);
+  const [nextToken, setNextToken] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
 
   // Token success mode: single-use code exchange
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -63,19 +68,71 @@ function AppAccessTokenContent() {
     router.replace("/app-access-token");
   };
 
-  // Fetch tokens when logged in and in main mode (no code, no error)
-  useEffect(() => {
-    if (status !== "authenticated" || !session?.user?.id || code || errorParam) {
-      return;
-    }
+  const fetchFirstPage = (uid: string) => {
     setTokensLoading(true);
     setTokensError(null);
-    listTokens(session.user.id)
-      .then((res) => setTokens(res.tokens))
+    setNextToken(null);
+    setHasMore(false);
+    listTokens(uid, { limit: TOKENS_PAGE_SIZE })
+      .then((res) => {
+        setTokens(res.tokens);
+        setHasMore(res.pagination?.hasMore ?? false);
+        setNextToken(res.pagination?.nextToken ?? null);
+      })
       .catch((err) =>
         setTokensError(err instanceof Error ? err.message : "Failed to load tokens")
       )
       .finally(() => setTokensLoading(false));
+  };
+
+  const loadMore = () => {
+    if (!session?.user?.id || !nextToken || tokensLoadingMore) return;
+    setTokensLoadingMore(true);
+    listTokens(session.user.id, {
+      limit: TOKENS_PAGE_SIZE,
+      nextToken,
+    })
+      .then((res) => {
+        setTokens((prev) => [...prev, ...res.tokens]);
+        setHasMore(res.pagination?.hasMore ?? false);
+        setNextToken(res.pagination?.nextToken ?? null);
+      })
+      .catch((err) =>
+        setTokensError(err instanceof Error ? err.message : "Failed to load more tokens")
+      )
+      .finally(() => setTokensLoadingMore(false));
+  };
+
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user?.id || code || errorParam) {
+      return;
+    }
+    let cancelled = false;
+    const uid = session.user.id;
+    const applyLoading = () => {
+      setTokensLoading(true);
+      setTokensError(null);
+      setNextToken(null);
+      setHasMore(false);
+    };
+    queueMicrotask(applyLoading);
+    listTokens(uid, { limit: TOKENS_PAGE_SIZE })
+      .then((res) => {
+        if (cancelled) return;
+        setTokens(res.tokens);
+        setHasMore(res.pagination?.hasMore ?? false);
+        setNextToken(res.pagination?.nextToken ?? null);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setTokensError(err instanceof Error ? err.message : "Failed to load tokens");
+      })
+      .finally(() => {
+        if (!cancelled) setTokensLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [status, session?.user?.id, code, errorParam]);
 
   if (status === "loading") {
@@ -190,16 +247,7 @@ function AppAccessTokenContent() {
             <p>{tokensError}</p>
             <button
               type="button"
-              onClick={() => {
-                setTokensError(null);
-                if (session?.user?.id) {
-                  setTokensLoading(true);
-                  listTokens(session.user.id)
-                    .then((res) => setTokens(res.tokens))
-                    .catch((err) => setTokensError(err instanceof Error ? err.message : "Failed to load tokens"))
-                    .finally(() => setTokensLoading(false));
-                }
-              }}
+              onClick={() => session?.user?.id && fetchFirstPage(session.user.id)}
               className="mt-2 text-sm underline"
             >
               Retry
@@ -212,7 +260,12 @@ function AppAccessTokenContent() {
             Loading tokens…
           </div>
         ) : (
-          <TokensTable tokens={tokens} />
+          <TokensTable
+            tokens={tokens}
+            hasMore={hasMore}
+            onLoadMore={loadMore}
+            isLoadingMore={tokensLoadingMore}
+          />
         )}
 
         <Modal
@@ -225,13 +278,7 @@ function AppAccessTokenContent() {
             userId={userId}
             onSuccess={() => {
               setIsModalOpen(false);
-              if (session?.user?.id) {
-                setTokensLoading(true);
-                listTokens(session.user.id)
-                  .then((res) => setTokens(res.tokens))
-                  .catch((err) => setTokensError(err instanceof Error ? err.message : "Failed to load tokens"))
-                  .finally(() => setTokensLoading(false));
-              }
+              if (session?.user?.id) fetchFirstPage(session.user.id);
             }}
           />
         </Modal>
