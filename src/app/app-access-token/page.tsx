@@ -63,6 +63,15 @@ function AppAccessTokenContent() {
   const router = useRouter();
   const code = searchParams.get("code");
   const errorParam = searchParams.get("error");
+  const shop = searchParams.get("shop");
+
+  const [isRedirectingToOAuth, setIsRedirectingToOAuth] = useState(false);
+  useEffect(() => {
+    if (shop && !code && !errorParam) {
+      setIsRedirectingToOAuth(true);
+      window.location.href = `https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth?shop=${encodeURIComponent(shop)}`;
+    }
+  }, [shop, code, errorParam]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState<"steps" | "form">("steps");
@@ -180,6 +189,10 @@ function AppAccessTokenContent() {
       cancelled = true;
     };
   }, [status, session?.user?.id, code, errorParam]);
+
+  if (isRedirectingToOAuth) {
+    return <Loader />;
+  }
 
   if (status === "loading") {
     return <Loader />;
