@@ -11,8 +11,9 @@ import Modal from "@/components/ui/Modal";
 import TokensTable from "@/components/app-access-token/TokensTable";
 import GenerateTokenForm from "@/components/app-access-token/GenerateTokenForm";
 import CopyableText from "@/components/app-access-token/form/CopyableText";
-import { getToken, listTokens } from "@/lib/tokenGeneratorApi";
+import { getToken, listTokens, getConfig } from "@/lib/tokenGeneratorApi";
 import type { TokenListItem } from "@/lib/tokenGeneratorApi";
+import { Copy, Check, ChevronRight, AlertCircle, KeyRound } from "lucide-react";
 
 const TOKENS_PAGE_SIZE = 10;
 
@@ -32,6 +33,30 @@ function getErrorMessage(errorValue: string): string {
   );
 }
 
+function CopyButton({ text, className }: { text: string; className?: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className={className}
+      aria-label={copied ? "Copied" : "Copy"}
+    >
+      {copied ? (
+        <Check className="h-4 w-4 text-shopify-green" />
+      ) : (
+        <Copy className="h-4 w-4 text-white/60 hover:text-white" />
+      )}
+    </button>
+  );
+}
+
 function AppAccessTokenContent() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
@@ -40,6 +65,13 @@ function AppAccessTokenContent() {
   const errorParam = searchParams.get("error");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState<"steps" | "form">("steps");
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+  const [redirectUrlMessage, setRedirectUrlMessage] = useState<string | null>(
+    null,
+  );
+  const [redirectUrlLoading, setRedirectUrlLoading] = useState(false);
+  const [redirectUrlError, setRedirectUrlError] = useState<string | null>(null);
   const [tokens, setTokens] = useState<TokenListItem[]>([]);
   const [tokensLoading, setTokensLoading] = useState(false);
   const [tokensLoadingMore, setTokensLoadingMore] = useState(false);
@@ -171,43 +203,64 @@ function AppAccessTokenContent() {
     return (
       <div className="min-h-screen bg-[#0d1213] p-8">
         <div className="mx-auto max-w-2xl">
-          <h1 className="mb-6 text-3xl font-bold text-white">
-            App Access Token
-          </h1>
+          <div className="mb-8 flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-shopify-green/20">
+              <KeyRound className="h-6 w-6 text-shopify-green" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">
+                App Access Token
+              </h1>
+              <p className="text-sm text-white/60">
+                Copy your token below; it won’t be shown again.
+              </p>
+            </div>
+          </div>
           {tokenError ? (
-            <div className="rounded-xl border border-amber-500/50 bg-amber-500/10 p-6 text-amber-200">
-              <p>This link has already been used or has expired.</p>
-              <Link
-                href="/app-access-token"
-                className="mt-4 inline-block text-shopify-green hover:underline"
-              >
-                Back to Token Generator
-              </Link>
+            <div className="flex gap-4 rounded-xl border border-amber-500/40 bg-amber-500/10 p-6">
+              <AlertCircle className="h-6 w-6 shrink-0 text-amber-400" />
+              <div>
+                <p className="font-medium text-amber-200">
+                  This link has already been used or has expired.
+                </p>
+                <Link
+                  href="/app-access-token"
+                  className="mt-3 inline-flex items-center gap-1.5 text-shopify-green hover:underline"
+                >
+                  Back to Token Generator
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           ) : accessToken ? (
-            <div className="space-y-6">
+            <div className="space-y-6 rounded-xl border border-gray-600 bg-[#151d1e] p-6">
               <CopyableText
                 label="Access token (copy now; it won’t be shown again)"
                 text={accessToken}
               />
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3 border-t border-gray-600/80 pt-6">
                 <button
                   type="button"
                   onClick={clearTokenAndUrl}
-                  className="rounded-lg bg-shopify-green px-4 py-2 font-medium text-white hover:bg-shopify-green/90"
+                  className="inline-flex items-center gap-2 rounded-lg bg-shopify-green px-5 py-2.5 font-medium text-white transition-colors hover:bg-shopify-green/90 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
                 >
+                  <Check className="h-4 w-4" />
                   Done, clear and go back
                 </button>
                 <Link
                   href="/app-access-token"
-                  className="text-white/70 hover:text-white"
+                  className="inline-flex items-center gap-1.5 text-sm text-white/70 transition-colors hover:text-white"
                 >
                   Back to Token Generator
+                  <ChevronRight className="h-4 w-4" />
                 </Link>
               </div>
             </div>
           ) : (
-            <p className="text-white/70">Exchanging code for token…</p>
+            <div className="flex items-center gap-3 rounded-xl border border-gray-600 bg-[#151d1e] p-6">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
+              <p className="text-white/80">Exchanging code for token…</p>
+            </div>
           )}
         </div>
       </div>
@@ -220,17 +273,31 @@ function AppAccessTokenContent() {
     return (
       <div className="min-h-screen bg-[#0d1213] p-8">
         <div className="mx-auto max-w-2xl">
-          <h1 className="mb-6 text-3xl font-bold text-white">
-            Something went wrong
-          </h1>
-          <div className="rounded-xl border border-red-500/50 bg-red-500/10 p-6 text-red-200">
-            <p>{message}</p>
-            <Link
-              href="/app-access-token"
-              className="mt-4 inline-block text-shopify-green hover:underline"
-            >
-              Back to Token Generator
-            </Link>
+          <div className="mb-6 flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/20">
+              <AlertCircle className="h-6 w-6 text-red-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">
+                Something went wrong
+              </h1>
+              <p className="text-sm text-white/60">
+                We couldn’t complete the authorization.
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-4 rounded-xl border border-red-500/40 bg-red-500/10 p-6">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+            <div>
+              <p className="text-red-200">{message}</p>
+              <Link
+                href="/app-access-token"
+                className="mt-4 inline-flex items-center gap-1.5 text-shopify-green hover:underline"
+              >
+                Back to Token Generator
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -241,16 +308,24 @@ function AppAccessTokenContent() {
   return (
     <div className="min-h-screen bg-[#0d1213] p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white">App Access Tokens</h1>
-            <p className="mt-2 text-white/60">
+            <h1 className="text-2xl font-bold text-white sm:text-3xl">
+              App Access Tokens
+            </h1>
+            <p className="mt-1.5 text-white/60">
               Manage your Shopify app access tokens for API integration
             </p>
           </div>
           <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 rounded-lg bg-shopify-green px-6 py-3 font-semibold text-white transition-all hover:bg-shopify-green/90 hover:shadow-lg"
+            onClick={() => {
+              setModalStep("steps");
+              setRedirectUrl(null);
+              setRedirectUrlMessage(null);
+              setRedirectUrlError(null);
+              setIsModalOpen(true);
+            }}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-shopify-green px-6 py-3.5 font-semibold text-white shadow-lg shadow-shopify-green/20 transition-all hover:bg-shopify-green/90 hover:shadow-shopify-green/30 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#0d1213] sm:w-auto"
           >
             <Plus className="h-5 w-5" />
             Generate Token
@@ -258,23 +333,27 @@ function AppAccessTokenContent() {
         </div>
 
         {tokensError && (
-          <div className="mb-6 rounded-lg border border-red-500/50 bg-red-500/10 p-4 text-red-200">
-            <p>{tokensError}</p>
-            <button
-              type="button"
-              onClick={() =>
-                session?.user?.id && fetchFirstPage(session.user.id)
-              }
-              className="mt-2 text-sm underline"
-            >
-              Retry
-            </button>
+          <div className="mb-6 flex gap-3 rounded-xl border border-red-500/40 bg-red-500/10 p-4">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+            <div className="min-w-0 flex-1">
+              <p className="text-red-200">{tokensError}</p>
+              <button
+                type="button"
+                onClick={() =>
+                  session?.user?.id && fetchFirstPage(session.user.id)
+                }
+                className="mt-2 text-sm font-medium text-shopify-green hover:underline"
+              >
+                Try again
+              </button>
+            </div>
           </div>
         )}
 
         {tokensLoading ? (
-          <div className="rounded-xl border border-gray-600 bg-[#151d1e] p-12 text-center text-white/60">
-            Loading tokens…
+          <div className="flex items-center justify-center gap-3 rounded-xl border border-gray-600 bg-[#151d1e] py-16">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
+            <span className="text-white/70">Loading tokens…</span>
           </div>
         ) : (
           <TokensTable
@@ -287,17 +366,188 @@ function AppAccessTokenContent() {
 
         <Modal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title="Generate Token"
+          onClose={() => {
+            setIsModalOpen(false);
+            setModalStep("steps");
+            setRedirectUrl(null);
+            setRedirectUrlMessage(null);
+            setRedirectUrlError(null);
+          }}
+          title={
+            modalStep === "steps" ? "Set up your app first" : "Generate Token"
+          }
           size="lg"
         >
-          <GenerateTokenForm
-            userId={userId}
-            onSuccess={() => {
-              setIsModalOpen(false);
-              if (session?.user?.id) fetchFirstPage(session.user.id);
-            }}
-          />
+          {modalStep === "steps" ? (
+            <div className="space-y-6">
+              <p className="text-sm text-white/70">
+                Complete these steps in the{" "}
+                <span className="font-medium text-white/90">
+                  Shopify Partners (Dev) Dashboard
+                </span>
+                , then continue to the form.
+              </p>
+
+              <div className="space-y-4">
+                <div className="flex gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                    1
+                  </span>
+                  <div>
+                    <p className="font-medium text-white">Create app</p>
+                    <p className="text-sm text-white/60">
+                      Create a new app in Partners if you haven’t already.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                    2
+                  </span>
+                  <div className="min-w-0 flex-1 space-y-3">
+                    <p className="font-medium text-white">Create Version</p>
+                    <ul className="space-y-2.5 text-sm text-white/80">
+                      <li className="flex items-start gap-2">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                        Select scopes
+                      </li>
+                      <li className="flex flex-col gap-1.5">
+                        <span className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                          Set Redirect URL
+                          {redirectUrl === null && !redirectUrlError && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setRedirectUrlLoading(true);
+                                setRedirectUrlError(null);
+                                getConfig()
+                                  .then((res) => {
+                                    if (res.callbackUrl) {
+                                      setRedirectUrl(res.callbackUrl);
+                                      setRedirectUrlMessage(
+                                        res.message ?? null,
+                                      );
+                                    } else {
+                                      setRedirectUrlError(
+                                        "Could not determine callback URL",
+                                      );
+                                    }
+                                  })
+                                  .catch((err) =>
+                                    setRedirectUrlError(
+                                      err instanceof Error
+                                        ? err.message
+                                        : "Failed to load redirect URL",
+                                    ),
+                                  )
+                                  .finally(() => setRedirectUrlLoading(false));
+                              }}
+                              disabled={redirectUrlLoading}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-shopify-green/50 bg-shopify-green/10 px-2.5 py-1.5 text-xs font-medium text-shopify-green transition-colors hover:bg-shopify-green/20 disabled:opacity-50"
+                            >
+                              {redirectUrlLoading ? (
+                                <>
+                                  <span className="h-3 w-3 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
+                                  Loading…
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-3.5 w-3.5" />
+                                  Show Redirect URL
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </span>
+                        {redirectUrl && (
+                          <div className="ml-3.5 space-y-1.5">
+                            <div className="flex items-center gap-2 rounded-lg border border-gray-600 bg-[#0d1213] px-3 py-2.5 font-mono text-xs text-white/90">
+                              <span className="min-w-0 flex-1 truncate">
+                                {redirectUrl}
+                              </span>
+                              <CopyButton
+                                text={redirectUrl}
+                                className="shrink-0 rounded p-1.5 transition-colors hover:bg-white/10"
+                              />
+                            </div>
+                            {redirectUrlMessage && (
+                              <p className="text-xs text-white/60">
+                                {redirectUrlMessage}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                        {redirectUrlError && (
+                          <p className="ml-3.5 text-xs text-red-400">
+                            {redirectUrlError}
+                          </p>
+                        )}
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                        App URL:{" "}
+                        <code className="rounded bg-white/10 px-2 py-0.5 font-mono text-xs">
+                          https://shopify-devx.vercel.app
+                        </code>
+                        <CopyButton
+                          text="https://shopify-devx.vercel.app"
+                          className="shrink-0 rounded p-1 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                        />
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                        Set Embed App: <strong>true</strong>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                        Release
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                    3
+                  </span>
+                  <div>
+                    <p className="font-medium text-white">
+                      Select Custom distribution
+                    </p>
+                    <p className="text-sm text-white/60">
+                      Go to Home in your app navigation and select Distribution,
+                      then choose Custom distribution.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end border-t border-gray-600/80 pt-6">
+                <button
+                  type="button"
+                  onClick={() => setModalStep("form")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-shopify-green px-5 py-2.5 font-semibold text-white transition-all hover:bg-shopify-green/90 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
+                >
+                  I&apos;ve done this, continue
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <GenerateTokenForm
+              userId={userId}
+              onSuccess={() => {
+                setIsModalOpen(false);
+                setModalStep("steps");
+                setRedirectUrl(null);
+                setRedirectUrlMessage(null);
+                setRedirectUrlError(null);
+                if (session?.user?.id) fetchFirstPage(session.user.id);
+              }}
+            />
+          )}
         </Modal>
       </div>
     </div>

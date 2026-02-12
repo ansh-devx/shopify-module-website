@@ -91,6 +91,17 @@ export async function getToken(code: string): Promise<GetTokenResponse> {
   return handleResponse<GetTokenResponse>(res);
 }
 
+export interface GetConfigResponse {
+  callbackUrl: string | null;
+  message?: string;
+}
+
+export async function getConfig(): Promise<GetConfigResponse> {
+  const base = getApiBaseUrl();
+  const res = await fetch(`${base}/config`, { method: "GET" });
+  return handleResponse<GetConfigResponse>(res);
+}
+
 export async function listTokens(
   userId: string,
   options: ListTokensOptions = {},

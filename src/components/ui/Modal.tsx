@@ -58,7 +58,7 @@ export default function Modal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full ${sizeClasses[size]} max-h-[85vh] flex flex-col transform overflow-hidden rounded-xl border border-gray-600 bg-[#151d1e] shadow-2xl transition-all`}
+                className={`w-full ${sizeClasses[size]} max-h-[90vh] flex flex-col transform overflow-hidden rounded-xl border border-gray-600 bg-[#151d1e] shadow-2xl transition-all`}
               >
                 {/* Header */}
                 {(title || showCloseButton) && (
