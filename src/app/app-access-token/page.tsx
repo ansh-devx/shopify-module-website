@@ -502,10 +502,10 @@ function AppAccessTokenContent() {
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
                         App URL:{" "}
                         <code className="rounded bg-white/10 px-2 py-0.5 font-mono text-xs">
-                          https://shopify-devx.vercel.app
+                          https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth
                         </code>
                         <CopyButton
-                          text="https://shopify-devx.vercel.app"
+                          text="https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth"
                           className="shrink-0 rounded p-1 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
                         />
                       </li>
@@ -551,11 +551,7 @@ function AppAccessTokenContent() {
           ) : (
             <GenerateTokenForm
               userId={userId}
-              userName={
-                session.user.name ??
-                session.user.email ??
-                ""
-              }
+              userName={session.user.name ?? session.user.email ?? ""}
               onSuccess={() => {
                 setIsModalOpen(false);
                 setModalStep("steps");
