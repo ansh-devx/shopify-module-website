@@ -43,6 +43,9 @@ export default function TokensTable({
                   Store
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                  User
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Scopes
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
@@ -64,6 +67,9 @@ export default function TokensTable({
                 >
                   <td className="px-6 py-4 text-sm font-medium text-white">
                     {token.store}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-white/70">
+                    {token.user_name ?? "—"}
                   </td>
                   <td className="px-6 py-4 text-sm text-white/70">
                     <div className="max-w-xs truncate" title={token.scopes}>

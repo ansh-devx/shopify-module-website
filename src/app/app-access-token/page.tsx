@@ -538,6 +538,11 @@ function AppAccessTokenContent() {
           ) : (
             <GenerateTokenForm
               userId={userId}
+              userName={
+                session.user.name ??
+                session.user.email ??
+                ""
+              }
               onSuccess={() => {
                 setIsModalOpen(false);
                 setModalStep("steps");

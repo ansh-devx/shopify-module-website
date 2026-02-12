@@ -14,14 +14,28 @@ function getApiBaseUrl(): string {
   return url.replace(/\/$/, "");
 }
 
-export interface GenerateInstallUrlBody {
+/** Live Store: paste installation URL from Partners */
+export interface GenerateInstallUrlLiveBody {
+  installationUrl: string;
+  secret: string;
+  userId: string;
+  userName: string;
+}
+
+/** Dev Store: build install URL from store + credentials */
+export interface GenerateInstallUrlDevBody {
   store: string;
-  appName?: string;
   clientId: string;
   secret: string;
   scopes: string;
+  appName?: string;
   userId: string;
+  userName: string;
 }
+
+export type GenerateInstallUrlBody =
+  | GenerateInstallUrlLiveBody
+  | GenerateInstallUrlDevBody;
 
 export interface GenerateInstallUrlResponse {
   installUrl: string;
@@ -37,6 +51,7 @@ export interface TokenListItem {
   scopes: string;
   token: string;
   app_name: string;
+  user_name?: string;
   created_at: number;
 }
 
@@ -72,7 +87,7 @@ async function handleResponse<T>(res: Response, parseJson = true): Promise<T> {
 }
 
 export async function generateInstallUrl(
-  body: GenerateInstallUrlBody,
+  body: GenerateInstallUrlLiveBody | GenerateInstallUrlDevBody,
 ): Promise<GenerateInstallUrlResponse> {
   const base = getApiBaseUrl();
   const res = await fetch(`${base}/generate-install-url`, {
