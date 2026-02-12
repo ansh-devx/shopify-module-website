@@ -370,6 +370,7 @@ function AppAccessTokenContent() {
           </div>
         ) : (
           <TokensTable
+            userId={userId}
             tokens={tokens}
             hasMore={hasMore}
             onLoadMore={loadMore}
