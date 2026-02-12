@@ -512,7 +512,7 @@ function AppAccessTokenContent() {
                       </li>
                       <li className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
-                        Set Embed App: <strong>true</strong>
+                        Set Embed App: <strong>false</strong>
                       </li>
                       <li className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
