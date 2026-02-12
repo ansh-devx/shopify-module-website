@@ -208,7 +208,10 @@ export default function GenerateTokenForm({
             value={liveValues.installationUrl}
             onChange={(v) => {
               setLiveValues((prev) => ({ ...prev, installationUrl: v }));
-              setLiveErrors((prev) => ({ ...prev, installationUrl: undefined }));
+              setLiveErrors((prev) => ({
+                ...prev,
+                installationUrl: undefined,
+              }));
             }}
             placeholder="Paste from Partners Dashboard"
             required

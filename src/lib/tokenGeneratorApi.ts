@@ -106,6 +106,20 @@ export async function getToken(code: string): Promise<GetTokenResponse> {
   return handleResponse<GetTokenResponse>(res);
 }
 
+export async function revealToken(
+  userId: string,
+  tokenId: string,
+): Promise<GetTokenResponse> {
+  const base = getApiBaseUrl();
+  const params = new URLSearchParams();
+  params.set("userId", userId);
+  params.set("tokenId", tokenId);
+  const res = await fetch(`${base}/token/reveal?${params.toString()}`, {
+    method: "GET",
+  });
+  return handleResponse<GetTokenResponse>(res);
+}
+
 export interface GetConfigResponse {
   callbackUrl: string | null;
   message?: string;
