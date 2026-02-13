@@ -63,23 +63,23 @@ export default function TokensTable({
     <div className="space-y-5">
       <div className="overflow-hidden rounded-xl border border-gray-600/80 bg-[#151d1e] shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-screen">
             <thead>
               <tr className="border-b border-gray-600 bg-[#0d1213]/80">
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Store
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                  User
+                  Token
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white">
+                  App name
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Scopes
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                  Token
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-white">
-                  App name
+                  User
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Created at
@@ -94,14 +94,6 @@ export default function TokensTable({
                 >
                   <td className="px-6 py-4 text-sm font-medium text-white">
                     {token.store}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
-                    {token.user_name ?? "—"}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
-                    <div className="max-w-xs truncate" title={token.scopes}>
-                      {token.scopes}
-                    </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-white/70">
                     <div className="flex items-center gap-2">
@@ -123,6 +115,15 @@ export default function TokensTable({
                   </td>
                   <td className="px-6 py-4 text-sm text-white/70">
                     {token.app_name || "—"}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-white/70">
+                    <div className="max-w-xs truncate" title={token.scopes}>
+                      {token.scopes}
+                    </div>
+                  </td>
+
+                  <td className="px-6 py-4 text-sm text-white/70">
+                    {token.user_name ?? "—"}
                   </td>
                   <td className="px-6 py-4 text-sm text-white/70">
                     {new Date(token.created_at * 1000).toLocaleString(
