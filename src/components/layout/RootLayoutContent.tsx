@@ -32,7 +32,7 @@ export default function RootLayoutContent({
         <Header />
         <div className="flex flex-1">
           <Sidebar />
-          <main className="ml-72 flex-1 bg-[#0d1213] text-white">
+          <main className="ml-72 flex-1 bg-[#0d1213] text-white overflow-x-hidden">
             {children}
           </main>
         </div>

@@ -65,13 +65,11 @@ function AppAccessTokenContent() {
   const errorParam = searchParams.get("error");
   const shop = searchParams.get("shop");
 
-  const [isRedirectingToOAuth, setIsRedirectingToOAuth] = useState(false);
+  const isPostInstallRedirect = Boolean(shop && !code && !errorParam);
   useEffect(() => {
-    if (shop && !code && !errorParam) {
-      setIsRedirectingToOAuth(true);
-      window.location.href = `https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth?shop=${encodeURIComponent(shop)}`;
-    }
-  }, [shop, code, errorParam]);
+    if (!isPostInstallRedirect) return;
+    window.location.href = `https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth?shop=${encodeURIComponent(shop!)}`;
+  }, [isPostInstallRedirect, shop]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStep, setModalStep] = useState<"steps" | "form">("steps");
@@ -190,7 +188,7 @@ function AppAccessTokenContent() {
     };
   }, [status, session?.user?.id, code, errorParam]);
 
-  if (isRedirectingToOAuth) {
+  if (isPostInstallRedirect) {
     return <Loader />;
   }
 
@@ -214,7 +212,7 @@ function AppAccessTokenContent() {
   // Success: we have ?code= and have fetched the token
   if (code) {
     return (
-      <div className="min-h-screen bg-[#0d1213] p-8">
+      <div className="min-h-screen bg-[#0d1213] p-8 overflow-hidden">
         <div className="mx-auto max-w-2xl">
           <div className="mb-8 flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-shopify-green/20">
