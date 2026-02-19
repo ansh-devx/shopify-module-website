@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 export type FormMode = "live" | "dev";
 
-const initialLive = { installationUrl: "", secret: "" };
+const initialLive = { installationUrl: "", secret: "", scopes: "" };
 const initialDev = {
   store: "",
   appName: "",
@@ -71,19 +71,30 @@ export default function GenerateTokenForm({
   const [liveErrors, setLiveErrors] = useState<{
     installationUrl?: string;
     secret?: string;
+    scopes?: string;
   }>({});
   const [devErrors, setDevErrors] = useState<
     Partial<Record<keyof typeof initialDev, string>>
   >({});
 
   const validateLive = (): boolean => {
-    const err: { installationUrl?: string; secret?: string } = {};
+    const err: {
+      installationUrl?: string;
+      secret?: string;
+      scopes?: string;
+    } = {};
     if (!liveValues.installationUrl.trim()) {
-      err.installationUrl = "Shopify Installation URL is required";
+      err.installationUrl = "App Installation URL is required";
     } else if (!isValidInstallationUrl(liveValues.installationUrl)) {
       err.installationUrl = "Enter a valid https URL from Partners Dashboard";
     }
     if (!liveValues.secret) err.secret = "Client Secret is required";
+    if (!liveValues.scopes.trim()) {
+      err.scopes = "Scopes are required";
+    } else if (!isValidScopes(liveValues.scopes)) {
+      err.scopes =
+        "Enter comma-separated scopes (e.g. read_products, write_products)";
+    }
     setLiveErrors(err);
     return Object.keys(err).length === 0;
   };
@@ -126,6 +137,7 @@ export default function GenerateTokenForm({
         const res = await generateInstallUrl({
           installationUrl: liveValues.installationUrl.trim(),
           secret: liveValues.secret,
+          scopes: liveValues.scopes.trim(),
           userId,
           userName: displayName,
         });
@@ -203,7 +215,7 @@ export default function GenerateTokenForm({
       {mode === "live" ? (
         <div className="space-y-5">
           <FormInput
-            label="Shopify Installation URL"
+            label="App Installation URL"
             name="installationUrl"
             value={liveValues.installationUrl}
             onChange={(v) => {
@@ -230,6 +242,20 @@ export default function GenerateTokenForm({
             required
             showToggle
             error={liveErrors.secret}
+          />
+          <FormTextarea
+            label="Scopes"
+            name="scopes"
+            value={liveValues.scopes}
+            onChange={(v) => {
+              setLiveValues((prev) => ({ ...prev, scopes: v }));
+              setLiveErrors((prev) => ({ ...prev, scopes: undefined }));
+            }}
+            placeholder="read_products, write_products"
+            required
+            helpText="Comma-separated scopes"
+            error={liveErrors.scopes}
+            rows={3}
           />
         </div>
       ) : (

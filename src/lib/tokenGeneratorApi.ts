@@ -18,6 +18,7 @@ function getApiBaseUrl(): string {
 export interface GenerateInstallUrlLiveBody {
   installationUrl: string;
   secret: string;
+  scopes: string;
   userId: string;
   userName: string;
 }
