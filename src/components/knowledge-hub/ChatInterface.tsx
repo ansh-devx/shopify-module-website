@@ -5,11 +5,28 @@ import { DefaultChatTransport } from "ai";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Send, Square, Bot, User, Asterisk } from "lucide-react";
+import Link from "next/link";
+import {
+  Send,
+  Square,
+  Bot,
+  User,
+  Asterisk,
+  FileText,
+  ExternalLink,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "@/components/code-block/CodeBlock";
+
+interface SourceArticle {
+  slug: string;
+  title: string;
+  author: string;
+  tags: string[];
+  date: string;
+}
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -35,15 +52,59 @@ export default function ChatInterface() {
   });
 
   const [input, setInput] = useState("");
+  const [sources, setSources] = useState<SourceArticle[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const hasMessages = messages.length > 0;
   const isLoading = status === "submitted" || status === "streaming";
+  const isDone = status === "ready" && hasMessages;
+
+  // Parse source slugs from AI response when done
+  useEffect(() => {
+    if (!isDone) return;
+    const assistantMsg = [...messages]
+      .reverse()
+      .find((m) => m.role === "assistant");
+    if (!assistantMsg) return;
+
+    const text = assistantMsg.parts
+      .filter((p): p is { type: "text"; text: string } => p.type === "text")
+      .map((p) => p.text)
+      .join("");
+
+    const match = text.match(/<!--\s*sources:\s*(.+?)\s*-->/);
+    if (match) {
+      const slugs = match[1].split(",").map((s) => s.trim());
+      // Fetch article metadata for matched slugs
+      Promise.all(
+        slugs.map((slug) =>
+          fetch(`/api/knowledge-hub/articles/${slug}`)
+            .then((res) => res.json())
+            .then((data) =>
+              data.article
+                ? {
+                    slug: data.article.slug,
+                    title: data.article.title,
+                    author: data.article.author,
+                    tags: data.article.tags,
+                    date: data.article.date,
+                  }
+                : null,
+            )
+            .catch(() => null),
+        ),
+      ).then((results) => {
+        setSources(
+          results.filter((r): r is SourceArticle => r !== null),
+        );
+      });
+    }
+  }, [isDone, messages]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, sources]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -57,6 +118,7 @@ export default function ChatInterface() {
     const text = input.trim();
     if (!text || isLoading) return;
     setInput("");
+    setSources([]);
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
@@ -160,7 +222,7 @@ export default function ChatInterface() {
 
               <div
                 className={cn(
-                  "rounded-2xl px-4",
+                  "rounded-2xl px-4 py-2",
                   message.role === "user"
                     ? "max-w-[75%] bg-surface-3 text-text-primary"
                     : "max-w-[90%]",
@@ -169,7 +231,13 @@ export default function ChatInterface() {
                 {message.parts.map((part, i) => {
                   if (part.type === "text") {
                     return message.role === "assistant" ? (
-                      <MarkdownContent key={i} content={part.text} />
+                      <MarkdownContent
+                        key={i}
+                        content={part.text.replace(
+                          /<!--\s*sources:.*?-->/g,
+                          "",
+                        )}
+                      />
                     ) : (
                       <p
                         key={i}
@@ -205,6 +273,39 @@ export default function ChatInterface() {
                   </div>
                   Thinking...
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Source Articles — shown after AI finishes */}
+          {isDone && sources.length > 0 && (
+            <div className="ml-11">
+              <p className="text-xs font-medium text-text-tertiary uppercase tracking-wider mb-3">
+                Sources
+              </p>
+              <div className="flex flex-col gap-2">
+                {sources.map((source) => (
+                  <Link
+                    key={source.slug}
+                    href={`/knowledge-hub/article/${source.slug}`}
+                    target="_blank"
+                    className="group flex items-start gap-3 rounded-xl border border-accent/10 bg-surface-2/60 px-4 py-3 transition-all hover:border-accent/25 hover:bg-surface-2"
+                  >
+                    <FileText className="h-5 w-5 text-accent/50 group-hover:text-accent shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-text-primary group-hover:text-accent truncate">
+                          {source.title}
+                        </span>
+                        <ExternalLink className="h-3 w-3 text-text-tertiary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <span className="text-xs text-text-secondary">
+                        by {source.author}
+                        {source.date && ` · ${source.date}`}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           )}
@@ -314,7 +415,6 @@ function MarkdownContent({ content }: { content: string }) {
           ),
           li: ({ children }) => <li className="text-sm">{children}</li>,
           pre: ({ children }) => {
-            // Extract language and code string from the nested <code> element
             const codeElement = children as React.ReactElement<{
               className?: string;
               children?: React.ReactNode;

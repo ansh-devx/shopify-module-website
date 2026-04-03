@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import Fuse from "fuse.js";
 
 export interface KnowledgeArticle {
   slug: string;
@@ -56,25 +55,4 @@ export function loadKnowledgeBase(): KnowledgeArticle[] {
       content,
     };
   });
-}
-
-export function searchKnowledgeBase(
-  query: string,
-  articles: KnowledgeArticle[],
-): KnowledgeArticle[] {
-  if (!articles.length) return [];
-
-  const fuse = new Fuse(articles, {
-    keys: [
-      { name: "title", weight: 3 },
-      { name: "tags", weight: 2 },
-      { name: "content", weight: 1 },
-    ],
-    threshold: 0.4,
-    includeScore: true,
-    ignoreLocation: true,
-  });
-
-  const results = fuse.search(query);
-  return results.map((r) => r.item);
 }
