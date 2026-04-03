@@ -10,9 +10,9 @@ export default function PriceFiltersPage() {
       <div className="space-y-8">
         {/* Money Filter */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Money Filter</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Money Filter</h2>
           <p className="mt-4 text-lg text-gray-700">
-            The <code className="rounded bg-gray-100 px-2 py-1 text-sm">money</code> filter formats a price 
+            The <code className="rounded bg-surface-2 px-2 py-1 text-sm">money</code> filter formats a price 
             in cents to a currency format.
           </p>
 
@@ -33,7 +33,7 @@ export default function PriceFiltersPage() {
 
         {/* Money Without Currency */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Money Without Currency</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Money Without Currency</h2>
           <CodeBlock
             code={`<!-- Remove currency symbol -->
 {{ product.price | money_without_currency }}
@@ -49,7 +49,7 @@ export default function PriceFiltersPage() {
 
         {/* Money With Currency */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Money With Currency</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Money With Currency</h2>
           <CodeBlock
             code={`<!-- Include currency code -->
 {{ product.price | money_with_currency }}
@@ -64,7 +64,7 @@ export default function PriceFiltersPage() {
 
         {/* Price Comparisons */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Price Comparisons</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Price Comparisons</h2>
           <CodeBlock
             code={`<!-- Show sale price -->
 {% if product.compare_at_price > product.price %}
@@ -89,7 +89,7 @@ export default function PriceFiltersPage() {
 
         {/* Price Range */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Price Range</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Price Range</h2>
           <CodeBlock
             code={`<!-- Show price range for products with variants -->
 {% if product.price_varies %}
@@ -113,7 +113,7 @@ export default function PriceFiltersPage() {
 
         {/* Discount Percentage */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Calculate Discount Percentage</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Calculate Discount Percentage</h2>
           <CodeBlock
             code={`{% if product.compare_at_price > product.price %}
   {% assign discount = product.compare_at_price | minus: product.price %}
@@ -130,7 +130,7 @@ export default function PriceFiltersPage() {
 
         {/* Unit Price */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Unit Price</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Unit Price</h2>
           <CodeBlock
             code={`<!-- Display unit price if available -->
 {% if variant.unit_price_measurement %}
@@ -151,7 +151,7 @@ export default function PriceFiltersPage() {
 
         {/* Custom Price Formatting */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Custom Price Formatting</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Custom Price Formatting</h2>
           <CodeBlock
             code={`<!-- Split dollars and cents -->
 {% assign price_parts = product.price | money_without_currency | split: '.' %}
@@ -171,11 +171,11 @@ export default function PriceFiltersPage() {
 
         {/* Reference */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Quick Reference</h2>
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
+          <h2 className="text-3xl font-bold text-text-primary">Quick Reference</h2>
+          <div className="mt-6 rounded-lg border border-accent/10 bg-surface-1 p-6">
             <p className="text-sm text-gray-700">
               You can explore more price filters and Liquid syntax in the{" "}
-              <a href="/liquid-cheatsheet" className="text-shopify-green hover:underline">
+              <a href="/liquid-cheatsheet" className="text-accent hover:underline">
                 Liquid Cheatsheet
               </a>
             </p>

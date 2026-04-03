@@ -19,11 +19,11 @@ export default function Step4CopyCredentials({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Copy your app credentials from the Shopify Partners Dashboard:
         </p>
 
-        <ol className="space-y-3 list-decimal list-inside text-white/70">
+        <ol className="space-y-3 list-decimal list-inside text-text-secondary">
           <li>
             In your app dashboard, click "Settings" in the left navigation
           </li>

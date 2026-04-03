@@ -18,7 +18,7 @@ export default function ShopifyFunctions() {
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             What are Shopify Functions?
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -30,19 +30,19 @@ export default function ShopifyFunctions() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Types of Functions
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <Card>
               <CardHeader>
-                <ShoppingCart className="h-8 w-8 text-shopify-green" />
+                <ShoppingCart className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">
                   Discount Functions
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Create custom discount logic based on cart contents, customer
                   data, or external APIs.
                 </p>
@@ -50,13 +50,13 @@ export default function ShopifyFunctions() {
             </Card>
             <Card>
               <CardHeader>
-                <Truck className="h-8 w-8 text-shopify-blue" />
+                <Truck className="h-8 w-8 text-blue-400" />
                 <CardTitle className="mt-4 text-xl">
                   Delivery Customization
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Customize shipping options, rates, and delivery methods based
                   on custom logic.
                 </p>
@@ -64,13 +64,13 @@ export default function ShopifyFunctions() {
             </Card>
             <Card>
               <CardHeader>
-                <CreditCard className="h-8 w-8 text-shopify-purple" />
+                <CreditCard className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">
                   Payment Customization
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Show or hide payment methods based on cart value, customer
                   type, or location.
                 </p>
@@ -78,13 +78,13 @@ export default function ShopifyFunctions() {
             </Card>
             <Card>
               <CardHeader>
-                <Zap className="h-8 w-8 text-shopify-teal" />
+                <Zap className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">
                   Cart & Checkout Validation
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Validate cart contents and prevent checkout based on custom
                   business rules.
                 </p>
@@ -97,7 +97,7 @@ export default function ShopifyFunctions() {
         <PackPricingChallenge />
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Creating a Function
           </h2>
           <p className="mt-4 text-gray-700">
@@ -146,8 +146,8 @@ extensions/volume-discount/
             filename="terminal"
           />
 
-          <div className="mt-6 rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+          <div className="mt-6 rounded-lg border border-accent/20 bg-accent/5 p-6">
+            <h3 className="text-lg font-semibold text-text-primary">
               Key Selections:
             </h3>
             <ul className="mt-4 list-disc list-inside space-y-2 text-gray-700">
@@ -174,7 +174,7 @@ extensions/volume-discount/
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Example: Discount Function
           </h2>
           <CodeBlock
@@ -235,7 +235,7 @@ export function cartLinesDiscountsGenerateRun(input) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             GraphQL Input Query
           </h2>
           <p className="mt-4 text-gray-700">
@@ -264,7 +264,7 @@ export function cartLinesDiscountsGenerateRun(input) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Testing Functions
           </h2>
           <CodeBlock
@@ -282,7 +282,7 @@ shopify app function logs`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Example: Checkout Validation
           </h2>
           <CodeBlock
@@ -310,8 +310,8 @@ export default (input) => {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
-          <div className="mt-6 rounded-lg border border-shopify-purple/20 bg-shopify-purple/5 p-6">
+          <h2 className="text-3xl font-bold text-text-primary">Best Practices</h2>
+          <div className="mt-6 rounded-lg border border-accent/20 bg-accent/5 p-6">
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>Keep functions fast - they run on every cart update</li>
               <li>Request only the data you need in GraphQL queries</li>

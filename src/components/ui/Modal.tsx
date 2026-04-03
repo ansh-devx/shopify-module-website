@@ -32,7 +32,6 @@ export default function Modal({
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Backdrop */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -45,7 +44,6 @@ export default function Modal({
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
         </Transition.Child>
 
-        {/* Modal Container */}
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
@@ -58,20 +56,19 @@ export default function Modal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full ${sizeClasses[size]} max-h-[90vh] flex flex-col transform overflow-hidden rounded-xl border border-gray-600 bg-[#151d1e] shadow-2xl transition-all`}
+                className={`w-full ${sizeClasses[size]} max-h-[90vh] flex flex-col transform overflow-hidden rounded-2xl border border-accent/10 bg-surface-1 shadow-2xl shadow-accent/5 transition-all`}
               >
-                {/* Header */}
                 {(title || showCloseButton) && (
-                  <div className="flex items-center justify-between border-b border-gray-600 px-6 py-4 shrink-0">
+                  <div className="flex items-center justify-between border-b border-accent/10 px-6 py-4 shrink-0">
                     {title && (
-                      <Dialog.Title className="text-xl font-semibold text-white">
+                      <Dialog.Title className="text-xl font-semibold text-text-primary">
                         {title}
                       </Dialog.Title>
                     )}
                     {showCloseButton && (
                       <button
                         onClick={onClose}
-                        className="ml-auto rounded-lg p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                        className="ml-auto rounded-lg p-2 text-text-tertiary transition-colors hover:bg-accent/10 hover:text-text-primary"
                         aria-label="Close modal"
                       >
                         <X className="h-5 w-5" />
@@ -79,8 +76,6 @@ export default function Modal({
                     )}
                   </div>
                 )}
-
-                {/* Content */}
                 <div className="p-6 overflow-y-auto flex-1">{children}</div>
               </Dialog.Panel>
             </Transition.Child>

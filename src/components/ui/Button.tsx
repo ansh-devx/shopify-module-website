@@ -21,16 +21,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const classes = cn(
-      "inline-flex cursor-pointer items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50 disabled:pointer-events-none disabled:opacity-50",
+      "inline-flex cursor-pointer items-center justify-center rounded-full font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
       {
-        "bg-shopify-green text-white hover:bg-shopify-green/90 focus-visible:ring-shopify-green":
+        "bg-accent text-background hover:bg-accent-hover shadow-[0_0_20px_rgba(141,213,214,0.15)] hover:shadow-[0_0_25px_rgba(141,213,214,0.25)]":
           variant === "primary",
-        "bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:ring-gray-500":
+        "bg-surface-2 text-text-primary border border-accent/10 hover:border-accent/25 hover:bg-surface-3":
           variant === "secondary",
-        "border-2 border-gray-300 bg-transparent hover:bg-gray-100 focus-visible:ring-gray-500":
+        "border border-accent/20 bg-transparent text-accent hover:bg-accent/10 hover:border-accent/40":
           variant === "outline",
-        "hover:bg-gray-100 focus-visible:ring-gray-500": variant === "ghost",
-        "h-9 px-3 text-sm": size === "sm",
+        "text-text-secondary hover:text-text-primary hover:bg-surface-2":
+          variant === "ghost",
+        "h-9 px-4 text-sm": size === "sm",
         "h-11 px-6 text-base": size === "md",
         "h-14 px-8 text-lg": size === "lg",
       },
@@ -38,7 +39,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     if (asChild && children) {
-      // Clone the child element and merge className
       const child = children as React.ReactElement;
       const childProps = child.props as Record<string, unknown>;
       return (

@@ -12,7 +12,7 @@ export default function PackPricingChallenge() {
   return (
     <section className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-gray-900">
+        <h2 className="text-3xl font-bold text-text-primary">
           Pack Pricing Challenge (Bar Raiser)
         </h2>
         <p className="mt-4 text-lg text-gray-700">
@@ -23,14 +23,14 @@ export default function PackPricingChallenge() {
       </div>
 
       {/* Problem Statement */}
-      <Card className="border-shopify-yellow/50 bg-shopify-yellow/10">
+      <Card className="border-yellow-400/50 bg-yellow-400/10">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <AlertCircle className="h-6 w-6 text-shopify-yellow" />
+            <AlertCircle className="h-6 w-6 text-yellow-400" />
             <CardTitle className="text-xl text-white">The Problem</CardTitle>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4 text-white/80">
+        <CardContent className="space-y-4 text-text-secondary">
           <div>
             <h3 className="font-semibold text-white mb-2">
               Current Product Pricing
@@ -64,7 +64,7 @@ export default function PackPricingChallenge() {
             </ul>
           </div>
 
-          <div className="rounded-lg border border-shopify-red/50 bg-shopify-red/20 p-4">
+          <div className="rounded-lg border border-red-400/50 bg-red-400/20 p-4">
             <h4 className="font-semibold text-white mb-2">The Challenge</h4>
             <p className="text-sm">
               The discount must be calculated from the <strong>Original Price
@@ -101,7 +101,7 @@ export default function PackPricingChallenge() {
             </ul>
           </div>
 
-          <div className="rounded-lg border border-shopify-green/50 bg-shopify-green/20 p-4">
+          <div className="rounded-lg border border-accent/50 bg-accent/20 p-4">
             <h4 className="font-semibold text-white mb-2">Expected Results</h4>
             <div className="text-sm space-y-1">
               <p>
@@ -119,14 +119,14 @@ export default function PackPricingChallenge() {
 
       {/* Hint */}
       {!showSolution && (
-        <Card className="border-shopify-blue/50 bg-shopify-blue/10">
+        <Card className="border-blue-400/50 bg-blue-400/10">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Lightbulb className="h-6 w-6 text-shopify-blue" />
+              <Lightbulb className="h-6 w-6 text-blue-400" />
               <CardTitle className="text-xl text-white">Try This First</CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4 text-white/80">
+          <CardContent className="space-y-4 text-text-secondary">
             <p>
               Before jumping to Functions, try to solve this with Shopify
               Discounts:
@@ -143,7 +143,7 @@ export default function PackPricingChallenge() {
                 Apply to specific products using the metafield
               </li>
             </ul>
-            <p className="text-sm text-white/60 mt-4">
+            <p className="text-sm text-text-tertiary mt-4">
               <strong>Why this won&apos;t work:</strong> Standard discounts apply
               to the current sale price, not the original price. You&apos;ll see
               that customers get too much discount (both sale + pack discount).
@@ -163,16 +163,16 @@ export default function PackPricingChallenge() {
 
       {/* Solution */}
       {showSolution && (
-        <Card className="border-shopify-green/50 bg-shopify-green/10">
+        <Card className="border-accent/50 bg-accent/10">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Zap className="h-6 w-6 text-shopify-green" />
+              <Zap className="h-6 w-6 text-accent" />
               <CardTitle className="text-xl text-white">
                 Shopify Functions Solution
               </CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="space-y-6 text-white/80">
+          <CardContent className="space-y-6 text-text-secondary">
             <div>
               <h3 className="font-semibold text-white mb-2">
                 Why Shopify Functions?
@@ -223,7 +223,7 @@ npm run typegen`}
                 language="bash"
                 filename="terminal"
               />
-              <p className="mt-4 text-sm text-white/60">
+              <p className="mt-4 text-sm text-text-tertiary">
                 <strong>Note:</strong> The <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">typegen</code> command updates
                 the generated types to match your GraphQL query. Run it whenever
                 you modify <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">input.graphql</code>.
@@ -256,11 +256,11 @@ npm run typegen`}
               </ol>
             </div>
 
-            <div className="rounded-lg border border-shopify-teal/50 bg-shopify-teal/20 p-4">
+            <div className="rounded-lg border border-accent/50 bg-accent/20 p-4">
               <h4 className="font-semibold text-white mb-2">
                 💡 Key Implementation Tips
               </h4>
-              <ul className="space-y-1 text-sm text-white/80 list-disc list-inside ml-4">
+              <ul className="space-y-1 text-sm text-text-secondary list-disc list-inside ml-4">
                 <li>
                   Use <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">compareAtPrice</code> from the product variant in your GraphQL query
                 </li>
@@ -289,7 +289,7 @@ npm run typegen`}
                   href="https://shopify.dev/docs/api/functions/reference/product-discounts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-shopify-blue hover:underline font-medium"
+                  className="text-blue-400 hover:underline font-medium"
                 >
                   Product Discount Functions Documentation →
                 </a>

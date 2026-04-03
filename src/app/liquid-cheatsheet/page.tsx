@@ -16,7 +16,7 @@ export default function LiquidCheatsheet() {
       <div className="space-y-8">
         {/* What is Liquid */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What is Liquid?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What is Liquid?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Liquid is an open-source templating language created by Shopify.
             It&apos;s the backbone of Shopify themes and is used to load dynamic
@@ -26,14 +26,14 @@ export default function LiquidCheatsheet() {
 
         {/* Basic Syntax */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Basic Syntax</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Basic Syntax</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle className="text-xl">Output: {"{{ }}"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">
+                <p className="text-text-secondary mb-4">
                   Outputs content to the page
                 </p>
                 <CodeBlock
@@ -49,7 +49,7 @@ export default function LiquidCheatsheet() {
                 <CardTitle className="text-xl">Logic: {"{% %}"}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">
+                <p className="text-text-secondary mb-4">
                   Executes logic and control flow
                 </p>
                 <CodeBlock
@@ -69,12 +69,12 @@ export default function LiquidCheatsheet() {
 
         {/* Variables */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Variables</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Variables</h2>
           <p className="mt-4 text-lg text-gray-700">
             Variables store values that you can reuse throughout your template.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             assign
           </h3>
           <p className="mt-2 text-gray-700">
@@ -89,7 +89,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">capture</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">capture</h3>
           <p className="mt-2 text-gray-700">
             Captures the text between the tags and assigns it to a variable.
           </p>
@@ -106,11 +106,11 @@ export default function LiquidCheatsheet() {
 
         {/* Conditional Logic */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Conditional Logic
           </h2>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             {"{% if %}"} / {"{% elsif %}"} / {"{% else %}"}
           </h3>
           <p className="mt-2 text-gray-700">
@@ -127,7 +127,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             {"{% unless %}"}
           </h3>
           <p className="mt-2 text-gray-700">
@@ -140,7 +140,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             {"{% case %}"} / {"{% when %}"}
           </h3>
           <p className="mt-2 text-gray-700">
@@ -162,9 +162,9 @@ export default function LiquidCheatsheet() {
 
         {/* Loops */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Loops</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Loops</h2>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             {"{% for %}"}
           </h3>
           <p className="mt-2 text-gray-700">
@@ -178,7 +178,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Loop Limits and Offset
           </h3>
           <p className="mt-2 text-gray-700">
@@ -195,7 +195,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Range Loop
           </h3>
           <p className="mt-2 text-gray-700">
@@ -211,13 +211,13 @@ export default function LiquidCheatsheet() {
 
         {/* Filters */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Filters</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Filters</h2>
           <p className="mt-4 text-lg text-gray-700">
             Filters modify the output of variables. They are applied using the
             pipe character |.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             String Filters
           </h3>
           <CodeBlock
@@ -231,7 +231,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Number Filters
           </h3>
           <CodeBlock
@@ -245,7 +245,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Array Filters
           </h3>
           <CodeBlock
@@ -259,7 +259,7 @@ export default function LiquidCheatsheet() {
             language="liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Image & Asset Filters
           </h3>
           <CodeBlock
@@ -274,36 +274,36 @@ export default function LiquidCheatsheet() {
 
         {/* Operators */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Operators</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Operators</h2>
           <p className="mt-4 text-lg text-gray-700">
             Use operators in conditional statements to compare values.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">==</h4>
-              <p className="mt-1 text-sm text-gray-600">equals</p>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">==</h4>
+              <p className="mt-1 text-sm text-text-secondary">equals</p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">!=</h4>
-              <p className="mt-1 text-sm text-gray-600">does not equal</p>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">!=</h4>
+              <p className="mt-1 text-sm text-text-secondary">does not equal</p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">&gt;</h4>
-              <p className="mt-1 text-sm text-gray-600">greater than</p>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">&gt;</h4>
+              <p className="mt-1 text-sm text-text-secondary">greater than</p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">&lt;</h4>
-              <p className="mt-1 text-sm text-gray-600">less than</p>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">&lt;</h4>
+              <p className="mt-1 text-sm text-text-secondary">less than</p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">contains</h4>
-              <p className="mt-1 text-sm text-gray-600">
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">contains</h4>
+              <p className="mt-1 text-sm text-text-secondary">
                 checks if substring exists
               </p>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="font-semibold text-gray-900">and / or</h4>
-              <p className="mt-1 text-sm text-gray-600">logical operators</p>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="font-semibold text-text-primary">and / or</h4>
+              <p className="mt-1 text-sm text-text-secondary">logical operators</p>
             </div>
           </div>
           <CodeBlock
@@ -321,7 +321,7 @@ export default function LiquidCheatsheet() {
 
         {/* Reference Link */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Official Reference</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Official Reference</h2>
           <p className="mt-4 text-lg text-gray-700">
             For a complete reference of all Liquid tags, filters, and objects,
             visit the official Shopify cheat sheet:
@@ -331,7 +331,7 @@ export default function LiquidCheatsheet() {
               href="https://www.shopify.com/partners/shopify-cheat-sheet"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-shopify-blue hover:underline font-medium"
+              className="text-blue-400 hover:underline font-medium"
             >
               Shopify Liquid Cheat Sheet →
             </a>

@@ -64,7 +64,7 @@ export default function RoleGuard({
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-2">Access Denied</h1>
-          <p className="text-gray-400">
+          <p className="text-text-tertiary">
             You don't have permission to access this page.
           </p>
         </div>

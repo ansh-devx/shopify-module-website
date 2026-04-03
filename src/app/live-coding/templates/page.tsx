@@ -10,7 +10,7 @@ export default function TemplatesPage() {
       <div className="space-y-8">
         {/* What are Templates */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What are Templates?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What are Templates?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Templates are JSON files that define the structure and layout for different types of pages in your 
             Shopify store. They determine which sections appear on each page type.
@@ -22,43 +22,43 @@ export default function TemplatesPage() {
 
         {/* Template Format */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Template Formats</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Template Formats</h2>
           <p className="mt-4 text-lg text-gray-700">
             Templates follow specific naming conventions:
           </p>
           
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-4">
+            <div className="rounded-lg border border-accent/10 bg-background p-4">
               <h4 className="font-semibold text-white mb-2">product.json</h4>
-              <p className="text-white/80 text-sm">
+              <p className="text-text-secondary text-sm">
                 Default product template. Used for all products unless a custom template is assigned.
               </p>
             </div>
 
-            <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-4">
+            <div className="rounded-lg border border-accent/10 bg-background p-4">
               <h4 className="font-semibold text-white mb-2">product.[template-name].json</h4>
-              <p className="text-white/80 text-sm">
+              <p className="text-text-secondary text-sm">
                 Custom product templates. Example: <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">product.detailed.json</code>, <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">product.minimal.json</code>
               </p>
             </div>
 
-            <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-4">
+            <div className="rounded-lg border border-accent/10 bg-background p-4">
               <h4 className="font-semibold text-white mb-2">collection.json</h4>
-              <p className="text-white/80 text-sm">
+              <p className="text-text-secondary text-sm">
                 Default collection template for all collection pages.
               </p>
             </div>
 
-            <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-4">
+            <div className="rounded-lg border border-accent/10 bg-background p-4">
               <h4 className="font-semibold text-white mb-2">collection.[template-name].json</h4>
-              <p className="text-white/80 text-sm">
+              <p className="text-text-secondary text-sm">
                 Custom collection templates. Example: <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">collection.grid.json</code>
               </p>
             </div>
 
-            <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-4">
+            <div className="rounded-lg border border-accent/10 bg-background p-4">
               <h4 className="font-semibold text-white mb-2">index.json</h4>
-              <p className="text-white/80 text-sm">
+              <p className="text-text-secondary text-sm">
                 Homepage template. This is what customers see when they visit your store&apos;s homepage.
               </p>
             </div>
@@ -67,13 +67,13 @@ export default function TemplatesPage() {
 
         {/* Template Structure */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Template Structure</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Template Structure</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Templates are stored in the <code className="rounded bg-gray-100 px-2 py-1 text-sm">templates/</code> directory 
+            Templates are stored in the <code className="rounded bg-surface-2 px-2 py-1 text-sm">templates/</code> directory 
             and use JSON format to define sections and their order.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Product Template</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Example: Product Template</h3>
           <CodeBlock
             code={`{
   "sections": {
@@ -120,36 +120,36 @@ export default function TemplatesPage() {
 
         {/* Common Template Types */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Common Template Types</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Common Template Types</h2>
           
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">index.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">index.json</h4>
               <p className="mt-2 text-sm text-gray-700">Homepage template</p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">product.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">product.json</h4>
               <p className="mt-2 text-sm text-gray-700">Product page template</p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">collection.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">collection.json</h4>
               <p className="mt-2 text-sm text-gray-700">Collection page template</p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">page.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">page.json</h4>
               <p className="mt-2 text-sm text-gray-700">Standard page template</p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">cart.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">cart.json</h4>
               <p className="mt-2 text-sm text-gray-700">Shopping cart template</p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">404.json</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">404.json</h4>
               <p className="mt-2 text-sm text-gray-700">Error page template</p>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function TemplatesPage() {
 
         {/* Example: Collection Template */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Example: Collection Template</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Example: Collection Template</h2>
           <CodeBlock
             code={`{
   "sections": {
@@ -195,57 +195,57 @@ export default function TemplatesPage() {
 
         {/* Assigning Templates */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Assigning Templates to Products</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Assigning Templates to Products</h2>
           <p className="mt-4 text-lg text-gray-700">
             After creating a template, you need to assign it to products or collections in the Shopify admin.
           </p>
 
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   1
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">Publish Your Theme</h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     <strong>Important:</strong> Your theme must be published before templates are available in the admin.
                   </p>
-                  <p className="mt-2 text-sm text-white/60">
+                  <p className="mt-2 text-sm text-text-tertiary">
                     Go to <strong>Online Store → Themes</strong> and click <strong>&quot;Publish&quot;</strong> on your development theme.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   2
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">Assign to a Product</h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Go to <strong>Products → [Your Product]</strong> and scroll to the <strong>&quot;Theme templates&quot;</strong> section.
                   </p>
-                  <p className="mt-2 text-sm text-white/60">
+                  <p className="mt-2 text-sm text-text-tertiary">
                     Select your custom template from the dropdown (e.g., <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">product.detailed</code>).
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   3
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">Assign to a Collection</h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Go to <strong>Products → Collections → [Your Collection]</strong> and scroll to <strong>&quot;Theme templates&quot;</strong>.
                   </p>
-                  <p className="mt-2 text-sm text-white/60">
+                  <p className="mt-2 text-sm text-text-tertiary">
                     Select your custom collection template from the dropdown.
                   </p>
                 </div>
@@ -264,7 +264,7 @@ export default function TemplatesPage() {
 
         {/* Alternative Templates */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Alternative Templates</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Alternative Templates</h2>
           <p className="mt-4 text-lg text-gray-700">
             You can create alternative templates for the same page type by adding a suffix to the filename.
           </p>
@@ -281,7 +281,7 @@ export default function TemplatesPage() {
 
         {/* Learn More */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Learn More</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Learn More</h2>
           <p className="mt-4 text-lg text-gray-700">
             For comprehensive documentation on templates, visit:
           </p>
@@ -290,7 +290,7 @@ export default function TemplatesPage() {
               href="https://shopify.dev/docs/themes/architecture/templates"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-shopify-blue hover:underline font-medium"
+              className="text-blue-400 hover:underline font-medium"
             >
               Shopify Templates Documentation →
             </a>

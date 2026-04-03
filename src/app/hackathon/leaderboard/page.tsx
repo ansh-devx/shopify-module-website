@@ -60,7 +60,7 @@ export default function LeaderboardPage() {
 
             {!selectedHackathonId && (
               <div className="text-center py-12">
-                <p className="text-white/70">
+                <p className="text-text-secondary">
                   Select a hackathon to view the leaderboard
                 </p>
               </div>
@@ -69,11 +69,11 @@ export default function LeaderboardPage() {
         </ContentLayout>
       ) : (
         /* Coming Soon Message - Only visible for non-superadmins */
-        <div className="flex items-center justify-center min-h-screen bg-gray-50">
-          <div className="border-2 border-shopify-green rounded-2xl p-12 max-w-md text-center shadow-2xl">
+        <div className="flex items-center justify-center min-h-screen bg-surface-1">
+          <div className="border-2 border-accent rounded-2xl p-12 max-w-md text-center shadow-2xl">
             <div className="mb-6">
               <svg
-                className="mx-auto h-20 w-20 text-shopify-green"
+                className="mx-auto h-20 w-20 text-accent"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -86,13 +86,13 @@ export default function LeaderboardPage() {
                 />
               </svg>
             </div>
-            <h3 className="text-3xl font-bold text-shopify-green mb-4">
+            <h3 className="text-3xl font-bold text-accent mb-4">
               Coming Soon
             </h3>
-            <p className="text-lg text-gray-500 mb-2">
+            <p className="text-lg text-text-tertiary mb-2">
               Leaderboard access is currently restricted
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-text-tertiary">
               This feature will be available to all users soon
             </p>
           </div>

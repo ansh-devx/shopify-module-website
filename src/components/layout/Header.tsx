@@ -10,9 +10,8 @@ export default function Header() {
   const { openSearch } = useSearch();
 
   return (
-    <header className="sticky top-0 z-50 bg-[#151d1e]/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-accent/10 bg-background/80 backdrop-blur-xl">
       <nav className="flex items-center justify-between p-4 lg:px-8">
-        {/* Logo */}
         <div className="flex flex-1 items-center">
           <Link href="/" className="flex items-center">
             <Image
@@ -25,25 +24,23 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Search button */}
         <div className="flex items-center gap-3 w-[400px] mr-4">
           <button
             type="button"
             onClick={openSearch}
-            className="group flex cursor-pointer justify-between items-center gap-2 w-full rounded-md border border-[#24393d] bg-transparent px-3 py-2 text-sm text-gray-400 transition-colors hover:border-gray-600 hover:text-white"
+            className="group flex cursor-pointer justify-between items-center gap-2 w-full rounded-lg border border-accent/10 bg-surface-1/50 px-3 py-2 text-sm text-text-tertiary transition-all duration-300 hover:border-accent/25 hover:text-text-secondary"
             aria-label="Search documentation"
           >
             <div className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               <span className="hidden sm:inline">Search</span>
             </div>
-            <kbd className="hidden rounded border border-[#24393d] bg-[#2e3739] px-2 py-0.5 text-xs text-gray-400 group-hover:border-gray-600 sm:inline">
+            <kbd className="hidden rounded border border-accent/10 bg-surface-2 px-2 py-0.5 text-xs text-text-tertiary sm:inline">
               ⌘ K
             </kbd>
           </button>
         </div>
 
-        {/* User Profile */}
         <div className="flex items-center gap-4">
           <UserProfile />
         </div>

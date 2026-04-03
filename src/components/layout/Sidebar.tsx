@@ -20,7 +20,6 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.href;
 
-  // Check if any child is active
   const hasActiveChild = item.children?.some(
     (child) => pathname === child.href || pathname.startsWith(child.href + "/"),
   );
@@ -28,7 +27,6 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const handleToggle = () => {
     if (hasChildren) {
       onToggle(item.id);
-
       if (!isOpen && item.children && item.children.length > 0) {
         const firstChild = item.children[0];
         if (firstChild.href) {
@@ -41,11 +39,12 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   const itemContent = (
     <div
       className={cn(
-        "flex items-center gap-2 px-8 py-2 text-sm font-medium transition-colors rounded-md hover:bg-[#2e3739]",
-        level === 0 && "text-white",
-        level > 0 && "text-white/80",
-        isActive && "bg-[#2e3739] text-white",
-        !isActive && hasActiveChild && "text-white",
+        "flex items-center gap-2 px-8 py-2 text-sm font-medium transition-all duration-200 rounded-lg",
+        level === 0 && "text-text-primary",
+        level > 0 && "text-text-secondary",
+        isActive && "bg-accent/10 text-accent",
+        !isActive && hasActiveChild && "text-text-primary",
+        !isActive && "hover:bg-surface-2 hover:text-text-primary",
       )}
     >
       {hasChildren && (
@@ -55,9 +54,9 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
           aria-label={isOpen ? "Collapse" : "Expand"}
         >
           {isOpen ? (
-            <ChevronDown className="h-4 w-4" />
+            <ChevronDown className="h-4 w-4 text-text-tertiary" />
           ) : (
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4 text-text-tertiary" />
           )}
         </button>
       )}
@@ -105,21 +104,12 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
   );
 }
 
-/**
- * Find which top-level navigation item contains the given path
- */
 function findParentItemId(pathname: string): string | null {
   for (const item of navigationStructure) {
-    // Check if this item or any of its children match the current path
-    if (item.href === pathname) {
-      return item.id;
-    }
-
+    if (item.href === pathname) return item.id;
     if (item.children) {
       for (const child of item.children) {
-        if (child.href === pathname) {
-          return item.id;
-        }
+        if (child.href === pathname) return item.id;
       }
     }
   }
@@ -128,47 +118,40 @@ function findParentItemId(pathname: string): string | null {
 
 export default function Sidebar() {
   const pathname = usePathname();
-
-  // Track which top-level item is currently open (accordion behavior)
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
-  // Auto-expand the section containing the current page
   useEffect(() => {
     const parentId = findParentItemId(pathname);
-    if (parentId) {
-      setOpenItemId(parentId);
-    }
+    if (parentId) setOpenItemId(parentId);
   }, [pathname]);
 
   const handleToggle = (itemId: string) => {
-    // If clicking the currently open item, close it
-    // Otherwise, open the clicked item and close others (accordion)
     setOpenItemId(openItemId === itemId ? null : itemId);
   };
 
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-72 overflow-y-auto bg-[#151d1e]">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-72 overflow-y-auto bg-surface-1 border-r border-accent/5">
       <div className="p-4">
         <div className="mb-4">
-          <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+          <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
             Learning Path
           </h2>
         </div>
         <nav className="space-y-1">
-          {navigationStructure.map((item, index) => (
+          {navigationStructure.map((item) => (
             <div key={item.id}>
               {item.id === "hackathon" && (
                 <div className="my-4 px-3">
-                  <div className="border-t border-white/20 mb-4"></div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-2">
+                  <div className="border-t border-accent/10 mb-4"></div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
                     Events
                   </h2>
                 </div>
               )}
               {item.id === "app-access-token" && (
                 <div className="my-4 px-3">
-                  <div className="border-t border-white/20 mb-4"></div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-2">
+                  <div className="border-t border-accent/10 mb-4"></div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
                     Config
                   </h2>
                 </div>

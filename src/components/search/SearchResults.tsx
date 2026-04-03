@@ -22,11 +22,10 @@ export default function SearchResults({
 }: SearchResultsProps) {
   const router = useRouter();
 
-  // Show popular pages if no query
   if (!query && popularPages && popularPages.length > 0) {
     return (
       <div className="mt-8 max-h-96 overflow-y-auto">
-        <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/60">
+        <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
           Popular Pages
         </div>
         <div className="space-y-4">
@@ -43,20 +42,19 @@ export default function SearchResults({
     );
   }
 
-  // Show "no results" if query exists but no results
   if (query && results.length === 0) {
     return (
       <div className="mt-8 text-center">
-        <p className="text-lg text-white/80">
+        <p className="text-lg text-text-secondary">
           No results found for &quot;{query}&quot;
         </p>
-        <p className="mt-4 text-sm text-white/60">
+        <p className="mt-4 text-sm text-text-tertiary">
           Try searching with different keywords or{" "}
           <a
             href="https://shopify.dev"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-shopify-green hover:underline"
+            className="text-accent hover:underline"
           >
             visit the official Shopify docs
             <ExternalLink className="ml-1 inline h-3 w-3" />
@@ -66,13 +64,12 @@ export default function SearchResults({
     );
   }
 
-  // Show grouped results
   let globalIndex = 0;
   return (
     <div className="mt-4 max-h-96 overflow-y-auto">
       {results.map((group) => (
         <div key={group.category} className="mb-4">
-          <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-white/60">
+          <div className="mb-2 px-4 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
             {group.category}
           </div>
           <div className="space-y-1">
@@ -108,14 +105,16 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
       onClick={onClick}
       className={cn(
         "flex w-full cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-left transition-colors",
-        isSelected ? "bg-[#2e3739] text-white" : "text-white hover:bg-[#2e3739]"
+        isSelected
+          ? "bg-accent/10 text-text-primary"
+          : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
       )}
     >
       {Icon && <Icon className="h-4 w-4 shrink-0" />}
       <div className="flex-1">
         <div className="font-medium">{item.title}</div>
         {item.breadcrumb.length > 1 && (
-          <div className="mt-1 flex items-center gap-1 text-xs text-white/60">
+          <div className="mt-1 flex items-center gap-1 text-xs text-text-tertiary">
             {item.breadcrumb.slice(0, -1).map((crumb, index) => (
               <span key={index} className="flex items-center gap-1">
                 {crumb}
@@ -125,7 +124,7 @@ function ResultItem({ item, isSelected, onClick }: ResultItemProps) {
           </div>
         )}
       </div>
-      <ChevronRight className="h-4 w-4 shrink-0 text-white/40" />
+      <ChevronRight className="h-4 w-4 shrink-0 text-text-tertiary" />
     </button>
   );
 }

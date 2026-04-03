@@ -179,15 +179,15 @@ export default function GenerateTokenForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Tab: Live Store | Dev Store */}
-      <div className="flex rounded-lg border border-gray-600 bg-[#0d1213] p-1">
+      <div className="flex rounded-lg border border-accent/10 bg-surface-1 p-1">
         <button
           type="button"
           onClick={() => setMode("live")}
           className={cn(
             "flex-1 rounded-md px-4 py-2.5 text-sm font-medium transition-colors",
             mode === "live"
-              ? "bg-shopify-green text-white"
-              : "text-white/70 hover:text-white",
+              ? "bg-accent/10 text-white"
+              : "text-text-secondary hover:text-white",
           )}
         >
           Live Store
@@ -198,8 +198,8 @@ export default function GenerateTokenForm({
           className={cn(
             "flex-1 rounded-md px-4 py-2.5 text-sm font-medium transition-colors",
             mode === "dev"
-              ? "bg-shopify-green text-white"
-              : "text-white/70 hover:text-white",
+              ? "bg-accent/10 text-white"
+              : "text-text-secondary hover:text-white",
           )}
         >
           Dev Store
@@ -328,7 +328,7 @@ export default function GenerateTokenForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-shopify-green px-6 py-3 font-semibold text-white transition-all hover:bg-shopify-green/90 disabled:opacity-50"
+          className="rounded-lg bg-accent/20 px-6 py-3 font-semibold text-accent transition-all hover:text-white hover:bg-accent/50 disabled:opacity-50"
         >
           {isSubmitting ? "Redirecting…" : "Generate Token"}
         </button>

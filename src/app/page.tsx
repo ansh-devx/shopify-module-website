@@ -8,8 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
+import MagneticButton from "@/components/ui/MagneticButton";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import {
   ShoppingBag,
   Users,
@@ -102,110 +104,128 @@ const learningPaths = [
 export default function Home() {
   const { data: session, status } = useSession();
 
-  // Show loading state
   if (status === "loading") {
     return <Loader />;
   }
 
-  // Show auth modal if not authenticated
   if (!session?.user) {
     return (
       <>
-        {/* Content in background (will be blurred by AuthModal backdrop) */}
         <div className="pointer-events-none">
           <HomeContent />
         </div>
-        {/* Auth Modal */}
         <AuthModal fullScreen={true} />
       </>
     );
   }
 
-  // Show full content when authenticated
   return <HomeContent />;
 }
 
 function HomeContent() {
   return (
-    <div className="bg-[#0d1213]">
+    <div className="relative">
       {/* Hero Section */}
-      <section className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+      <section className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-0 left-1/4 h-[400px] w-[400px] rounded-full bg-accent/[0.06] blur-[120px] animate-pulse-glow" />
+          <div className="absolute bottom-0 right-1/4 h-[300px] w-[300px] rounded-full bg-accent-warm/[0.04] blur-[100px] animate-float" />
+        </div>
+
         <div className="text-center">
-          <h1 className="text-5xl font-bold tracking-tight text-gray-900 sm:text-7xl">
-            Welcome to{" "}
-            <span className="text-shopify-green">Shopify Development</span>
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-            Your internal onboarding guide to get up to speed with Shopify.
-            <br />
-            Learn by building a complete Product Details Page from Figma.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button size="lg" asChild>
-              <Link href="/task">View Task</Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/what-is-shopify">Learn Basics First</Link>
-            </Button>
-          </div>
+          <ScrollReveal>
+            <h1 className="font-serif text-5xl tracking-tight sm:text-7xl lg:text-8xl leading-[1.05]">
+              Welcome to{" "}
+              <span className="text-gradient-shimmer">
+                Shopify Development
+              </span>
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal delay={0.15}>
+            <p className="mt-6 text-lg leading-8 text-text-secondary sm:text-xl max-w-2xl mx-auto">
+              Your internal onboarding guide to get up to speed with Shopify.
+              <br />
+              Learn by building a complete Product Details Page from Figma.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={0.3}>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <MagneticButton variant="primary" as="a" href="/task">
+                View Task
+              </MagneticButton>
+              <MagneticButton
+                variant="secondary"
+                as="a"
+                href="/what-is-shopify"
+              >
+                Learn Basics First
+              </MagneticButton>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Learning Paths */}
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Learning Topics
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            Explore topics at your own pace, from basics to advanced concepts
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="mb-12 text-center">
+            <h2 className="font-serif text-3xl tracking-tight text-text-primary sm:text-4xl">
+              Learning <span className="text-gradient italic">Topics</span>
+            </h2>
+            <p className="mt-4 text-lg text-text-secondary">
+              Explore topics at your own pace, from basics to advanced concepts
+            </p>
+          </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {learningPaths.map((path) => {
             const Icon = path.icon;
             return (
-              <Link key={path.title} href={path.href}>
-                <Card
-                  hover
-                  className="h-full transition-all hover:border-shopify-green"
-                >
-                  <CardHeader>
-                    <div className="mb-4 flex items-center justify-between">
-                      <div className="rounded-lg bg-shopify-green/10 p-3">
-                        <Icon className="h-6 w-6 text-shopify-green" />
+              <StaggerItem key={path.title}>
+                <Link href={path.href}>
+                  <Card hover className="h-full group">
+                    <CardHeader>
+                      <div className="mb-4 flex items-center justify-between">
+                        <div className="rounded-xl bg-accent/10 p-3 transition-all duration-300 group-hover:bg-accent/20 group-hover:shadow-[0_0_15px_rgba(141,213,214,0.1)]">
+                          <Icon className="h-6 w-6 text-accent" />
+                        </div>
+                        <Badge variant="info">{path.badge}</Badge>
                       </div>
-                      <Badge variant="info">{path.badge}</Badge>
-                    </div>
-                    <CardTitle className="text-xl">{path.title}</CardTitle>
-                    <CardDescription>{path.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
+                      <CardTitle className="text-xl">{path.title}</CardTitle>
+                      <CardDescription>{path.description}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </Link>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       </section>
 
-      {/* Getting Started Section */}
+      {/* CTA Section */}
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <Card className="bg-gradient-to-r from-shopify-green to-shopify-teal text-white">
-          <CardContent className="p-12 text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Ready to Start Your task?
-            </h2>
-            <p className="mt-4 text-lg opacity-90">
-              Build a complete PDP from Figma. Learn Shopify concepts naturally
-              as you work through each step.
-            </p>
-            <div className="mt-8">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/task">View task Details</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <ScrollReveal>
+          <Card className="relative overflow-hidden border-accent/20">
+            <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-accent/5 to-accent-warm/10" />
+            <div className="absolute inset-0 bg-grid opacity-30" />
+            <CardContent className="relative p-12 text-center">
+              <h2 className="font-serif text-3xl text-text-primary sm:text-4xl">
+                Ready to Start Your{" "}
+                <span className="text-gradient italic">Task?</span>
+              </h2>
+              <p className="mt-4 text-lg text-text-secondary">
+                Build a complete PDP from Figma. Learn Shopify concepts naturally
+                as you work through each step.
+              </p>
+              <div className="mt-8">
+                <MagneticButton variant="primary" as="a" href="/task">
+                  View Task Details
+                </MagneticButton>
+              </div>
+            </CardContent>
+          </Card>
+        </ScrollReveal>
       </section>
     </div>
   );

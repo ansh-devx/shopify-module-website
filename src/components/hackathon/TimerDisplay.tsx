@@ -65,9 +65,9 @@ export default function TimerDisplay({
   const getStatusColor = () => {
     switch (timeRemaining.status) {
       case "before":
-        return "bg-shopify-blue/10 text-shopify-blue";
+        return "bg-blue-400/10 text-blue-400";
       case "during":
-        return "bg-shopify-green/10 text-shopify-green";
+        return "bg-accent/10 text-accent";
       default:
         return "";
     }

@@ -21,7 +21,7 @@ export default function Step6SelectAPIType({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Choose which Shopify APIs you want to generate access tokens for (you
           can select multiple):
         </p>

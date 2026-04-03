@@ -47,12 +47,12 @@ export default function FormTextarea({
         }
         className={cn(
           "w-full px-4 py-3 rounded-lg border-2 transition-all duration-150",
-          "bg-[#151d1e] text-white placeholder-white/40",
-          "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+          "bg-background text-white placeholder-text-tertiary",
+          "focus:outline-none focus:ring-2 focus:ring-accent/50",
           "resize-vertical",
           error
             ? "border-red-500 focus:border-red-500"
-            : "border-gray-600 hover:border-gray-500 focus:border-shopify-green"
+            : "border-accent/10 hover:border-gray-500 focus:border-accent"
         )}
       />
 
@@ -63,7 +63,7 @@ export default function FormTextarea({
       )}
 
       {helpText && !error && (
-        <p id={`${name}-help`} className="text-sm text-white/60">
+        <p id={`${name}-help`} className="text-sm text-text-tertiary">
           {helpText}
         </p>
       )}

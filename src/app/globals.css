@@ -1,48 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  /* Dark theme as default - matching Shopify.dev */
-  --background: #151d1e;
-  --foreground: #e4e7eb;
+  /* ─── Core Palette (pricex.devxcommerce.com) ─── */
+  --background: #050505;
+  --foreground: #f1f1f3;
+  --surface-1: #0c0c0e;
+  --surface-2: #141416;
+  --surface-3: #1c1c1f;
 
-  /* Shopify Brand Colors */
-  --shopify-green: #95bf47;
-  --shopify-dark: #000000;
-  --shopify-purple: #5c6ac4;
-  --shopify-blue: #006fbb;
-  --shopify-teal: #47c1bf;
-  --shopify-yellow: #eec200;
-  --shopify-red: #bf0711;
+  /* ─── Text ─── */
+  --text-primary: #f1f1f3;
+  --text-secondary: #a0a0ab;
+  --text-tertiary: #6b6b76;
 
-  /* Neutral Colors - Dark theme grayscale */
-  --gray-50: #0b0f14;
-  --gray-100: #111827;
-  --gray-200: #1f2937;
-  --gray-300: #374151;
-  --gray-400: #4b5563;
-  --gray-500: #6b7280;
-  --gray-600: #9ca3af;
+  /* ─── Accent ─── */
+  --accent: #8dd5d6;
+  --accent-hover: #a8e0e1;
+  --accent-warm: #d6b88d;
+
+  /* ─── Status Colors ─── */
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --yellow-400: #facc15;
+  --blue-400: #60a5fa;
+  --green-400: #4ade80;
+
+  /* ─── Neutral Scale ─── */
+  --gray-50: #050505;
+  --gray-100: #0c0c0e;
+  --gray-200: #141416;
+  --gray-300: #1c1c1f;
+  --gray-400: #24242a;
+  --gray-500: #6b6b76;
+  --gray-600: #a0a0ab;
   --gray-700: #d1d5db;
   --gray-800: #e5e7eb;
-  --gray-900: #f9fafb;
+  --gray-900: #f1f1f3;
+
+  /* ─── Fonts ─── */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
 
-  /* Shopify Colors */
-  --color-shopify-green: var(--shopify-green);
-  --color-shopify-dark: var(--shopify-dark);
-  --color-shopify-purple: var(--shopify-purple);
-  --color-shopify-blue: var(--shopify-blue);
-  --color-shopify-teal: var(--shopify-teal);
-  --color-shopify-yellow: var(--shopify-yellow);
-  --color-shopify-red: var(--shopify-red);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
 
-  /* Gray Scale */
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-warm: var(--accent-warm);
+
   --color-gray-50: var(--gray-50);
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
@@ -53,59 +69,167 @@
   --color-gray-700: var(--gray-700);
   --color-gray-800: var(--gray-800);
   --color-gray-900: var(--gray-900);
+
+  /* Keep old shopify-green mapped to accent for backward compat */
+  --color-shopify-green: var(--accent);
+  --color-shopify-dark: #000000;
+  --color-shopify-purple: var(--accent);
+  --color-shopify-blue: var(--blue-400);
+  --color-shopify-teal: var(--accent);
+  --color-shopify-yellow: var(--yellow-400);
+  --color-shopify-red: var(--red-400);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 4s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
 }
 
+/* ─── Keyframes ─── */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ─── Base Styles ─── */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ensure all clickable elements have pointer cursor */
+html {
+  scroll-behavior: smooth;
+}
+
 a,
 button {
   cursor: pointer;
 }
 
-/*
-  If a page renders the fixed bottom navigation bar (ContentLayout), ensure the
-  document can scroll a bit past the last content so the footer isn't hidden
-  behind the bar.
-*/
+/* ─── Selection ─── */
+::selection {
+  background: rgba(141, 213, 214, 0.3);
+  color: #f1f1f3;
+}
+
+/* ─── Glass Morphism ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(141, 213, 214, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(141, 213, 214, 0.15);
+}
+
+/* ─── Text Gradient ─── */
+.text-gradient {
+  background: linear-gradient(135deg, #8dd5d6, #a8e0e1, #8dd5d6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-shimmer {
+  background: linear-gradient(
+    90deg,
+    #8dd5d6,
+    #a8e0e1,
+    #d6b88d,
+    #a8e0e1,
+    #8dd5d6
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ─── Grid Background ─── */
+.bg-grid {
+  background-image: linear-gradient(
+      rgba(141, 213, 214, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(141, 213, 214, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ─── Glow Utilities ─── */
+.glow-accent {
+  box-shadow: 0 0 30px rgba(141, 213, 214, 0.15),
+    0 0 60px rgba(141, 213, 214, 0.05);
+}
+
+.glow-accent-hover:hover {
+  box-shadow: 0 0 20px rgba(141, 213, 214, 0.2),
+    0 0 40px rgba(141, 213, 214, 0.1);
+}
+
+/* ─── Bottom Nav Fallback ─── */
 @supports selector(body:has(*)) {
   body:has([data-bottom-nav]) {
     padding-bottom: 5rem;
   }
 }
 
-/* Fallback for browsers that don't support :has() (or if it is disabled). */
 body[data-has-bottom-nav="true"] {
   padding-bottom: 5rem;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar - Dark theme */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gray-100);
+  background: var(--surface-1);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--gray-400);
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-500);
+  background: var(--accent);
 }

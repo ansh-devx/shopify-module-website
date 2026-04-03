@@ -19,11 +19,11 @@ export default function Step2ConfigureScopes({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Configure the API access scopes for your app:
         </p>
 
-        <ol className="space-y-3 list-decimal list-inside text-white/70">
+        <ol className="space-y-3 list-decimal list-inside text-text-secondary">
           <li>In your app dashboard, scroll down to "API access scopes"</li>
           <li>
             Select the scopes your app needs (e.g., read_products, write_orders)

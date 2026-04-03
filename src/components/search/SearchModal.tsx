@@ -18,33 +18,25 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Get search results
   const results = useMemo(() => {
     if (!query) return [];
     return searchAndGroup(query);
   }, [query]);
 
-  // Get popular pages
   const popularPages = useMemo(() => getPopularPages(), []);
 
-  // Calculate total number of results for keyboard navigation
   const totalResults = useMemo(() => {
-    if (!query && popularPages) {
-      return popularPages.length;
-    }
+    if (!query && popularPages) return popularPages.length;
     return results.reduce((sum, group) => sum + group.items.length, 0);
   }, [query, results, popularPages]);
 
-  // Reset selected index when query changes
   useEffect(() => {
     setSelectedIndex(0);
   }, [query]);
 
-  // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
-
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
@@ -60,16 +52,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           break;
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, selectedIndex, totalResults, query, results, popularPages]);
 
   const handleSelect = (href?: string) => {
     let targetHref = href;
-
     if (!targetHref) {
-      // Get the selected item based on index
       if (!query && popularPages) {
         targetHref = popularPages[selectedIndex]?.href;
       } else {
@@ -86,7 +75,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         }
       }
     }
-
     if (targetHref) {
       router.push(targetHref);
       onClose();
@@ -125,7 +113,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-xl border border-[#24393d] bg-[#151d1e] p-6 shadow-2xl transition-all">
+              <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl border border-accent/10 bg-surface-1 p-6 shadow-2xl shadow-accent/5 transition-all">
                 <SearchInput
                   value={query}
                   onChange={setQuery}

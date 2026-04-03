@@ -25,7 +25,7 @@ export default function ImagesAssetsPage() {
 
         {/* Uploading Images */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Uploading Images to Shopify
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -34,16 +34,16 @@ export default function ImagesAssetsPage() {
           </p>
 
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   1
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Navigate to Content
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     In your Shopify admin, go to <strong>Content</strong> in the
                     left sidebar.
                   </p>
@@ -51,16 +51,16 @@ export default function ImagesAssetsPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   2
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Open Files
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Click on <strong>&quot;Files&quot;</strong> to access the
                     file manager.
                   </p>
@@ -68,20 +68,20 @@ export default function ImagesAssetsPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   3
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Upload Images
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Click <strong>&quot;Upload files&quot;</strong> or drag and
                     drop images to upload them.
                   </p>
-                  <p className="mt-2 text-sm text-white/60">
+                  <p className="mt-2 text-sm text-text-tertiary">
                     Supported formats: JPG, PNG, GIF, SVG, WebP (recommended for
                     better performance)
                   </p>
@@ -93,7 +93,7 @@ export default function ImagesAssetsPage() {
 
         {/* Using Images in Sections */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Using Images in Sections
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -102,14 +102,14 @@ export default function ImagesAssetsPage() {
           </p>
 
           <div className="mt-6 space-y-4">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   In the Theme Editor
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ol className="space-y-2 text-white/80 list-decimal list-inside">
+                <ol className="space-y-2 text-text-secondary list-decimal list-inside">
                   <li>
                     Open the theme editor (Online Store → Themes → Customize)
                   </li>
@@ -127,19 +127,19 @@ export default function ImagesAssetsPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Image Picker Settings
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-white/80 mb-3">
+                <p className="text-text-secondary mb-3">
                   Most sections with image settings use the{" "}
                   <strong>image_picker</strong> setting type in schema. This
                   provides an easy interface for merchants to select images.
                 </p>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>Click to browse your uploaded files</li>
                   <li>Upload new images directly from the picker</li>
                   <li>Replace or remove images easily</li>
@@ -152,17 +152,17 @@ export default function ImagesAssetsPage() {
 
         {/* Product Images */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Images</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Images</h2>
           <p className="mt-4 text-lg text-gray-700">
             Product images are managed differently - they&apos;re uploaded
             directly to the product itself.
           </p>
 
-          <div className="mt-6 rounded-lg border border-[#24393d] bg-[#151d1e] p-6">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-background p-6">
             <h3 className="text-xl font-semibold text-white mb-4">
               Uploading Product Images
             </h3>
-            <ol className="space-y-2 text-white/80 list-decimal list-inside">
+            <ol className="space-y-2 text-text-secondary list-decimal list-inside">
               <li>
                 Go to <strong>Products</strong> in the admin
               </li>
@@ -196,16 +196,16 @@ export default function ImagesAssetsPage() {
 
         {/* Best Practices */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Image Best Practices
           </h2>
           <div className="mt-6 space-y-4">
-            <Card className="border-shopify-teal/50 bg-shopify-teal/10">
+            <Card className="border-accent/50 bg-accent/10">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-3">
                   Optimization Tips
                 </h3>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>
                     <strong>File size:</strong> Keep images under 5MB for faster
                     loading
@@ -230,7 +230,7 @@ export default function ImagesAssetsPage() {
 
         {/* Learn More */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Learn More</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Learn More</h2>
           <p className="mt-4 text-lg text-gray-700">
             For comprehensive documentation on images and assets:
           </p>
@@ -240,7 +240,7 @@ export default function ImagesAssetsPage() {
                 href="https://help.shopify.com/en/manual/files"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Managing Files in Shopify →
               </a>
@@ -250,7 +250,7 @@ export default function ImagesAssetsPage() {
                 href="https://shopify.dev/docs/api/liquid/filters/image_url"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Image URL Filter Documentation →
               </a>

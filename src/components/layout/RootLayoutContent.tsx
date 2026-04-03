@@ -14,27 +14,31 @@ export default function RootLayoutContent({
 }>) {
   const { data: session, status } = useSession();
 
-  // Show loading state while checking authentication
   if (status === "loading") {
     return <Loader />;
   }
 
-  // If not authenticated, render without Header/Sidebar (auth modal will be shown by page)
   if (!session) {
     return <>{children}</>;
   }
 
-  // For authenticated users, render with Header/Sidebar
   return (
     <SearchProvider>
       <ScrollToTop />
-      <div className="flex min-h-screen flex-col">
+      <div className="relative flex min-h-screen flex-col bg-background">
+        {/* Ambient background orbs */}
+        <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-accent/[0.07] blur-[120px] animate-pulse-glow" />
+          <div className="absolute top-1/3 -left-40 h-[400px] w-[400px] rounded-full bg-accent/[0.04] blur-[100px] animate-pulse-glow [animation-delay:2s]" />
+          <div className="absolute bottom-0 right-1/4 h-[350px] w-[350px] rounded-full bg-accent-warm/[0.03] blur-[80px] animate-float-slow" />
+        </div>
+        {/* Grid background */}
+        <div className="pointer-events-none fixed inset-0 -z-10 bg-grid opacity-50" />
+
         <Header />
         <div className="flex flex-1">
           <Sidebar />
-          <main className="ml-72 flex-1 bg-[#0d1213] text-white overflow-x-hidden">
-            {children}
-          </main>
+          <main className="ml-72 flex-1 overflow-x-hidden">{children}</main>
         </div>
       </div>
     </SearchProvider>

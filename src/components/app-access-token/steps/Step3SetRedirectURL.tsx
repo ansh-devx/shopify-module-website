@@ -20,11 +20,11 @@ export default function Step3SetRedirectURL({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Configure the redirect URL for your app:
         </p>
 
-        <ol className="space-y-3 list-decimal list-inside text-white/70">
+        <ol className="space-y-3 list-decimal list-inside text-text-secondary">
           <li>In your app dashboard, scroll to the "App URL" section</li>
           <li>Enter the redirect URL shown below</li>
           <li>Click "Save" to update your app settings</li>
@@ -35,7 +35,7 @@ export default function Step3SetRedirectURL({
       <CopyableText text={REDIRECT_URL} label="Redirect URL" />
 
       {/* Divider */}
-      <div className="border-t border-gray-600 my-6" />
+      <div className="border-t border-accent/10 my-6" />
 
       {/* Confirmation Checkbox */}
       <FormCheckbox

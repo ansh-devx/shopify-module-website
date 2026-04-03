@@ -12,7 +12,6 @@ export default function AuthModal({
   const pathname = usePathname();
 
   const handleGoogleSignIn = () => {
-    // Redirect back to current page after login
     signIn("google", { callbackUrl: pathname || "/" });
   };
 
@@ -20,15 +19,13 @@ export default function AuthModal({
     <div
       className={`${fullScreen ? "fixed inset-0" : "fixed inset-y-0 left-72 right-0"} z-50 flex items-center justify-center`}
     >
-      {/* Blurred backdrop */}
-      <div className="absolute inset-0 bg-[#0d1213]/80 backdrop-blur-md"></div>
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-md"></div>
 
-      {/* Modal Card */}
-      <Card className="relative z-10 w-full max-w-md mx-4 shadow-2xl border-2 border-white/10">
+      <Card className="relative z-10 w-full max-w-md mx-4 shadow-2xl shadow-accent/5 border-accent/15">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-shopify-green/10">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent/10">
             <svg
-              className="h-8 w-8 text-shopify-green"
+              className="h-8 w-8 text-accent"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -44,15 +41,14 @@ export default function AuthModal({
           <CardTitle className="text-2xl font-bold">Please Login</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-gray-600">
+          <p className="text-text-secondary">
             This content is restricted. Please sign in with your Google account
             to access the Hackathon page.
           </p>
 
-          {/* Google Sign In Button */}
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-black hover:text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-200 transition-all duration-200 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-gray-900 font-semibold py-3 px-6 rounded-full border border-white/20 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path

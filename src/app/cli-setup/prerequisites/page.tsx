@@ -10,13 +10,13 @@ export default function CLIPrerequisites() {
       <div className="space-y-8">
         {/* Install Homebrew */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Install Homebrew</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Install Homebrew</h2>
           <p className="mt-4 text-lg text-gray-700">
             Homebrew is a package manager for macOS that makes it easy to
             install and manage software.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Installation Command
           </h3>
           <CodeBlock
@@ -25,7 +25,7 @@ export default function CLIPrerequisites() {
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             After Installation
           </h3>
           <CodeBlock
@@ -35,7 +35,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Verify Installation
           </h3>
           <CodeBlock
@@ -47,13 +47,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
 
         {/* Install Git */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Install Git</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Install Git</h2>
           <p className="mt-4 text-lg text-gray-700">
             Git is a version control system that helps you track changes in your
             code.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Installation Command
           </h3>
           <CodeBlock
@@ -62,7 +62,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Verify Installation
           </h3>
           <CodeBlock
@@ -71,7 +71,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Configure Git
           </h3>
           <p className="mt-2 text-gray-700">Set your name:</p>
@@ -91,13 +91,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
 
         {/* Install Node */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Install Node.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Install Node.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Node.js is a JavaScript runtime that allows you to run JavaScript on
             your computer.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Installation Command
           </h3>
           <CodeBlock
@@ -106,7 +106,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Verify Installation
           </h3>
           <CodeBlock
@@ -118,13 +118,13 @@ eval "$(/opt/homebrew/bin/brew shellenv)"`}
 
         {/* Install zsh */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Install Zsh</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Install Zsh</h2>
           <p className="mt-4 text-lg text-gray-700">
             Zsh is a powerful shell that provides better command-line
             experience.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Installation Command
           </h3>
           <CodeBlock
