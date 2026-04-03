@@ -6,15 +6,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Send,
-  Square,
-  Bot,
-  User,
-  Asterisk,
-  FileText,
-  ExternalLink,
-} from "lucide-react";
+import { Send, Square, Bot, User, FileText, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -95,9 +87,7 @@ export default function ChatInterface() {
             .catch(() => null),
         ),
       ).then((results) => {
-        setSources(
-          results.filter((r): r is SourceArticle => r !== null),
-        );
+        setSources(results.filter((r): r is SourceArticle => r !== null));
       });
     }
   }, [isDone, messages]);
@@ -154,12 +144,6 @@ export default function ChatInterface() {
 
         {/* Greeting */}
         <h1 className="font-serif text-5xl sm:text-6xl font-normal text-text-primary/90 tracking-tight text-center mb-12">
-          <span className="inline-block text-accent-warm mr-2">
-            <Asterisk
-              className="h-10 w-10 sm:h-12 sm:w-12 inline -mt-2"
-              strokeWidth={1.5}
-            />
-          </span>
           {getGreeting()}, {firstName}!
         </h1>
 
