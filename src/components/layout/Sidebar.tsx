@@ -156,6 +156,14 @@ export default function Sidebar() {
                   </h2>
                 </div>
               )}
+              {item.id === "knowledge-hub" && (
+                <div className="my-4 px-3">
+                  <div className="border-t border-accent/10 mb-4"></div>
+                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
+                    AI
+                  </h2>
+                </div>
+              )}
               <SidebarItem
                 item={item}
                 isOpen={openItemId === item.id}
