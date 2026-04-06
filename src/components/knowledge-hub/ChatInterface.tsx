@@ -64,6 +64,7 @@ function getGreeting() {
 export default function ChatInterface() {
   const { data: session } = useSession();
   const firstName = session?.user?.name?.split(" ")[0] || "there";
+  const greeting = useRef(getGreeting());
 
   const transport = useMemo(
     () =>
@@ -198,7 +199,7 @@ export default function ChatInterface() {
 
         {/* Greeting */}
         <h1 className="font-serif text-5xl sm:text-6xl font-normal text-text-primary/90 tracking-tight text-center mb-12">
-          {getGreeting()}, {firstName}!
+          {greeting.current}, {firstName}!
         </h1>
 
         {/* Input */}
