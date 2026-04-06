@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "@/components/code-block/CodeBlock";
+import MagneticButton from "../ui/MagneticButton";
 
 interface SourceArticle {
   slug: string;
@@ -28,11 +29,36 @@ interface SourceArticle {
   date: string;
 }
 
+const GREETINGS = [
+  "Welcome back",
+  "Good to see you",
+  "Hey there",
+  "Hello",
+  "Hi there",
+  "Great to have you here",
+  "Glad you're here",
+  "What's on your mind",
+  "Ready to learn something new",
+  "Let's get started",
+  "What can we explore today",
+  "How's it going",
+  "What are you curious about",
+  "What would you like to know",
+  "Let's dive in",
+  "What's on the agenda today",
+  "Looking for something specific",
+  "What would you like to explore",
+  "Here to help",
+  "Ask me anything",
+  "What's cooking",
+  "What brings you here today",
+  "Got a question in mind",
+  "Let's figure it out together",
+  "What are we learning today",
+];
+
 function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
+  return GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
 }
 
 export default function ChatInterface() {
@@ -134,13 +160,14 @@ export default function ChatInterface() {
 
   const contributeButton = (
     <div className="absolute top-4 right-4 z-10">
-      <Link
+      <MagneticButton
+        variant="secondary"
+        as="a"
         href="/knowledge-hub/contribute"
-        className="flex items-center gap-1.5 rounded-full border border-accent/15 bg-surface-2 px-4 py-2 text-sm text-text-secondary hover:border-accent/30 hover:text-accent transition-all"
+        className="py-2"
       >
-        <Plus className="h-4 w-4" />
         Contribute
-      </Link>
+      </MagneticButton>
     </div>
   );
 
@@ -170,7 +197,14 @@ export default function ChatInterface() {
 
         {/* Input */}
         <div className="w-full max-w-2xl">
-          <div className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40">
+          <div
+            className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40 cursor-text"
+            onClick={(e) => {
+              if ((e.target as HTMLElement).closest("button") === null) {
+                textareaRef.current?.focus();
+              }
+            }}
+          >
             <div className="px-4 pt-3 pb-2">
               <textarea
                 ref={textareaRef}
@@ -183,8 +217,7 @@ export default function ChatInterface() {
                 autoFocus
               />
             </div>
-            <div className="flex items-center justify-between px-3 pb-2">
-              <div className="text-xs text-text-tertiary/60">Knowledge Hub</div>
+            <div className="flex items-center justify-end px-3 pb-2">
               <button
                 type="button"
                 onClick={handleSend}
@@ -323,7 +356,14 @@ export default function ChatInterface() {
       {/* Input */}
       <div className="border-t border-accent/5 px-4 py-4">
         <div className="mx-auto max-w-3xl">
-          <div className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40">
+          <div
+            className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40 cursor-text"
+            onClick={(e) => {
+              if ((e.target as HTMLElement).closest("button") === null) {
+                textareaRef.current?.focus();
+              }
+            }}
+          >
             <div className="px-4 pt-3 pb-2">
               <textarea
                 ref={textareaRef}

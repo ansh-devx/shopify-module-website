@@ -48,7 +48,7 @@ export default function AuthModal({
 
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-gray-900 font-semibold py-3 px-6 rounded-full border border-white/20 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-black hover:text-white font-semibold py-3 px-6 rounded-full border border-white/20 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
