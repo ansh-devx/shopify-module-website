@@ -54,6 +54,9 @@ export default function ContributeForm() {
 
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const autoExtractedTitleRef = useRef<string>("");
+  const titleRef = useRef(title);
+  titleRef.current = title;
 
   // Auto-fill author from session
   useEffect(() => {
@@ -69,6 +72,43 @@ export default function ContributeForm() {
       .then((data) => setTeamLeads(data.teamLeads || []))
       .catch(() => {});
   }, []);
+
+  // Live frontmatter + H1 extraction for Title and Tags
+  useEffect(() => {
+    const normalized = content.replace(/\r\n/g, "\n");
+
+    // Try frontmatter first
+    if (normalized.startsWith("---\n")) {
+      const closingIdx = normalized.indexOf("\n---", 4);
+      if (closingIdx !== -1) {
+        const fmLines = normalized.slice(4, closingIdx).split("\n");
+        let extractedTitle = "";
+        let extractedTags = "";
+        for (const line of fmLines) {
+          const colonIdx = line.indexOf(":");
+          if (colonIdx === -1) continue;
+          const key = line.slice(0, colonIdx).trim();
+          const val = line.slice(colonIdx + 1).trim().replace(/^["']|["']$/g, "");
+          if (key === "title") extractedTitle = val;
+          if (key === "tags") extractedTags = val.replace(/^\[|\]$/g, "").trim();
+        }
+        if (extractedTitle && (!titleRef.current || titleRef.current === autoExtractedTitleRef.current)) {
+          setTitle(extractedTitle);
+          autoExtractedTitleRef.current = extractedTitle;
+        }
+        if (extractedTags) setTags(extractedTags);
+        return;
+      }
+    }
+
+    // Fallback: extract title from first # H1
+    const h1Match = normalized.match(/^#\s+(.+)$/m);
+    const extracted = h1Match ? h1Match[1].trim() : "";
+    if (extracted && (!titleRef.current || titleRef.current === autoExtractedTitleRef.current)) {
+      setTitle(extracted);
+      autoExtractedTitleRef.current = extracted;
+    }
+  }, [content]);
 
   // Pre-fill form in edit mode
   useEffect(() => {
@@ -105,8 +145,49 @@ export default function ContributeForm() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
-      // Strip frontmatter if present
-      const stripped = text.replace(/^---[\s\S]*?---\n/, "").trim();
+      const normalized = text.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+      // Parse frontmatter if present
+      if (normalized.startsWith("---\n")) {
+        const closingIdx = normalized.indexOf("\n---", 4);
+        if (closingIdx !== -1) {
+          const fmLines = normalized.slice(4, closingIdx).split("\n");
+          const parsed: Record<string, string> = {};
+          let i = 0;
+          while (i < fmLines.length) {
+            const colonIdx = fmLines[i].indexOf(":");
+            if (colonIdx !== -1) {
+              const key = fmLines[i].slice(0, colonIdx).trim();
+              const val = fmLines[i].slice(colonIdx + 1).trim();
+              if (val) {
+                parsed[key] = val.replace(/^["']|["']$/g, "");
+              } else {
+                // Block list: collect following "- item" lines
+                const items: string[] = [];
+                i++;
+                while (i < fmLines.length && /^\s*-\s/.test(fmLines[i])) {
+                  items.push(fmLines[i].replace(/^\s*-\s+/, "").trim());
+                  i++;
+                }
+                if (items.length > 0) parsed[key] = items.join(", ");
+                continue;
+              }
+            }
+            i++;
+          }
+
+          if (parsed.title) {
+            setTitle(parsed.title);
+            autoExtractedTitleRef.current = parsed.title;
+          }
+          if (parsed.tags) {
+            setTags(parsed.tags.replace(/^\[|\]$/g, "").trim());
+          }
+        }
+      }
+
+      // Strip frontmatter from displayed content
+      const stripped = normalized.replace(/^---\n[\s\S]*?\n---\n?/, "").trim();
       setContent(stripped);
       setError("");
     };
