@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import ContributeForm from "@/components/knowledge-hub/ContributeForm";
 
 export default function ContributePage() {
-  return <ContributeForm />;
+  return (
+    <Suspense>
+      <ContributeForm />
+    </Suspense>
+  );
 }

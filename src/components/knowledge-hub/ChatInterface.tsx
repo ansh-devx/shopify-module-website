@@ -159,7 +159,13 @@ export default function ChatInterface() {
   };
 
   const contributeButton = (
-    <div className="absolute top-4 right-4 z-10">
+    <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+      <Link
+        href="/knowledge-hub/my-documents"
+        className="rounded-full border border-accent/15 bg-surface-2 px-4 py-2 text-sm text-text-secondary hover:text-accent hover:border-accent/30 transition-colors"
+      >
+        My Docs
+      </Link>
       <MagneticButton
         variant="secondary"
         as="a"

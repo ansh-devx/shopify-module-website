@@ -15,6 +15,7 @@ interface Article {
   tags: string[];
   date: string;
   content: string;
+  brandProject?: string;
 }
 
 export default function ArticlePage() {
@@ -79,6 +80,13 @@ export default function ArticlePage() {
             <User className="h-4 w-4 text-accent-warm" />
             <span>{article.author}</span>
           </div>
+          {article.brandProject && (
+            <div className="flex items-center gap-1.5">
+              <span className="rounded-full bg-surface-3 px-2.5 py-0.5 text-xs text-text-secondary">
+                {article.brandProject}
+              </span>
+            </div>
+          )}
           {article.date && (
             <div className="flex items-center gap-1.5">
               <Calendar className="h-4 w-4 text-text-tertiary" />

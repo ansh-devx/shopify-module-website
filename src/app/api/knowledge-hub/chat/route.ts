@@ -7,19 +7,17 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
-  // Only use the latest user message — no conversation context
   const lastUserMessage = [...messages]
     .reverse()
     .find((m) => m.role === "user");
 
-  // Load ALL articles — small KB, let the AI determine relevance semantically
-  const allArticles = loadKnowledgeBase();
+  // Fetch all approved articles with content from AWS
+  const allArticles = await loadKnowledgeBase();
 
-  // Build context from all articles
   const context = allArticles
     .map(
       (article) =>
-        `--- Article ---\nSlug: ${article.slug}\nTitle: ${article.title}\nAuthor: ${article.author}\nTags: ${article.tags.join(", ")}\nDate: ${article.date}\n\n${article.content}\n--- End Article ---`,
+        `--- Article ---\nSlug: ${article.slug}\nTitle: ${article.title}\nAuthor: ${article.author}\nBrand/Project: ${article.brandProject || "N/A"}\nTags: ${article.tags.join(", ")}\nDate: ${article.date}\n\n${article.content}\n--- End Article ---`,
     )
     .join("\n\n");
 
@@ -41,7 +39,7 @@ The user will also see links to the full source articles below your response. So
 
 4. At the very end of your response, on its own line, output the slugs of articles you referenced in this exact format:
    <!-- sources: slug-one, slug-two -->
-   Use the slug (filename without .md) from each article. This is used by the UI to show source links — the user won't see this line.
+   Use the slug from each article. This is used by the UI to show source links — the user won't see this line.
 
 ## Rules:
 
@@ -54,9 +52,8 @@ The user will also see links to the full source articles below your response. So
 
 ## Knowledge Base:
 
-${context || "Empty — no articles yet."}`;
+${context || "Empty — no approved articles yet."}`;
 
-  // Only send the latest user message — stateless, one-shot queries
   const singleMessage: UIMessage[] = lastUserMessage ? [lastUserMessage] : [];
 
   const result = streamText({

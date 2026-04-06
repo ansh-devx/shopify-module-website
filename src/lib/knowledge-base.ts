@@ -1,58 +1,37 @@
-import fs from "fs";
-import path from "path";
+const KB_API_BASE_URL = process.env.KB_API_BASE_URL || '';
 
 export interface KnowledgeArticle {
+  id: string;
   slug: string;
   title: string;
   author: string;
+  authorName: string;
+  authorEmail: string;
+  brandProject: string;
   tags: string[];
   date: string;
   content: string;
+  status: string;
+  assignedApproverName: string;
+  assignedApproverEmail: string;
+  rejectionReason: string;
+  createdAt: number;
+  updatedAt: number;
+  version: number;
 }
 
-function parseFrontmatter(raw: string): {
-  metadata: Record<string, string>;
-  content: string;
-} {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) return { metadata: {}, content: raw };
+export async function loadKnowledgeBase(): Promise<KnowledgeArticle[]> {
+  if (!KB_API_BASE_URL) return [];
 
-  const metadata: Record<string, string> = {};
-  for (const line of match[1].split("\n")) {
-    const colonIdx = line.indexOf(":");
-    if (colonIdx > 0) {
-      const key = line.slice(0, colonIdx).trim();
-      const value = line
-        .slice(colonIdx + 1)
-        .trim()
-        .replace(/^["']|["']$/g, "");
-      metadata[key] = value;
-    }
+  try {
+    const response = await fetch(
+      `${KB_API_BASE_URL}/kb/articles?includeContent=true`,
+      { cache: 'no-store' }
+    );
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data.articles || [];
+  } catch {
+    return [];
   }
-
-  return { metadata, content: match[2].trim() };
-}
-
-export function loadKnowledgeBase(): KnowledgeArticle[] {
-  const dir = path.join(process.cwd(), "knowledge-base");
-
-  if (!fs.existsSync(dir)) return [];
-
-  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
-
-  return files.map((file) => {
-    const raw = fs.readFileSync(path.join(dir, file), "utf-8");
-    const { metadata, content } = parseFrontmatter(raw);
-
-    return {
-      slug: file.replace(".md", ""),
-      title: metadata.title || file.replace(".md", ""),
-      author: metadata.author || "Unknown",
-      tags: metadata.tags
-        ? metadata.tags.split(",").map((t) => t.trim())
-        : [],
-      date: metadata.date || "",
-      content,
-    };
-  });
 }

@@ -1,24 +1,21 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth/apiAuth";
+import { requireRole } from "@/lib/auth/apiAuth";
+import { UserRole } from "@/types";
 
 const KB_API_BASE_URL = process.env.KB_API_BASE_URL || "";
 
-export async function POST(req: Request) {
-  const { error, session } = await requireAuth();
+export async function GET() {
+  const { error, session } = await requireRole(UserRole.ADMIN);
   if (error) return error;
 
-  const body = await req.json();
-
-  const response = await fetch(`${KB_API_BASE_URL}/kb/articles`, {
-    method: "POST",
+  const response = await fetch(`${KB_API_BASE_URL}/kb/review`, {
     headers: {
-      "Content-Type": "application/json",
       "x-user-id": session!.user.id || "",
       "x-user-email": session!.user.email || "",
       "x-user-name": session!.user.name || "",
       "x-user-role": (session!.user as { role?: string }).role || "MEMBER",
     },
-    body: JSON.stringify(body),
+    cache: "no-store",
   });
 
   const data = await response.json();
