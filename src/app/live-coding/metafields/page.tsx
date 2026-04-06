@@ -10,7 +10,7 @@ export default function MetafieldsPage() {
       <div className="space-y-8">
         {/* What are Metafields */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What are Metafields?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What are Metafields?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Metafields are custom data fields that let you store additional information beyond Shopify's 
             default fields. They can be attached to products, variants, collections, customers, orders, and more.
@@ -19,25 +19,25 @@ export default function MetafieldsPage() {
 
         {/* How to Create Metafields */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">How to Create Metafields</h2>
+          <h2 className="text-3xl font-bold text-text-primary">How to Create Metafields</h2>
           
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Step 1: Go to Settings</h3>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-6">
+              <h3 className="text-xl font-semibold text-text-primary">Step 1: Go to Settings</h3>
               <p className="mt-2 text-gray-700">
                 Shopify Admin → Settings → Custom Data
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Step 2: Choose Resource Type</h3>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-6">
+              <h3 className="text-xl font-semibold text-text-primary">Step 2: Choose Resource Type</h3>
               <p className="mt-2 text-gray-700">
                 Example: Product
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">Step 3: Add Definition</h3>
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-6">
+              <h3 className="text-xl font-semibold text-text-primary">Step 3: Add Definition</h3>
               <p className="mt-2 text-gray-700">Click "Add definition"</p>
             </div>
           </div>
@@ -45,10 +45,10 @@ export default function MetafieldsPage() {
 
         {/* Example: Material Metafield */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Example: Creating "Material" Metafield</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Example: Creating "Material" Metafield</h2>
           
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <h3 className="text-xl font-semibold text-gray-900">Settings</h3>
+          <div className="mt-6 rounded-lg border border-accent/10 bg-surface-1 p-6">
+            <h3 className="text-xl font-semibold text-text-primary">Settings</h3>
             <ul className="mt-4 space-y-2 text-gray-700">
               <li><strong>Name:</strong> Material</li>
               <li><strong>Namespace:</strong> custom</li>
@@ -67,7 +67,7 @@ export default function MetafieldsPage() {
 
         {/* Using Metafields in Liquid */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Using Metafields in Liquid</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Using Metafields in Liquid</h2>
           <CodeBlock
             code={`<!-- Access product metafield -->
 {{ product.metafields.custom.material }}
@@ -100,11 +100,11 @@ export default function MetafieldsPage() {
 
         {/* Common Metafield Types */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Common Metafield Types</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Common Metafield Types</h2>
           
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Single line text</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Single line text</h4>
               <p className="mt-2 text-sm text-gray-700">Short text values like material, SKU, or brand</p>
               <CodeBlock
                 code={`{{ product.metafields.custom.brand }}`}
@@ -112,8 +112,8 @@ export default function MetafieldsPage() {
               />
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Multi-line text</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Multi-line text</h4>
               <p className="mt-2 text-sm text-gray-700">Longer text like care instructions or descriptions</p>
               <CodeBlock
                 code={`{{ product.metafields.custom.care_instructions | newline_to_br }}`}
@@ -121,8 +121,8 @@ export default function MetafieldsPage() {
               />
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Number (Integer/Decimal)</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Number (Integer/Decimal)</h4>
               <p className="mt-2 text-sm text-gray-700">Numeric values like dimensions or ratings</p>
               <CodeBlock
                 code={`{{ product.metafields.custom.rating }}/5 stars`}
@@ -130,8 +130,8 @@ export default function MetafieldsPage() {
               />
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">True/False</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">True/False</h4>
               <p className="mt-2 text-sm text-gray-700">Boolean values for flags or toggles</p>
               <CodeBlock
                 code={`{% if product.metafields.custom.is_featured %}
@@ -141,8 +141,8 @@ export default function MetafieldsPage() {
               />
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">File reference</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">File reference</h4>
               <p className="mt-2 text-sm text-gray-700">Images, PDFs, or other files</p>
               <CodeBlock
                 code={`{% if product.metafields.custom.size_guide %}
@@ -154,8 +154,8 @@ export default function MetafieldsPage() {
               />
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">URL</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">URL</h4>
               <p className="mt-2 text-sm text-gray-700">Web links</p>
               <CodeBlock
                 code={`<a href="{{ product.metafields.custom.video_url }}">

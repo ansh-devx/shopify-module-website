@@ -16,7 +16,7 @@ export default function ShopifyApps() {
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             What are Shopify Apps?
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -27,15 +27,15 @@ export default function ShopifyApps() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Types of Apps</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Types of Apps</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <Card>
               <CardHeader>
-                <Smartphone className="h-8 w-8 text-shopify-green" />
+                <Smartphone className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">Public Apps</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Listed in the Shopify App Store, available to all merchants.
                   Can be free or paid.
                 </p>
@@ -43,11 +43,11 @@ export default function ShopifyApps() {
             </Card>
             <Card>
               <CardHeader>
-                <Users className="h-8 w-8 text-shopify-blue" />
+                <Users className="h-8 w-8 text-blue-400" />
                 <CardTitle className="mt-4 text-xl">Custom Apps</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Built for a specific store or client. Not listed in the App
                   Store.
                 </p>
@@ -57,7 +57,7 @@ export default function ShopifyApps() {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Creating Your First App
           </h2>
           <p className="mt-4 text-gray-700">
@@ -84,7 +84,7 @@ npm run dev`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">App Structure</h2>
+          <h2 className="text-3xl font-bold text-text-primary">App Structure</h2>
           <CodeBlock
             code={`my-shopify-app/
 ├── app/                    # Remix app routes
@@ -104,7 +104,7 @@ npm run dev`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Authentication</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Authentication</h2>
           <p className="mt-4 text-gray-700">
             Shopify apps use OAuth 2.0 for authentication. The CLI handles this
             automatically:
@@ -129,7 +129,7 @@ export default shopify;`}
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Making API Calls</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Making API Calls</h2>
           <CodeBlock
             code={`// Get products using GraphQL
 import { authenticate } from "../shopify.server";
@@ -161,7 +161,7 @@ export async function loader({ request }) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">App Extensions</h2>
+          <h2 className="text-3xl font-bold text-text-primary">App Extensions</h2>
           <p className="mt-4 text-gray-700">
             Extend your app with UI components in different parts of Shopify:
           </p>
@@ -171,7 +171,7 @@ export async function loader({ request }) {
                 <CardTitle className="text-lg">Admin UI Extensions</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Add custom blocks to product pages, order details, and more in
                   the admin.
                 </p>
@@ -184,7 +184,7 @@ export async function loader({ request }) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Customize the checkout experience with custom fields and
                   components.
                 </p>
@@ -195,7 +195,7 @@ export async function loader({ request }) {
                 <CardTitle className="text-lg">Theme App Extensions</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Add app blocks to themes that merchants can customize.
                 </p>
               </CardContent>
@@ -204,7 +204,7 @@ export async function loader({ request }) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Webhooks</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Webhooks</h2>
           <CodeBlock
             code={`// Register webhooks
 import { DeliveryMethod } from "@shopify/shopify-api";
@@ -240,37 +240,37 @@ export async function action({ request }) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Monetization</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Monetization</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
             <Card>
               <CardHeader>
-                <DollarSign className="h-8 w-8 text-shopify-green" />
+                <DollarSign className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-lg">Subscription</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-text-secondary">
                   Monthly or annual recurring charges
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <DollarSign className="h-8 w-8 text-shopify-blue" />
+                <DollarSign className="h-8 w-8 text-blue-400" />
                 <CardTitle className="mt-4 text-lg">One-time Charge</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-text-secondary">
                   Single payment for features or services
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <DollarSign className="h-8 w-8 text-shopify-purple" />
+                <DollarSign className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-lg">Usage-based</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-text-secondary">
                   Charge based on usage metrics
                 </p>
               </CardContent>
@@ -279,7 +279,7 @@ export async function action({ request }) {
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Deployment</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Deployment</h2>
           <CodeBlock
             code={`# Deploy to Shopify
 shopify app deploy
@@ -299,8 +299,8 @@ shopify app deploy
         </section>
 
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
-          <div className="mt-6 rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+          <h2 className="text-3xl font-bold text-text-primary">Best Practices</h2>
+          <div className="mt-6 rounded-lg border border-accent/20 bg-accent/5 p-6">
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>Request only the API scopes you actually need</li>
               <li>Handle webhook retries and idempotency</li>

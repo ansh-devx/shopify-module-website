@@ -13,7 +13,7 @@ export default function AdminMenu({ userRole }: AdminMenuProps) {
       {(userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN) && (
         <a
           href="/hackathon/admin"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors duration-200"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent/10 hover:bg-accent/20 text-white text-sm font-medium transition-colors duration-200"
           title="Admin Dashboard"
         >
           <svg
@@ -43,7 +43,7 @@ export default function AdminMenu({ userRole }: AdminMenuProps) {
       {userRole === UserRole.SUPERADMIN && (
         <a
           href="/hackathon/superadmin"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors duration-200"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent/10 hover:bg-accent/20 text-white text-sm font-medium transition-colors duration-200"
           title="Superadmin Dashboard"
         >
           <svg

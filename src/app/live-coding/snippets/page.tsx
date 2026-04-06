@@ -10,7 +10,7 @@ export default function SnippetsPage() {
       <div className="space-y-8">
         {/* What are Snippets */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What are Snippets?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What are Snippets?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Snippets are reusable pieces of Liquid code that you can include in multiple places across your theme. 
             They help you avoid code duplication and make your theme easier to maintain.
@@ -19,13 +19,13 @@ export default function SnippetsPage() {
 
         {/* Creating a Snippet */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Creating a Snippet</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Creating a Snippet</h2>
           <p className="mt-4 text-lg text-gray-700">
-            Snippets are stored in the <code className="rounded bg-gray-100 px-2 py-1 text-sm">snippets/</code> directory 
-            and have a <code className="rounded bg-gray-100 px-2 py-1 text-sm">.liquid</code> extension.
+            Snippets are stored in the <code className="rounded bg-surface-2 px-2 py-1 text-sm">snippets/</code> directory 
+            and have a <code className="rounded bg-surface-2 px-2 py-1 text-sm">.liquid</code> extension.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Product Card Snippet</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Example: Product Card Snippet</h3>
           <CodeBlock
             code={`<div class="product-card">
   <a href="{{ product.url }}">
@@ -62,19 +62,19 @@ export default function SnippetsPage() {
 
         {/* Using Snippets */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Using Snippets</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Using Snippets</h2>
           <p className="mt-4 text-lg text-gray-700">
-            You can include snippets in your theme using the <code className="rounded bg-gray-100 px-2 py-1 text-sm">render</code> tag.
+            You can include snippets in your theme using the <code className="rounded bg-surface-2 px-2 py-1 text-sm">render</code> tag.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Basic Usage</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Basic Usage</h3>
           <CodeBlock
             code={`{% render 'product-card', product: product %}`}
             language="liquid"
             filename="sections/collection.liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Collection Grid</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Example: Collection Grid</h3>
           <CodeBlock
             code={`<div class="collection-grid">
   {% for product in collection.products %}
@@ -88,12 +88,12 @@ export default function SnippetsPage() {
 
         {/* Passing Variables */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Passing Variables to Snippets</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Passing Variables to Snippets</h2>
           <p className="mt-4 text-lg text-gray-700">
             You can pass multiple variables to snippets to make them more flexible.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Example: Button Snippet</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Example: Button Snippet</h3>
           <CodeBlock
             code={`<a 
   href="{{ url }}" 
@@ -106,7 +106,7 @@ export default function SnippetsPage() {
             filename="snippets/button.liquid"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Using the Button Snippet</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Using the Button Snippet</h3>
           <CodeBlock
             code={`{% render 'button', 
   text: 'Shop Now', 
@@ -127,22 +127,22 @@ export default function SnippetsPage() {
 
         {/* Best Practices */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Best Practices</h2>
           <ul className="mt-4 space-y-2 text-gray-700">
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Keep snippets focused on a single purpose</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Use descriptive names for your snippets</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Document the variables your snippet expects</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Avoid deeply nested snippet includes</span>
             </li>
           </ul>

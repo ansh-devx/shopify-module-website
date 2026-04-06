@@ -10,7 +10,7 @@ export default function SectionsPage() {
       <div className="space-y-8">
         {/* What are Sections */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What are Sections?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What are Sections?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Sections are reusable modules of content that can be added, removed,
             and reordered by merchants using the theme editor. They make your
@@ -20,20 +20,20 @@ export default function SectionsPage() {
 
         {/* Creating a Section */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Creating a Section</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Creating a Section</h2>
           <p className="mt-4 text-lg text-gray-700">
             Sections are stored in the{" "}
-            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+            <code className="rounded bg-surface-2 px-2 py-1 text-sm">
               sections/
             </code>{" "}
             directory and have a{" "}
-            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+            <code className="rounded bg-surface-2 px-2 py-1 text-sm">
               .liquid
             </code>{" "}
             extension.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Example: Hero Section
           </h3>
           <CodeBlock
@@ -95,7 +95,7 @@ export default function SectionsPage() {
 
         {/* Schema */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Section Schema</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Section Schema</h2>
           <p className="mt-4 text-lg text-gray-700">
             The schema makes your section customizable in the Shopify theme
             editor without editing code. It defines what settings merchants can
@@ -103,7 +103,7 @@ export default function SectionsPage() {
           </p>
           <p className="mt-4 text-lg text-gray-700">
             The schema is defined in a{" "}
-            <code className="rounded bg-gray-100 px-2 py-1 text-sm">
+            <code className="rounded bg-surface-2 px-2 py-1 text-sm">
               {"{% schema %}"}
             </code>{" "}
             block at the end of your section file.
@@ -112,14 +112,14 @@ export default function SectionsPage() {
 
         {/* Blocks */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Blocks</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Blocks</h2>
           <p className="mt-4 text-lg text-gray-700">
             Blocks are repeatable content units within a section. They allow
             merchants to add multiple instances of similar content, like adding
             multiple feature cards to a features section.
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Example: Features Section with Blocks
           </h3>
           <CodeBlock

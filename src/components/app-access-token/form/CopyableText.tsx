@@ -31,8 +31,8 @@ export default function CopyableText({ text, label }: CopyableTextProps) {
       <div className="flex items-center gap-2">
         <div
           className={cn(
-            "flex-1 px-4 py-3 rounded-lg border-2 border-gray-600",
-            "bg-[#151d1e] text-white font-mono text-sm",
+            "flex-1 px-4 py-3 rounded-lg border-2 border-accent/10",
+            "bg-background text-white font-mono text-sm",
             "overflow-x-auto whitespace-nowrap"
           )}
         >
@@ -44,10 +44,10 @@ export default function CopyableText({ text, label }: CopyableTextProps) {
           onClick={handleCopy}
           className={cn(
             "flex-shrink-0 p-3 rounded-lg border-2 transition-all duration-150",
-            "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+            "focus:outline-none focus:ring-2 focus:ring-accent/50",
             copied
-              ? "border-shopify-green bg-shopify-green text-white"
-              : "border-gray-600 bg-[#151d1e] text-white/70 hover:text-white hover:border-gray-500"
+              ? "border-accent bg-accent text-white"
+              : "border-accent/10 bg-background text-text-secondary hover:text-white hover:border-gray-500"
           )}
           aria-label={copied ? "Copied!" : "Copy to clipboard"}
         >
@@ -60,7 +60,7 @@ export default function CopyableText({ text, label }: CopyableTextProps) {
       </div>
 
       {copied && (
-        <p className="text-sm text-shopify-green">Copied to clipboard!</p>
+        <p className="text-sm text-accent">Copied to clipboard!</p>
       )}
     </div>
   );

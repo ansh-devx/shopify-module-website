@@ -20,11 +20,11 @@ export default function Step1CreateApp({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Follow these steps to create your Shopify app:
         </p>
 
-        <ol className="space-y-3 list-decimal list-inside text-white/70">
+        <ol className="space-y-3 list-decimal list-inside text-text-secondary">
           <li>Click the button below to open Shopify Partners Dashboard</li>
           <li>Navigate to the "Apps" section in the left sidebar</li>
           <li>Click the "Create app" button in the top right corner</li>
@@ -40,7 +40,7 @@ export default function Step1CreateApp({
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-600 my-6" />
+      <div className="border-t border-accent/10 my-6" />
 
       {/* Form Input */}
       <FormInput

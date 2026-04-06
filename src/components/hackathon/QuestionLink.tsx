@@ -69,11 +69,11 @@ export default function QuestionLink({
   // After hackathon ended
   if (status === "after") {
     return (
-      <Card className="bg-gray-100">
+      <Card className="bg-surface-2">
         <CardContent className="pt-6">
           <div className="text-center">
             <svg
-              className="mx-auto h-12 w-12 text-gray-400"
+              className="mx-auto h-12 w-12 text-text-tertiary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -85,10 +85,10 @@ export default function QuestionLink({
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">
+            <h3 className="mt-4 text-lg font-medium text-text-primary">
               Hackathon Ended
             </h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-text-tertiary">
               Thank you for participating! Results will be announced soon.
             </p>
           </div>
@@ -100,11 +100,11 @@ export default function QuestionLink({
   // During hackathon - show "Go to Question" button with countdown
   if (status === "during" && timeRemaining) {
     return (
-      <Card className="bg-shopify-green/10 border-2 border-shopify-green">
+      <Card className="bg-accent/10 border-2 border-accent">
         <CardContent className="pt-6">
           <div className="text-center space-y-4">
             <div>
-              <h3 className="text-xl font-bold text-shopify-green mb-2">
+              <h3 className="text-xl font-bold text-accent mb-2">
                 Hackathon is Live!
               </h3>
             </div>
@@ -112,7 +112,7 @@ export default function QuestionLink({
               href={questionLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-shopify-green hover:bg-shopify-green/90 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
             >
               <span>Go to Question</span>
               <svg

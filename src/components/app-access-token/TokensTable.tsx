@@ -46,12 +46,12 @@ export default function TokensTable({
   };
   if (tokens.length === 0 && !isLoadingMore) {
     return (
-      <div className="rounded-xl border border-gray-600/80 bg-[#151d1e] px-8 py-16 text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-shopify-green/10">
-          <Plus className="h-10 w-10 text-shopify-green" />
+      <div className="rounded-xl border border-accent/10/80 bg-background px-8 py-16 text-center">
+        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-2xl bg-accent/10">
+          <Plus className="h-10 w-10 text-accent" />
         </div>
         <h3 className="mb-2 text-xl font-semibold text-white">No tokens yet</h3>
-        <p className="mx-auto max-w-sm text-sm text-white/60">
+        <p className="mx-auto max-w-sm text-sm text-text-tertiary">
           Click &quot;Generate Token&quot; above to create your first app access
           token.
         </p>
@@ -61,11 +61,11 @@ export default function TokensTable({
 
   return (
     <div className="space-y-5">
-      <div className="overflow-hidden rounded-xl border border-gray-600/80 bg-[#151d1e] shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-accent/10/80 bg-background shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-screen">
             <thead>
-              <tr className="border-b border-gray-600 bg-[#0d1213]/80">
+              <tr className="border-b border-accent/10 bg-surface-1/80">
                 <th className="px-6 py-4 text-left text-sm font-semibold text-white">
                   Store
                 </th>
@@ -95,14 +95,14 @@ export default function TokensTable({
                   <td className="px-6 py-4 text-sm font-medium text-white">
                     {token.store}
                   </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     <div className="flex items-center gap-2">
                       <span className="font-mono">{token.token}</span>
                       <button
                         type="button"
                         onClick={() => handleReveal(token.id)}
                         disabled={revealingId !== null}
-                        className="shrink-0 rounded-lg border border-gray-500 bg-[#0d1213] px-2.5 py-1.5 text-xs font-medium text-white/80 transition-colors hover:border-shopify-green/50 hover:text-shopify-green disabled:opacity-50"
+                        className="shrink-0 rounded-lg border border-gray-500 bg-surface-1 px-2.5 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-accent/50 hover:text-accent disabled:opacity-50"
                         title="Reveal full token"
                       >
                         {revealingId === token.id ? (
@@ -113,19 +113,19 @@ export default function TokensTable({
                       </button>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     {token.app_name || "—"}
                   </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     <div className="max-w-xs truncate" title={token.scopes}>
                       {token.scopes}
                     </div>
                   </td>
 
-                  <td className="px-6 py-4 text-sm text-white/70">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     {token.user_name ?? "—"}
                   </td>
-                  <td className="px-6 py-4 text-sm text-white/70">
+                  <td className="px-6 py-4 text-sm text-text-secondary">
                     {new Date(token.created_at * 1000).toLocaleString(
                       undefined,
                       {
@@ -170,7 +170,7 @@ export default function TokensTable({
             type="button"
             onClick={onLoadMore}
             disabled={isLoadingMore}
-            className="inline-flex items-center gap-2 rounded-xl border border-gray-600 bg-[#151d1e] px-6 py-3 text-sm font-medium text-white transition-colors hover:border-gray-500 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-shopify-green/40 focus:ring-offset-2 focus:ring-offset-[#0d1213] disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-xl border border-accent/10 bg-background px-6 py-3 text-sm font-medium text-white transition-colors hover:border-gray-500 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-accent/40 focus:ring-offset-2 focus:ring-offset-[#0d1213] disabled:opacity-50"
           >
             {isLoadingMore ? (
               <>

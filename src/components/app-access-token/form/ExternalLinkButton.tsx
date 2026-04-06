@@ -23,9 +23,9 @@ export default function ExternalLinkButton({
       rel="noopener noreferrer"
       className={cn(
         "inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg",
-        "bg-shopify-green text-white font-medium",
-        "hover:bg-shopify-green/90 transition-colors duration-150",
-        "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+        "bg-accent text-white font-medium",
+        "hover:bg-accent/90 transition-colors duration-150",
+        "focus:outline-none focus:ring-2 focus:ring-accent/50",
         className
       )}
     >

@@ -16,7 +16,7 @@ export default function CartAPIs() {
     >
       <div className="space-y-8">
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Cart API Endpoints
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -27,7 +27,7 @@ export default function CartAPIs() {
 
         {/* /cart.js */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Gets the current cart contents as JSON. Returns the full cart object
             with items, total price, item count, and other cart data.
@@ -55,7 +55,7 @@ fetch('/cart.js')
 
         {/* /cart/add.js */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart/add.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart/add.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Adds items to the cart. Can add a single item or multiple items at
             once. Requires POST request with variant ID and quantity.
@@ -136,7 +136,7 @@ fetch('/cart/add.js', {
 
         {/* /cart/change.js */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart/change.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart/change.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Changes the quantity of a specific line item in the cart. Use the
             line item key (from cart.items array) or variant ID. Setting
@@ -210,7 +210,7 @@ fetch('/cart/change.js', {
 
         {/* /cart/update.js */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart/update.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart/update.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Updates multiple line items at once. More efficient than multiple
             /cart/change.js calls. Use variant IDs or line item keys with new
@@ -275,7 +275,7 @@ fetch('/cart/update.js', {
 
         {/* /cart/clear.js */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart/clear.js</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart/clear.js</h2>
           <p className="mt-4 text-lg text-gray-700">
             Clears all items from the cart. Removes everything but preserves
             cart attributes and note if needed. Returns an empty cart object.
@@ -306,15 +306,15 @@ fetch('/cart/clear.js', {
 
         {/* /cart (HTML) */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">/cart</h2>
+          <h2 className="text-3xl font-bold text-text-primary">/cart</h2>
           <p className="mt-4 text-lg text-gray-700">
             Gets the cart page HTML. Used with Section Rendering API to get
             rendered sections. Use{" "}
-            <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">
+            <code className="rounded bg-surface-2 px-1 py-0.5 text-xs">
               ?section_id=
             </code>{" "}
             or{" "}
-            <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">
+            <code className="rounded bg-surface-2 px-1 py-0.5 text-xs">
               ?sections=
             </code>{" "}
             query parameters.
@@ -353,7 +353,7 @@ Promise.all([
 
         {/* Custom Web Components */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Custom Web Components
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -407,14 +407,14 @@ Promise.all([
             filename="cart-components.html"
           />
           <div className="mt-6 space-y-4">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Available Cart Components
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>
                     <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">
                       &lt;cart-drawer&gt;
@@ -483,7 +483,7 @@ Promise.all([
 
         {/* Complete Example */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Complete AJAX Cart Example
           </h2>
           <CodeBlock
@@ -570,7 +570,7 @@ cart.clearCart();`}
 
         {/* Learn More */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Learn More</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Learn More</h2>
           <p className="mt-4 text-lg text-gray-700">
             For comprehensive documentation:
           </p>
@@ -580,7 +580,7 @@ cart.clearCart();`}
                 href="https://shopify.dev/docs/api/ajax/reference/cart"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Cart API Documentation →
               </a>
@@ -590,7 +590,7 @@ cart.clearCart();`}
                 href="https://shopify.dev/docs/api/section-rendering"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Section Rendering API Documentation →
               </a>
@@ -600,7 +600,7 @@ cart.clearCart();`}
                 href="https://shopify.dev/docs/themes/custom-web-components"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Custom Web Components Documentation →
               </a>

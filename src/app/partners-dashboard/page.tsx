@@ -26,19 +26,19 @@ export default function PartnersDashboard() {
 
         {/* Access */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Getting Access</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Getting Access</h2>
           <div className="mt-6 space-y-4">
             <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white font-bold">
                 1
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold">Sign Up</h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2 text-text-secondary">
                   Visit{" "}
                   <a
                     href="https://partners.shopify.com"
-                    className="text-shopify-blue hover:underline"
+                    className="text-blue-400 hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -49,26 +49,26 @@ export default function PartnersDashboard() {
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white font-bold">
                 2
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold">
                   Join Your Organization
                 </h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2 text-text-secondary">
                   Ask your team lead to invite you to the partner organization.
                   You&apos;ll receive an email invitation to join.
                 </p>
               </div>
             </div>
             <div className="flex gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white font-bold">
                 3
               </div>
               <div className="flex-1">
                 <h3 className="text-xl font-semibold">Access Stores</h3>
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2 text-text-secondary">
                   Once added, you&apos;ll see development stores in your
                   dashboard. Only the partner owner can create new development
                   stores.
@@ -80,19 +80,19 @@ export default function PartnersDashboard() {
 
         {/* Key Features */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             What You&apos;ll Find Here
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
             <Card>
               <CardHeader>
-                <Store className="h-8 w-8 text-shopify-green" />
+                <Store className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">
                   Development Stores
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Access development stores for testing themes, apps, and client
                   work. Each store is visible to the creator and team members
                   with access.
@@ -101,11 +101,11 @@ export default function PartnersDashboard() {
             </Card>
             <Card>
               <CardHeader>
-                <Users className="h-8 w-8 text-shopify-blue" />
+                <Users className="h-8 w-8 text-blue-400" />
                 <CardTitle className="mt-4 text-xl">Store Access</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Access stores you&apos;ve been added to. Store creators can
                   add team members as staff or collaborators.
                 </p>
@@ -113,11 +113,11 @@ export default function PartnersDashboard() {
             </Card>
             <Card>
               <CardHeader>
-                <Settings className="h-8 w-8 text-shopify-purple" />
+                <Settings className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">Projects</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   View and manage apps, themes, and other projects linked to
                   your partner account.
                 </p>
@@ -128,7 +128,7 @@ export default function PartnersDashboard() {
 
         {/* Accepting Invitations */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Accepting Store Invitations
           </h2>
           <p className="mt-4 text-lg text-gray-700">

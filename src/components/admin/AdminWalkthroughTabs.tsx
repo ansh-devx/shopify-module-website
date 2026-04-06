@@ -127,7 +127,7 @@ export default function AdminWalkthroughTabs() {
   }, [active]);
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+    <div className="rounded-xl border border-accent/10 bg-surface-1 p-4">
       <div
         role="tablist"
         aria-label="Shopify admin areas"
@@ -147,8 +147,8 @@ export default function AdminWalkthroughTabs() {
               className={cn(
                 "rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
                 selected
-                  ? "bg-gray-100 text-gray-900"
-                  : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-surface-2 text-text-primary"
+                  : "text-gray-700 hover:bg-surface-2 hover:text-text-primary"
               )}
             >
               {tab.label}
@@ -157,7 +157,7 @@ export default function AdminWalkthroughTabs() {
         })}
       </div>
 
-      <div className="mt-4 rounded-lg border border-gray-200 bg-gray-100 p-6">
+      <div className="mt-4 rounded-lg border border-accent/10 bg-surface-2 p-6">
         {active === "products" && (
           <div
             id={`${uid}-products-panel`}
@@ -166,7 +166,7 @@ export default function AdminWalkthroughTabs() {
             className="space-y-6"
           >
             <div>
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-2xl font-bold text-text-primary">
                 Products (end-to-end)
               </h3>
               <p className="mt-2 text-gray-700">
@@ -182,8 +182,8 @@ export default function AdminWalkthroughTabs() {
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <h4 className="text-lg font-semibold text-gray-900">
+              <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+                <h4 className="text-lg font-semibold text-text-primary">
                   Edit an existing product (UI flow)
                 </h4>
                 <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
@@ -230,8 +230,8 @@ export default function AdminWalkthroughTabs() {
                 </ol>
               </div>
 
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                <h4 className="text-lg font-semibold text-gray-900">
+              <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+                <h4 className="text-lg font-semibold text-text-primary">
                   Create a new product (UI flow)
                 </h4>
                 <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
@@ -260,7 +260,7 @@ export default function AdminWalkthroughTabs() {
                   </li>
                 </ol>
 
-                <div className="mt-4 rounded-lg border border-gray-200 bg-gray-100 p-3 text-sm text-gray-700">
+                <div className="mt-4 rounded-lg border border-accent/10 bg-surface-2 p-3 text-sm text-gray-700">
                   <b>Common gotcha:</b> If you change product options after
                   having many variants, Shopify may regenerate variants. Always
                   review variant-level price/SKU/inventory after option changes.
@@ -268,18 +268,18 @@ export default function AdminWalkthroughTabs() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h4 className="text-lg font-semibold text-gray-900">
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-4">
+              <h4 className="text-lg font-semibold text-text-primary">
                 Basic Admin GraphQL (products)
               </h4>
               <p className="mt-2 text-gray-700">
                 These examples use the Admin GraphQL API. You&apos;ll typically
                 need app scopes like{" "}
-                <code className="inline-flex items-center rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-mono text-[0.85em] text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                <code className="inline-flex items-center rounded-md border border-accent/10 bg-surface-2 px-1.5 py-0.5 font-mono text-[0.85em] text-text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                   read_products
                 </code>{" "}
                 and{" "}
-                <code className="inline-flex items-center rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-mono text-[0.85em] text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                <code className="inline-flex items-center rounded-md border border-accent/10 bg-surface-2 px-1.5 py-0.5 font-mono text-[0.85em] text-text-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                   write_products
                 </code>
                 .
@@ -287,25 +287,25 @@ export default function AdminWalkthroughTabs() {
 
               <div className="mt-4 grid gap-6">
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
+                  <p className="mb-2 text-sm font-semibold text-text-primary">
                     1) List products (with search)
                   </p>
                   <CodeBlock code={PRODUCTS_QUERY} language="graphql" />
-                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-text-secondary">
                     Variables
                   </p>
                   <CodeBlock code={PRODUCTS_QUERY_VARIABLES} language="json" />
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
+                  <p className="mb-2 text-sm font-semibold text-text-primary">
                     2) Fetch a product + its variants
                   </p>
                   <CodeBlock
                     code={PRODUCT_WITH_VARIANTS_QUERY}
                     language="graphql"
                   />
-                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-text-secondary">
                     Variables
                   </p>
                   <CodeBlock
@@ -315,28 +315,28 @@ export default function AdminWalkthroughTabs() {
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
+                  <p className="mb-2 text-sm font-semibold text-text-primary">
                     3) Create a product
                   </p>
                   <CodeBlock
                     code={PRODUCT_CREATE_MUTATION}
                     language="graphql"
                   />
-                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-text-secondary">
                     Variables
                   </p>
                   <CodeBlock code={PRODUCT_CREATE_VARIABLES} language="json" />
                 </div>
 
                 <div>
-                  <p className="mb-2 text-sm font-semibold text-gray-900">
+                  <p className="mb-2 text-sm font-semibold text-text-primary">
                     4) Update a product
                   </p>
                   <CodeBlock
                     code={PRODUCT_UPDATE_MUTATION}
                     language="graphql"
                   />
-                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                  <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wide text-text-secondary">
                     Variables
                   </p>
                   <CodeBlock code={PRODUCT_UPDATE_VARIABLES} language="json" />
@@ -353,7 +353,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-collections-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Collections</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Collections</h3>
             <p className="text-gray-700">
               Navigation: Products → <b>Collections</b>
             </p>
@@ -380,7 +380,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-orders-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Orders</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Orders</h3>
             <p className="text-gray-700">
               Navigation: Left Sidebar → <b>Orders</b>
             </p>
@@ -399,7 +399,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-discounts-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Discounts</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Discounts</h3>
             <p className="text-gray-700">
               Navigation: Left Sidebar → <b>Discounts</b>
             </p>
@@ -423,7 +423,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-online-store-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Online Store</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Online Store</h3>
             <p className="text-gray-700">
               Navigation: Left Sidebar → <b>Online Store</b>
             </p>
@@ -442,7 +442,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-content-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-text-primary">
               Content / Files
             </h3>
             <p className="text-gray-700">
@@ -466,7 +466,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-menus-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Menus</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Menus</h3>
             <p className="text-gray-700">
               Navigation: Left Sidebar → <b>Content</b> → Menus
             </p>
@@ -485,7 +485,7 @@ export default function AdminWalkthroughTabs() {
             aria-labelledby={`${uid}-analytics-tab`}
             className="space-y-3"
           >
-            <h3 className="text-2xl font-bold text-gray-900">Analytics</h3>
+            <h3 className="text-2xl font-bold text-text-primary">Analytics</h3>
             <p className="text-gray-700">
               Navigation: Left Sidebar → <b>Analytics</b>
             </p>

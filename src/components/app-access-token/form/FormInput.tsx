@@ -71,10 +71,10 @@ export default function FormInput({
           }
           className={cn(
             "w-full px-4 py-3 rounded-lg border-2 transition-all duration-150",
-            "bg-[#151d1e] text-white placeholder-white/40 outline-none",
+            "bg-background text-white placeholder-text-tertiary outline-none",
             error
               ? "border-red-500 focus:border-red-500"
-              : "border-gray-600 hover:border-gray-500 focus:border-shopify-green",
+              : "border-accent/10 hover:border-gray-500 focus:border-accent",
           )}
         />
 
@@ -82,7 +82,7 @@ export default function FormInput({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary hover:text-white transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
@@ -101,7 +101,7 @@ export default function FormInput({
       )}
 
       {helpText && !error && (
-        <p id={`${name}-help`} className="text-sm text-white/60">
+        <p id={`${name}-help`} className="text-sm text-text-tertiary">
           {helpText}
         </p>
       )}

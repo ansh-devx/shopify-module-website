@@ -196,11 +196,11 @@ export default function TaskPage() {
       <div className="space-y-8">
         {/* Introduction */}
         <section>
-          <div className="rounded-lg border border-[#24393d] bg-[#151d1e] p-6">
+          <div className="rounded-lg border border-accent/10 bg-background p-6">
             <h2 className="text-2xl font-bold text-white mb-4">
               Task Overview
             </h2>
-            <p className="text-lg text-white/80 mb-4">
+            <p className="text-lg text-text-secondary mb-4">
               Build a complete Product Details Page (PDP) from a Figma design
               using Shopify themes. This project-based approach will help you
               learn Shopify concepts naturally as you work through each step.
@@ -210,7 +210,7 @@ export default function TaskPage() {
                 href="https://www.figma.com/design/Wb8TZIgBie0K489tMBdv4s/On-boarding?node-id=0-1363&t=etZANBAfXVZ9VnfC-11"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-shopify-green hover:text-shopify-green/80 font-medium"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium"
               >
                 <ExternalLink className="h-4 w-4" />
                 View Figma Design
@@ -224,8 +224,8 @@ export default function TaskPage() {
           <h2 className="text-3xl font-bold text-white">
             What You&apos;ll Build
           </h2>
-          <p className="mt-4 text-lg text-white/80">Your PDP will include:</p>
-          <ul className="mt-4 space-y-2 text-white/80 list-disc list-inside">
+          <p className="mt-4 text-lg text-text-secondary">Your PDP will include:</p>
+          <ul className="mt-4 space-y-2 text-text-secondary list-disc list-inside">
             <li>Product images, title, description, and pricing</li>
             <li>Custom content using metafields and metaobjects</li>
             <li>Header and navigation menu matching the Figma design</li>
@@ -245,7 +245,7 @@ export default function TaskPage() {
           <h2 className="text-3xl font-bold text-white mb-6">
             Step-by-Step Guide
           </h2>
-          <p className="text-lg text-white/80 mb-8">
+          <p className="text-lg text-text-secondary mb-8">
             Follow these steps in order. Each step links to the learning
             materials you need.
           </p>
@@ -254,27 +254,27 @@ export default function TaskPage() {
             {taskSteps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <Card key={step.id} className="border-[#24393d] bg-[#151d1e]">
+                <Card key={step.id} className="border-accent/10 bg-background">
                   <CardHeader>
                     <div className="flex items-start gap-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-shopify-green text-white font-bold text-lg">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-white font-bold text-lg">
                         {index + 1}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <Icon className="h-6 w-6 text-shopify-green" />
+                          <Icon className="h-6 w-6 text-accent" />
                           <CardTitle className="text-2xl text-white">
                             {step.title}
                           </CardTitle>
                         </div>
-                        <p className="text-white/80 mt-2">{step.description}</p>
+                        <p className="text-text-secondary mt-2">{step.description}</p>
                       </div>
                     </div>
                   </CardHeader>
                   {step.topics.length > 0 && (
                     <CardContent>
-                      <div className="mt-4 pt-4 border-t border-[#24393d]">
-                        <h4 className="text-sm font-semibold text-white/60 mb-3 uppercase tracking-wide">
+                      <div className="mt-4 pt-4 border-t border-accent/10">
+                        <h4 className="text-sm font-semibold text-text-tertiary mb-3 uppercase tracking-wide">
                           Learn These Topics
                         </h4>
                         <div className="grid gap-3 sm:grid-cols-2">
@@ -282,14 +282,14 @@ export default function TaskPage() {
                             <Link
                               key={topic.href}
                               href={topic.href}
-                              className="flex items-start gap-3 p-3 rounded-lg border border-[#24393d] bg-[#151d1e] hover:border-shopify-green/50 hover:bg-[#151d1e]/70 transition-colors group"
+                              className="flex items-start gap-3 p-3 rounded-lg border border-accent/10 bg-background hover:border-accent/50 hover:bg-background/70 transition-colors group"
                             >
-                              <ArrowRight className="h-4 w-4 text-shopify-green shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" />
+                              <ArrowRight className="h-4 w-4 text-accent shrink-0 mt-0.5 group-hover:translate-x-1 transition-transform" />
                               <div className="flex-1 min-w-0">
-                                <div className="font-medium text-white group-hover:text-shopify-green transition-colors">
+                                <div className="font-medium text-white group-hover:text-accent transition-colors">
                                   {topic.title}
                                 </div>
-                                <div className="text-sm text-white/60 mt-1">
+                                <div className="text-sm text-text-tertiary mt-1">
                                   {topic.description}
                                 </div>
                               </div>
@@ -307,12 +307,12 @@ export default function TaskPage() {
 
         {/* Getting Started CTA */}
         <section>
-          <Card className="bg-gradient-to-r from-shopify-green/20 to-shopify-teal/20 border-shopify-green/50">
+          <Card className="bg-gradient-to-r from-accent/20 to-accent/20 border-accent/50">
             <CardContent className="p-8 text-center">
               <h2 className="text-2xl font-bold text-white mb-4">
                 Ready to Start?
               </h2>
-              <p className="text-white/80 mb-6">
+              <p className="text-text-secondary mb-6">
                 Begin with Step 1: Setup & Basics. Make sure you have access to
                 a development store and the Figma design file.
               </p>

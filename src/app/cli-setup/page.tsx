@@ -19,7 +19,7 @@ export default function CLISetup() {
       <div className="space-y-8">
         {/* Introduction */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             What is Shopify CLI?
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -31,15 +31,15 @@ export default function CLISetup() {
 
         {/* Prerequisites */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Prerequisites</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Prerequisites</h2>
           <div className="mt-6 space-y-4">
             <div className="flex items-start gap-3">
-              <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
+              <CheckCircle className="h-6 w-6 text-accent mt-0.5" />
               <div>
                 <strong>Node.js</strong> (v18 or higher) -{" "}
                 <a
                   href="https://nodejs.org"
-                  className="text-shopify-blue hover:underline"
+                  className="text-blue-400 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -48,12 +48,12 @@ export default function CLISetup() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
+              <CheckCircle className="h-6 w-6 text-accent mt-0.5" />
               <div>
                 <strong>Git</strong> -{" "}
                 <a
                   href="https://git-scm.com"
-                  className="text-shopify-blue hover:underline"
+                  className="text-blue-400 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -62,12 +62,12 @@ export default function CLISetup() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <CheckCircle className="h-6 w-6 text-shopify-green mt-0.5" />
+              <CheckCircle className="h-6 w-6 text-accent mt-0.5" />
               <div>
                 <strong>Shopify Partner Account</strong> -{" "}
                 <a
                   href="https://partners.shopify.com"
-                  className="text-shopify-blue hover:underline"
+                  className="text-blue-400 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -80,7 +80,7 @@ export default function CLISetup() {
 
         {/* Installation */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Installing Shopify CLI
           </h2>
           <p className="mt-4 text-gray-700">
@@ -101,7 +101,7 @@ export default function CLISetup() {
 
         {/* Creating a Theme */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Creating a New Theme
           </h2>
           <p className="mt-4 text-gray-700">
@@ -123,7 +123,7 @@ shopify theme dev --store your-store.myshopify.com`}
 
         {/* Tailwind Setup */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Adding Tailwind CSS
           </h2>
           <p className="mt-4 text-gray-700">
@@ -157,8 +157,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'shopify-green': '#95bf47',
-        'shopify-blue': '#006fbb',
+        'accent': '#95bf47',
+        'blue-400': '#006fbb',
       },
     },
   },
@@ -207,7 +207,7 @@ module.exports = {
 
         {/* Common Commands */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Common CLI Commands
           </h2>
           <div className="mt-6 space-y-4">
@@ -218,7 +218,7 @@ module.exports = {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Start local development server with hot reload
                 </p>
               </CardContent>
@@ -230,7 +230,7 @@ module.exports = {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Upload your theme to Shopify</p>
+                <p className="text-text-secondary">Upload your theme to Shopify</p>
               </CardContent>
             </Card>
             <Card>
@@ -240,7 +240,7 @@ module.exports = {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Download theme files from Shopify
                 </p>
               </CardContent>
@@ -252,7 +252,7 @@ module.exports = {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Lint your theme for errors and best practices
                 </p>
               </CardContent>
@@ -262,8 +262,8 @@ module.exports = {
 
         {/* Best Practices */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Best Practices</h2>
-          <div className="mt-6 rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+          <h2 className="text-3xl font-bold text-text-primary">Best Practices</h2>
+          <div className="mt-6 rounded-lg border border-accent/20 bg-accent/5 p-6">
             <ul className="list-disc list-inside space-y-2 text-gray-700">
               <li>
                 Always develop on a development store, never on production

@@ -20,6 +20,7 @@ import {
   Menu,
   Trophy,
   Key,
+  BrainCircuit,
   LucideIcon,
 } from "lucide-react";
 
@@ -205,5 +206,32 @@ export const navigationStructure: NavigationItem[] = [
     title: "App Access Token",
     href: "/app-access-token",
     icon: Key,
+  },
+  {
+    id: "knowledge-hub",
+    title: "Knowledge Hub",
+    icon: BrainCircuit,
+    children: [
+      {
+        id: "knowledge-hub-chat",
+        title: "AI Search",
+        href: "/knowledge-hub",
+      },
+      {
+        id: "knowledge-hub-my-docs",
+        title: "My Documents",
+        href: "/knowledge-hub/my-documents",
+      },
+      {
+        id: "knowledge-hub-contribute",
+        title: "Contribute",
+        href: "/knowledge-hub/contribute",
+      },
+      {
+        id: "knowledge-hub-review",
+        title: "Review Queue",
+        href: "/knowledge-hub/review",
+      },
+    ],
   },
 ];

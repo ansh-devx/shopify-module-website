@@ -166,8 +166,8 @@ export default function SuperadminDashboard() {
             <div
               className={`p-4 rounded-lg ${
                 message.type === "success"
-                  ? "bg-shopify-green/10 text-shopify-green"
-                  : "bg-shopify-red/10 text-shopify-red"
+                  ? "bg-accent/10 text-accent"
+                  : "bg-red-400/10 text-red-400"
               }`}
             >
               {message.text}
@@ -184,7 +184,7 @@ export default function SuperadminDashboard() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-gray-200">
+                    <thead className="border-b border-accent/10">
                       <tr>
                         <th className="text-left py-2 px-4">Email</th>
                         <th className="text-left py-2 px-4">Name</th>
@@ -218,7 +218,7 @@ export default function SuperadminDashboard() {
                           <td className="py-3 px-4">
                             <button
                               onClick={() => fetchUsers()}
-                              className="text-shopify-green hover:underline"
+                              className="text-accent hover:underline"
                             >
                               Refresh
                             </button>
@@ -255,7 +255,7 @@ export default function SuperadminDashboard() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-gray-200">
+                    <thead className="border-b border-accent/10">
                       <tr>
                         <th className="text-left py-2 px-4">Email</th>
                         <th className="text-left py-2 px-4">Name</th>
@@ -289,7 +289,7 @@ export default function SuperadminDashboard() {
                           <td className="py-3 px-4">
                             <button
                               onClick={() => fetchScores()}
-                              className="text-shopify-green hover:underline"
+                              className="text-accent hover:underline"
                             >
                               Refresh
                             </button>

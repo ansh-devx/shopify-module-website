@@ -9,7 +9,6 @@ export default function UserProfile() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -19,14 +18,12 @@ export default function UserProfile() {
         setShowDropdown(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   if (!session?.user) return null;
 
-  // Extract initials from email or name
   const getInitials = () => {
     if (session.user.name) {
       return session.user.name
@@ -41,32 +38,27 @@ export default function UserProfile() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Avatar Button */}
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-shopify-green text-white font-semibold hover:opacity-90 transition-opacity duration-150"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-accent text-background font-semibold hover:bg-accent-hover transition-all duration-200 hover:shadow-[0_0_15px_rgba(141,213,214,0.2)]"
         title={session.user.email || "User"}
       >
         {getInitials()}
       </button>
 
-      {/* Dropdown Menu */}
       {showDropdown && (
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
-          {/* User Info */}
-          <div className="px-4 py-3 border-b border-gray-200">
-            <p className="text-xs text-gray-600">Signed in as</p>
-            <p className="text-sm font-medium text-black truncate">
+        <div className="absolute right-0 mt-2 w-48 rounded-xl border border-accent/10 bg-surface-1 shadow-2xl shadow-accent/5 z-50 overflow-hidden">
+          <div className="px-4 py-3 border-b border-accent/10">
+            <p className="text-xs text-text-tertiary">Signed in as</p>
+            <p className="text-sm font-medium text-text-primary truncate">
               {session.user.email}
             </p>
           </div>
-
-          {/* Menu Items */}
-          <div className="py-2">
+          <div className="py-1">
             <Link
               href="/profile"
               onClick={() => setShowDropdown(false)}
-              className="block px-4 py-2 text-sm text-black hover:bg-gray-100 hover:text-white transition-colors duration-150"
+              className="block px-4 py-2 text-sm text-text-secondary hover:bg-accent/10 hover:text-text-primary transition-colors duration-200"
             >
               Profile
             </Link>
@@ -75,7 +67,7 @@ export default function UserProfile() {
                 setShowDropdown(false);
                 signOut({ callbackUrl: "/" });
               }}
-              className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150 font-medium"
+              className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition-colors duration-200 font-medium"
             >
               Logout
             </button>

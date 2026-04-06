@@ -54,10 +54,10 @@ export default function FormCheckboxGroup({
               onClick={() => handleToggle(option.value)}
               className={cn(
                 "w-full text-left p-4 rounded-lg border-2 transition-all duration-150",
-                "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+                "focus:outline-none focus:ring-2 focus:ring-accent/50",
                 isSelected
-                  ? "border-shopify-green bg-shopify-green/5"
-                  : "border-gray-600 bg-[#151d1e] hover:border-gray-500",
+                  ? "border-accent bg-accent/5"
+                  : "border-accent/10 bg-background hover:border-gray-500",
               )}
             >
               <div className="flex items-start gap-3">
@@ -67,8 +67,8 @@ export default function FormCheckboxGroup({
                     "shrink-0 w-5 h-5 rounded border-2 transition-all duration-150",
                     "flex items-center justify-center mt-0.5",
                     isSelected
-                      ? "border-shopify-green bg-shopify-green"
-                      : "border-gray-600",
+                      ? "border-accent bg-accent"
+                      : "border-accent/10",
                   )}
                 >
                   {isSelected && (
@@ -81,7 +81,7 @@ export default function FormCheckboxGroup({
                   <div className="font-medium text-white mb-1">
                     {option.label}
                   </div>
-                  <div className="text-sm text-white/70">
+                  <div className="text-sm text-text-secondary">
                     {option.description}
                   </div>
                 </div>

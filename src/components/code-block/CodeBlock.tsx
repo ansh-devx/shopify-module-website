@@ -32,13 +32,13 @@ export default function CodeBlock({
   return (
     <div
       className={cn(
-        "group relative my-6 overflow-hidden rounded-lg border border-gray-200",
+        "group relative my-6 overflow-hidden rounded-lg border border-accent/10",
         className
       )}
     >
       {/* Header */}
       {(filename || language) && (
-        <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2">
+        <div className="flex items-center justify-between border-b border-accent/10 bg-surface-1 px-4 py-2">
           <div className="flex items-center gap-2">
             {filename && (
               <span className="text-sm font-medium text-gray-700">
@@ -46,14 +46,14 @@ export default function CodeBlock({
               </span>
             )}
             {language && (
-              <span className="rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">
+              <span className="rounded bg-gray-200 px-2 py-0.5 text-xs font-medium text-text-secondary">
                 {language}
               </span>
             )}
           </div>
           <button
             onClick={copyToClipboard}
-            className="flex cursor-pointer items-center gap-1.5 rounded px-2 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
+            className="flex cursor-pointer items-center gap-1.5 rounded px-2 py-1 text-sm text-text-secondary transition-colors hover:bg-gray-200 hover:text-text-primary"
             aria-label="Copy code"
           >
             {copied ? (
@@ -93,7 +93,7 @@ export default function CodeBlock({
       {!filename && !language && (
         <button
           onClick={copyToClipboard}
-          className="absolute right-2 top-2 cursor-pointer rounded bg-white/10 p-2 text-white/70 opacity-0 transition-opacity hover:bg-white/15 hover:text-white group-hover:opacity-100"
+          className="absolute right-2 top-2 cursor-pointer rounded bg-accent/10 p-2 text-text-secondary opacity-0 transition-opacity hover:bg-white/15 hover:text-white group-hover:opacity-100"
           aria-label="Copy code"
         >
           {copied ? (

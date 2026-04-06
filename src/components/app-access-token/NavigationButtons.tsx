@@ -26,14 +26,14 @@ export default function NavigationButtons({
   const isLastStep = currentStep === totalSteps;
 
   return (
-    <div className="flex items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-600">
+    <div className="flex items-center justify-between gap-4 mt-8 pt-6 border-t border-accent/10">
       {/* Previous Button */}
       {!isFirstStep && (
         <Button
           variant="outline"
           onClick={onPrevious}
           disabled={isSubmitting}
-          className="flex items-center gap-2 border-gray-600 text-white hover:bg-gray-700"
+          className="flex items-center gap-2 border-accent/10 text-white hover:bg-gray-700"
         >
           <ChevronLeft className="h-4 w-4" />
           Previous

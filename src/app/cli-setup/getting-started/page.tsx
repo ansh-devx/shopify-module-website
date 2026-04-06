@@ -10,7 +10,7 @@ export default function CLIGettingStarted() {
       <div className="space-y-8">
         {/* Login to Shopify */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Login to Shopify</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Login to Shopify</h2>
           <p className="mt-4 text-lg text-gray-700">
             Authenticate with your Shopify Partner account to start using Shopify CLI:
           </p>
@@ -28,7 +28,7 @@ export default function CLIGettingStarted() {
 
         {/* Connect to a Store */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Connect to a Store</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Connect to a Store</h2>
           <p className="mt-4 text-lg text-gray-700">
             Start a local development server and connect to your Shopify store:
           </p>
@@ -40,7 +40,7 @@ export default function CLIGettingStarted() {
           />
 
           <p className="mt-4 text-gray-700">
-            Replace <code className="rounded bg-gray-100 px-2 py-1 text-sm">your-store.myshopify.com</code> with your actual store URL.
+            Replace <code className="rounded bg-surface-2 px-2 py-1 text-sm">your-store.myshopify.com</code> with your actual store URL.
           </p>
 
           <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
@@ -54,26 +54,26 @@ export default function CLIGettingStarted() {
 
         {/* What's Next */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">What's Next?</h2>
+          <h2 className="text-3xl font-bold text-text-primary">What's Next?</h2>
           <p className="mt-4 text-lg text-gray-700">
             Now that you have Shopify CLI set up, you're ready to:
           </p>
 
           <ul className="mt-4 space-y-2 text-gray-700">
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Create and develop Shopify themes locally</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Build custom Shopify apps</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Test changes in real-time with hot reload</span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-shopify-green">✓</span>
+              <span className="mr-2 text-accent">✓</span>
               <span>Deploy themes to your store</span>
             </li>
           </ul>

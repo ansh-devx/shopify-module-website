@@ -10,7 +10,7 @@ export default function ProductObjectPage() {
       <div className="space-y-8">
         {/* Basic Product Properties */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Basic Product Properties</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Basic Product Properties</h2>
           <p className="mt-4 text-lg text-gray-700">
             The product object contains all the information about a product in your store.
           </p>
@@ -43,7 +43,7 @@ export default function ProductObjectPage() {
 
         {/* Product Pricing */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Pricing</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Pricing</h2>
           <CodeBlock
             code={`<!-- Product Price -->
 {{ product.price | money }}
@@ -67,7 +67,7 @@ export default function ProductObjectPage() {
 
         {/* Product Variants */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Variants</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Variants</h2>
           <p className="mt-4 text-lg text-gray-700">
             Variants represent different versions of a product (e.g., different sizes or colors).
           </p>
@@ -92,7 +92,7 @@ export default function ProductObjectPage() {
 
         {/* Individual Variant Properties */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Individual Variant Properties</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Individual Variant Properties</h2>
           <CodeBlock
             code={`{% assign variant = product.selected_or_first_available_variant %}
 
@@ -124,7 +124,7 @@ export default function ProductObjectPage() {
 
         {/* Product Images */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Images</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Images</h2>
           <CodeBlock
             code={`<!-- Featured Image -->
 {% if product.featured_image %}
@@ -150,7 +150,7 @@ export default function ProductObjectPage() {
 
         {/* Product Availability */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Availability</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Availability</h2>
           <CodeBlock
             code={`<!-- Check if product is available -->
 {% if product.available %}
@@ -178,7 +178,7 @@ export default function ProductObjectPage() {
 
         {/* Product Metafields */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Product Metafields</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Product Metafields</h2>
           <CodeBlock
             code={`<!-- Access product metafields -->
 {{ product.metafields.custom.material }}

@@ -65,8 +65,8 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
         <CardContent>
           <div className="flex items-center justify-center py-8">
             <div className="flex flex-col items-center gap-3">
-              <div className="h-8 w-8 animate-spin rounded-full border-2 border-shopify-green border-t-transparent"></div>
-              <p className="text-white/70 text-sm">Loading leaderboard...</p>
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent"></div>
+              <p className="text-text-secondary text-sm">Loading leaderboard...</p>
             </div>
           </div>
         </CardContent>
@@ -99,7 +99,7 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
               <p className="text-white">No participants yet</p>
-              <p className="text-sm text-white/70 mt-2">
+              <p className="text-sm text-text-secondary mt-2">
                 Be the first to register for this hackathon!
               </p>
             </div>
@@ -114,7 +114,7 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>Leaderboard</CardTitle>
-          <div className="text-sm text-white/70">
+          <div className="text-sm text-text-secondary">
             {totalParticipants} participant{totalParticipants !== 1 ? "s" : ""}
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
+              <tr className="border-b border-accent/10">
                 <th className="text-left py-3 px-4 text-sm font-semibold text-white">
                   Rank
                 </th>
@@ -150,8 +150,8 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
                   key={entry.userId}
                   className={`border-b border-gray-100 ${
                     entry.isCurrentUser
-                      ? "bg-shopify-green/10 font-medium"
-                      : "hover:bg-gray-50"
+                      ? "bg-accent/10 font-medium"
+                      : "hover:bg-surface-1"
                   }`}
                 >
                   <td className="py-3 px-4 text-sm">
@@ -166,7 +166,7 @@ export default function Leaderboard({ hackathonId }: LeaderboardProps) {
                   <td className="py-3 px-4 text-sm text-white">
                     {entry.userName || "Unknown"}
                     {entry.isCurrentUser && (
-                      <span className="ml-2 text-xs text-shopify-green">
+                      <span className="ml-2 text-xs text-accent">
                         (You)
                       </span>
                     )}

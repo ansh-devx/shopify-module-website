@@ -142,7 +142,7 @@ export default function AppAccessTokenWizard({
       />
 
       {/* Step Title */}
-      <div className="border-b border-gray-600 pb-4">
+      <div className="border-b border-accent/10 pb-4">
         <h2 className="text-2xl font-semibold text-white">
           {STEPS[currentStep - 1]?.title}
         </h2>

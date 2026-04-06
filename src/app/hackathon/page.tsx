@@ -87,7 +87,7 @@ export default function Hackathon() {
           >
             <div className="space-y-8">
               <section>
-                <p className="mt-4 text-lg text-white/70">
+                <p className="mt-4 text-lg text-text-secondary">
                   Welcome to the Shopify Development Hackathon! This is your
                   opportunity to build innovative solutions using Shopify&apos;s
                   powerful platform.
@@ -118,7 +118,7 @@ export default function Hackathon() {
             <CardContent className="pt-6">
               <div className="text-center">
                 <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
+                  className="mx-auto h-12 w-12 text-text-tertiary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -133,7 +133,7 @@ export default function Hackathon() {
                 <h3 className="mt-4 text-lg font-medium text-white">
                   No Active Hackathon
                 </h3>
-                <p className="mt-2 text-sm text-white/70">
+                <p className="mt-2 text-sm text-text-secondary">
                   Please register for the next hackathon when it starts.
                 </p>
               </div>

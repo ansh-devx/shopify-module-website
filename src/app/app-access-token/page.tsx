@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import MagneticButton from "@/components/ui/MagneticButton";
 import Loader from "@/components/ui/Loader";
 import AuthModal from "@/components/auth/AuthModal";
 import Modal from "@/components/ui/Modal";
@@ -49,9 +50,9 @@ function CopyButton({ text, className }: { text: string; className?: string }) {
       aria-label={copied ? "Copied" : "Copy"}
     >
       {copied ? (
-        <Check className="h-4 w-4 text-shopify-green" />
+        <Check className="h-4 w-4 text-accent" />
       ) : (
-        <Copy className="h-4 w-4 text-white/60 hover:text-white" />
+        <Copy className="h-4 w-4 text-text-tertiary hover:text-white" />
       )}
     </button>
   );
@@ -200,7 +201,7 @@ function AppAccessTokenContent() {
     return (
       <>
         <div className="pointer-events-none">
-          <div className="min-h-screen bg-[#0d1213]" />
+          <div className="min-h-screen bg-surface-1" />
         </div>
         <AuthModal fullScreen={true} />
       </>
@@ -212,17 +213,17 @@ function AppAccessTokenContent() {
   // Success: we have ?code= and have fetched the token
   if (code) {
     return (
-      <div className="min-h-screen bg-[#0d1213] p-8 overflow-hidden">
+      <div className="min-h-screen bg-surface-1 p-8 overflow-hidden">
         <div className="mx-auto max-w-2xl">
           <div className="mb-8 flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-shopify-green/20">
-              <KeyRound className="h-6 w-6 text-shopify-green" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/20">
+              <KeyRound className="h-6 w-6 text-accent" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">
                 App Access Token
               </h1>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-text-tertiary">
                 Copy your token below; it won’t be shown again.
               </p>
             </div>
@@ -236,7 +237,7 @@ function AppAccessTokenContent() {
                 </p>
                 <Link
                   href="/app-access-token"
-                  className="mt-3 inline-flex items-center gap-1.5 text-shopify-green hover:underline"
+                  className="mt-3 inline-flex items-center gap-1.5 text-accent hover:underline"
                 >
                   Back to Token Generator
                   <ChevronRight className="h-4 w-4" />
@@ -244,23 +245,23 @@ function AppAccessTokenContent() {
               </div>
             </div>
           ) : accessToken ? (
-            <div className="space-y-6 rounded-xl border border-gray-600 bg-[#151d1e] p-6">
+            <div className="space-y-6 rounded-xl border border-accent/10 bg-background p-6">
               <CopyableText
                 label="Access token (copy now; it won’t be shown again)"
                 text={accessToken}
               />
-              <div className="flex flex-wrap items-center gap-3 border-t border-gray-600/80 pt-6">
+              <div className="flex flex-wrap items-center gap-3 border-t border-accent/10/80 pt-6">
                 <button
                   type="button"
                   onClick={clearTokenAndUrl}
-                  className="inline-flex items-center gap-2 rounded-lg bg-shopify-green px-5 py-2.5 font-medium text-white transition-colors hover:bg-shopify-green/90 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
+                  className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-medium text-white transition-colors hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
                 >
                   <Check className="h-4 w-4" />
                   Done, clear and go back
                 </button>
                 <Link
                   href="/app-access-token"
-                  className="inline-flex items-center gap-1.5 text-sm text-white/70 transition-colors hover:text-white"
+                  className="inline-flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-white"
                 >
                   Back to Token Generator
                   <ChevronRight className="h-4 w-4" />
@@ -268,9 +269,9 @@ function AppAccessTokenContent() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3 rounded-xl border border-gray-600 bg-[#151d1e] p-6">
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
-              <p className="text-white/80">Exchanging code for token…</p>
+            <div className="flex items-center gap-3 rounded-xl border border-accent/10 bg-background p-6">
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+              <p className="text-text-secondary">Exchanging code for token…</p>
             </div>
           )}
         </div>
@@ -282,7 +283,7 @@ function AppAccessTokenContent() {
   if (errorParam) {
     const message = getErrorMessage(errorParam);
     return (
-      <div className="min-h-screen bg-[#0d1213] p-8">
+      <div className="min-h-screen bg-surface-1 p-8">
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/20">
@@ -292,7 +293,7 @@ function AppAccessTokenContent() {
               <h1 className="text-2xl font-bold text-white">
                 Something went wrong
               </h1>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-text-tertiary">
                 We couldn’t complete the authorization.
               </p>
             </div>
@@ -303,7 +304,7 @@ function AppAccessTokenContent() {
               <p className="text-red-200">{message}</p>
               <Link
                 href="/app-access-token"
-                className="mt-4 inline-flex items-center gap-1.5 text-shopify-green hover:underline"
+                className="mt-4 inline-flex items-center gap-1.5 text-accent hover:underline"
               >
                 Back to Token Generator
                 <ChevronRight className="h-4 w-4" />
@@ -317,18 +318,19 @@ function AppAccessTokenContent() {
 
   // Main mode: Generate Token button + table
   return (
-    <div className="min-h-screen bg-[#0d1213] p-8">
+    <div className="min-h-screen bg-surface-1 p-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-white sm:text-3xl">
               App Access Tokens
             </h1>
-            <p className="mt-1.5 text-white/60">
+            <p className="mt-1.5 text-text-tertiary">
               Manage your Shopify app access tokens for API integration
             </p>
           </div>
-          <button
+          <MagneticButton
+            variant="secondary"
             onClick={() => {
               setModalStep("steps");
               setRedirectUrl(null);
@@ -336,11 +338,9 @@ function AppAccessTokenContent() {
               setRedirectUrlError(null);
               setIsModalOpen(true);
             }}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-shopify-green px-6 py-3.5 font-semibold text-white shadow-lg shadow-shopify-green/20 transition-all hover:bg-shopify-green/90 hover:shadow-shopify-green/30 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#0d1213] sm:w-auto"
           >
-            <Plus className="h-5 w-5" />
             Generate Token
-          </button>
+          </MagneticButton>
         </div>
 
         {tokensError && (
@@ -353,7 +353,7 @@ function AppAccessTokenContent() {
                 onClick={() =>
                   session?.user?.id && fetchFirstPage(session.user.id)
                 }
-                className="mt-2 text-sm font-medium text-shopify-green hover:underline"
+                className="mt-2 text-sm font-medium text-accent hover:underline"
               >
                 Try again
               </button>
@@ -362,9 +362,9 @@ function AppAccessTokenContent() {
         )}
 
         {tokensLoading ? (
-          <div className="flex items-center justify-center gap-3 rounded-xl border border-gray-600 bg-[#151d1e] py-16">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
-            <span className="text-white/70">Loading tokens…</span>
+          <div className="flex items-center justify-center gap-3 rounded-xl border border-accent/10 bg-background py-16">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+            <span className="text-text-secondary">Loading tokens…</span>
           </div>
         ) : (
           <TokensTable
@@ -392,7 +392,7 @@ function AppAccessTokenContent() {
         >
           {modalStep === "steps" ? (
             <div className="space-y-6">
-              <p className="text-sm text-white/70">
+              <p className="text-sm text-text-secondary">
                 Complete these steps in the{" "}
                 <span className="font-medium text-white/90">
                   Shopify Partners (Dev) Dashboard
@@ -402,24 +402,24 @@ function AppAccessTokenContent() {
 
               <div className="space-y-4">
                 <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
                     1
                   </span>
                   <div>
                     <p className="font-medium text-white">Create app</p>
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-text-tertiary">
                       Create a new app in Partners if you haven’t already.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
                     2
                   </span>
                   <div className="min-w-0 flex-1 space-y-3">
                     <p className="font-medium text-white">Create Version</p>
-                    <ul className="space-y-2.5 text-sm text-white/80">
+                    <ul className="space-y-2.5 text-sm text-text-secondary">
                       <li className="flex items-start gap-2">
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
                         Select scopes
@@ -457,11 +457,11 @@ function AppAccessTokenContent() {
                                   .finally(() => setRedirectUrlLoading(false));
                               }}
                               disabled={redirectUrlLoading}
-                              className="inline-flex items-center gap-1.5 rounded-lg border border-shopify-green/50 bg-shopify-green/10 px-2.5 py-1.5 text-xs font-medium text-shopify-green transition-colors hover:bg-shopify-green/20 disabled:opacity-50"
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-2.5 py-1.5 text-xs font-medium text-accent transition-colors hover:bg-accent/20 disabled:opacity-50"
                             >
                               {redirectUrlLoading ? (
                                 <>
-                                  <span className="h-3 w-3 animate-spin rounded-full border-2 border-shopify-green border-t-transparent" />
+                                  <span className="h-3 w-3 animate-spin rounded-full border-2 border-accent border-t-transparent" />
                                   Loading…
                                 </>
                               ) : (
@@ -475,17 +475,17 @@ function AppAccessTokenContent() {
                         </span>
                         {redirectUrl && (
                           <div className="ml-3.5 space-y-1.5">
-                            <div className="flex items-center gap-2 rounded-lg border border-gray-600 bg-[#0d1213] px-3 py-2.5 font-mono text-xs text-white/90">
+                            <div className="flex items-center gap-2 rounded-lg border border-accent/10 bg-surface-1 px-3 py-2.5 font-mono text-xs text-white/90">
                               <span className="min-w-0 flex-1 truncate">
                                 {redirectUrl}
                               </span>
                               <CopyButton
                                 text={redirectUrl}
-                                className="shrink-0 rounded p-1.5 transition-colors hover:bg-white/10"
+                                className="shrink-0 rounded p-1.5 transition-colors hover:bg-accent/10"
                               />
                             </div>
                             {redirectUrlMessage && (
-                              <p className="text-xs text-white/60">
+                              <p className="text-xs text-text-tertiary">
                                 {redirectUrlMessage}
                               </p>
                             )}
@@ -500,12 +500,12 @@ function AppAccessTokenContent() {
                       <li className="flex items-center gap-2">
                         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
                         App URL:{" "}
-                        <code className="rounded bg-white/10 px-2 py-0.5 font-mono text-xs">
+                        <code className="rounded bg-accent/10 px-2 py-0.5 font-mono text-xs">
                           https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth
                         </code>
                         <CopyButton
                           text="https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth"
-                          className="shrink-0 rounded p-1 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+                          className="shrink-0 rounded p-1 text-text-tertiary transition-colors hover:bg-accent/10 hover:text-white"
                         />
                       </li>
                       <li className="flex items-center gap-2">
@@ -521,14 +521,14 @@ function AppAccessTokenContent() {
                 </div>
 
                 <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-shopify-green/20 text-sm font-semibold text-shopify-green">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
                     3
                   </span>
                   <div>
                     <p className="font-medium text-white">
                       Select Custom distribution
                     </p>
-                    <p className="text-sm text-white/60">
+                    <p className="text-sm text-text-tertiary">
                       Go to Home in your app navigation and select Distribution,
                       then choose Custom distribution.
                     </p>
@@ -536,11 +536,11 @@ function AppAccessTokenContent() {
                 </div>
               </div>
 
-              <div className="flex justify-end border-t border-gray-600/80 pt-6">
+              <div className="flex justify-end border-t border-accent/10/80 pt-6">
                 <button
                   type="button"
                   onClick={() => setModalStep("form")}
-                  className="inline-flex items-center gap-2 rounded-xl bg-shopify-green px-5 py-2.5 font-semibold text-white transition-all hover:bg-shopify-green/90 focus:outline-none focus:ring-2 focus:ring-shopify-green/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
+                  className="inline-flex items-center gap-2 rounded-xl bg-accent/20 px-5 py-2.5 font-semibold text-accent transition-all hover:text-white hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-[#151d1e]"
                 >
                   I&apos;ve done this, continue
                   <ChevronRight className="h-4 w-4" />

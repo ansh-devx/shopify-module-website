@@ -218,8 +218,8 @@ export default function AdminDashboard() {
             <div
               className={`p-4 rounded-lg ${
                 message.type === "success"
-                  ? "bg-shopify-green/10 text-shopify-green"
-                  : "bg-shopify-red/10 text-shopify-red"
+                  ? "bg-accent/10 text-accent"
+                  : "bg-red-400/10 text-red-400"
               }`}
             >
               {message.text}
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
                       setFormData({ ...formData, questionLink: e.target.value })
                     }
                     placeholder="https://docs.google.com/..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-shopify-green focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
                     required
                   />
                 </div>
@@ -284,7 +284,7 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-shopify-green hover:bg-shopify-green/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                  className="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50"
                 >
                   {loading ? "Creating Hackathon..." : "Create Hackathon"}
                 </button>
@@ -303,7 +303,7 @@ export default function AdminDashboard() {
                   filterByCreator={true}
                 />
               </div>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-text-secondary mt-2">
                 {session?.user.role === "SUPERADMIN"
                   ? "You can manage scores for all hackathons"
                   : "You can only manage scores for hackathons you created"}
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-gray-200">
+                    <thead className="border-b border-accent/10">
                       <tr>
                         <th className="text-left py-2 px-4 text-white">
                           Email
@@ -365,7 +365,7 @@ export default function AdminDashboard() {
                           <td className="py-3 px-4">
                             <button
                               onClick={() => fetchScores()}
-                              className="text-shopify-green hover:underline"
+                              className="text-accent hover:underline"
                             >
                               Refresh
                             </button>

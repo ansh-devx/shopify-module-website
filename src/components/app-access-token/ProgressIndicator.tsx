@@ -35,11 +35,11 @@ export default function ProgressIndicator({
                         "w-16 h-16 rounded-full flex items-center justify-center",
                         "border-2 transition-all duration-300 font-semibold text-xs",
                         isCompleted &&
-                          "bg-shopify-green border-shopify-green text-white",
+                          "bg-accent border-accent text-white",
                         isCurrent &&
-                          "bg-shopify-green border-shopify-green text-white animate-pulse",
+                          "bg-accent border-accent text-white animate-pulse",
                         isUpcoming &&
-                          "bg-[#151d1e] border-gray-600 text-gray-600",
+                          "bg-background border-accent/10 text-text-secondary",
                       )}
                     >
                       {isCompleted ? (
@@ -65,7 +65,7 @@ export default function ProgressIndicator({
                       className={cn(
                         "h-0.5 w-8 transition-colors duration-300",
                         step.number < currentStep
-                          ? "bg-shopify-green"
+                          ? "bg-accent"
                           : "bg-gray-600",
                       )}
                     />
@@ -79,7 +79,7 @@ export default function ProgressIndicator({
 
       {/* Mobile: Vertical compact layout */}
       <div className="md:hidden">
-        <div className="flex items-center gap-2 text-sm text-white/80">
+        <div className="flex items-center gap-2 text-sm text-text-secondary">
           <span className="font-semibold text-white">
             Step {currentStep} of {steps.length}
           </span>
@@ -90,7 +90,7 @@ export default function ProgressIndicator({
         {/* Progress Bar */}
         <div className="mt-3 w-full h-2 bg-gray-600 rounded-full overflow-hidden">
           <div
-            className="h-full bg-shopify-green transition-all duration-300"
+            className="h-full bg-accent transition-all duration-300"
             style={{ width: `${(currentStep / steps.length) * 100}%` }}
           />
         </div>

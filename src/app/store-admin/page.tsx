@@ -34,15 +34,15 @@ export default function StoreAdmin() {
 
         {/* Main Sections */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Main Sections</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Main Sections</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <Card hover>
               <CardHeader>
-                <Package className="h-8 w-8 text-shopify-green" />
+                <Package className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">Products</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Add, edit, and organize products. Manage pricing, inventory,
                   variants, and collections.
                 </p>
@@ -50,11 +50,11 @@ export default function StoreAdmin() {
             </Card>
             <Card hover>
               <CardHeader>
-                <ShoppingCart className="h-8 w-8 text-shopify-blue" />
+                <ShoppingCart className="h-8 w-8 text-blue-400" />
                 <CardTitle className="mt-4 text-xl">Orders</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Process orders, manage fulfillment, handle returns, and track
                   shipments.
                 </p>
@@ -62,11 +62,11 @@ export default function StoreAdmin() {
             </Card>
             <Card hover>
               <CardHeader>
-                <Users className="h-8 w-8 text-shopify-purple" />
+                <Users className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">Customers</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   View customer profiles, manage segments, and track customer
                   data.
                 </p>
@@ -74,11 +74,11 @@ export default function StoreAdmin() {
             </Card>
             <Card hover>
               <CardHeader>
-                <BarChart className="h-8 w-8 text-shopify-teal" />
+                <BarChart className="h-8 w-8 text-accent" />
                 <CardTitle className="mt-4 text-xl">Analytics</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Track sales, traffic, and performance with reports and
                   dashboards.
                 </p>
@@ -86,11 +86,11 @@ export default function StoreAdmin() {
             </Card>
             <Card hover>
               <CardHeader>
-                <Palette className="h-8 w-8 text-shopify-yellow" />
+                <Palette className="h-8 w-8 text-yellow-400" />
                 <CardTitle className="mt-4 text-xl">Online Store</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Manage theme, pages, navigation, and content.
                 </p>
               </CardContent>
@@ -101,7 +101,7 @@ export default function StoreAdmin() {
                 <CardTitle className="mt-4 text-xl">Settings</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   Configure store settings, payments, shipping, and taxes.
                 </p>
               </CardContent>
@@ -111,7 +111,7 @@ export default function StoreAdmin() {
 
         {/* Detailed walkthrough */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Detailed Walkthrough
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -125,7 +125,7 @@ export default function StoreAdmin() {
 
         {/* Navigation */}
         <section>
-          <h2 className="text-4xl font-bold text-gray-900">
+          <h2 className="text-4xl font-bold text-text-primary">
             Navigating the Admin
           </h2>
           <div className="mt-6 space-y-4">

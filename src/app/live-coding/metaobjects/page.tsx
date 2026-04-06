@@ -10,7 +10,7 @@ export default function MetaobjectsPage() {
       <div className="space-y-8">
         {/* What are Metaobjects */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             What are Metaobjects?
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -33,13 +33,13 @@ export default function MetaobjectsPage() {
 
         {/* Creating Metaobjects */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             How to Create Metaobjects
           </h2>
 
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-6">
+              <h3 className="text-xl font-semibold text-text-primary">
                 Step 1: Go to Settings
               </h3>
               <p className="mt-2 text-gray-700">
@@ -47,8 +47,8 @@ export default function MetaobjectsPage() {
               </p>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">
+            <div className="rounded-lg border border-accent/10 bg-surface-1 p-6">
+              <h3 className="text-xl font-semibold text-text-primary">
                 Step 2: Add Definition
               </h3>
               <p className="mt-2 text-gray-700">
@@ -60,12 +60,12 @@ export default function MetaobjectsPage() {
 
         {/* Example: Team Member */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Example: Team Member Metaobject
           </h2>
 
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <h3 className="text-xl font-semibold text-gray-900">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-surface-1 p-6">
+            <h3 className="text-xl font-semibold text-text-primary">
               Definition Settings
             </h3>
             <ul className="mt-4 space-y-2 text-gray-700">
@@ -78,7 +78,7 @@ export default function MetaobjectsPage() {
             </ul>
           </div>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">
             Step 4: Add Fields
           </h3>
           <p className="mt-2 text-gray-700">
@@ -86,8 +86,8 @@ export default function MetaobjectsPage() {
           </p>
 
           <div className="mt-4 space-y-4">
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Field 1: Name</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Field 1: Name</h4>
               <ul className="mt-2 space-y-1 text-sm text-gray-700">
                 <li>
                   <strong>Name:</strong> Name
@@ -104,8 +104,8 @@ export default function MetaobjectsPage() {
               </ul>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Field 2: Bio</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Field 2: Bio</h4>
               <ul className="mt-2 space-y-1 text-sm text-gray-700">
                 <li>
                   <strong>Name:</strong> Bio
@@ -119,8 +119,8 @@ export default function MetaobjectsPage() {
               </ul>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">Field 3: Photo</h4>
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">Field 3: Photo</h4>
               <ul className="mt-2 space-y-1 text-sm text-gray-700">
                 <li>
                   <strong>Name:</strong> Photo
@@ -134,8 +134,8 @@ export default function MetaobjectsPage() {
               </ul>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">
                 Field 4: Social Media
               </h4>
               <ul className="mt-2 space-y-1 text-sm text-gray-700">
@@ -151,8 +151,8 @@ export default function MetaobjectsPage() {
               </ul>
             </div>
 
-            <div className="rounded-lg border border-gray-200 p-4">
-              <h4 className="font-semibold text-gray-900">
+            <div className="rounded-lg border border-accent/10 p-4">
+              <h4 className="font-semibold text-text-primary">
                 Field 5: Expertise
               </h4>
               <ul className="mt-2 space-y-1 text-sm text-gray-700">
@@ -169,8 +169,8 @@ export default function MetaobjectsPage() {
             </div>
           </div>
 
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <h3 className="text-xl font-semibold text-gray-900">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-surface-1 p-6">
+            <h3 className="text-xl font-semibold text-text-primary">
               Step 5: Save Definition
             </h3>
             <p className="mt-2 text-gray-700">
@@ -181,7 +181,7 @@ export default function MetaobjectsPage() {
 
         {/* Using Metaobjects in Liquid */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Using Metaobjects in Liquid
           </h2>
           <CodeBlock
@@ -221,7 +221,7 @@ export default function MetaobjectsPage() {
 
         {/* Listing All Metaobjects */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Listing All Metaobjects
           </h2>
           <CodeBlock

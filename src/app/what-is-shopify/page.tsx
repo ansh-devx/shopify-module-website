@@ -24,7 +24,7 @@ export default function WhatIsShopify() {
 
         {/* Key Areas */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Platform Structure
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
@@ -33,7 +33,7 @@ export default function WhatIsShopify() {
                 <CardTitle className="text-xl">Storefront</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   The customer-facing website built with Liquid templates,
                   sections, and themes.
                 </p>
@@ -44,7 +44,7 @@ export default function WhatIsShopify() {
                 <CardTitle className="text-xl">Admin</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   The backend where merchants manage products, orders, and store
                   settings.
                 </p>
@@ -55,7 +55,7 @@ export default function WhatIsShopify() {
                 <CardTitle className="text-xl">APIs</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   GraphQL and REST APIs for extending functionality through apps
                   and integrations.
                 </p>
@@ -66,7 +66,7 @@ export default function WhatIsShopify() {
 
         {/* Development Workflow */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">How We Work</h2>
+          <h2 className="text-3xl font-bold text-text-primary">How We Work</h2>
           <p className="mt-4 text-lg text-gray-700">
             You&apos;ll typically work with:
           </p>
@@ -90,7 +90,7 @@ export default function WhatIsShopify() {
 
         {/* Next Steps */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Next Steps</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Next Steps</h2>
           <p className="mt-4 text-lg text-gray-700">
             Continue with the Partners Dashboard to set up your development
             environment, then explore the Store Admin to understand the platform

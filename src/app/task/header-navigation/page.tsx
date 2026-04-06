@@ -26,57 +26,57 @@ export default function HeaderNavigationPage() {
 
         {/* Header Structure */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Header Structure</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Header Structure</h2>
           <p className="mt-4 text-lg text-gray-700">
             The header is typically built as a section that appears on all pages
             of your theme. It includes:
           </p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-lg text-white">Logo</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-text-secondary">
                   Your store&apos;s logo or brand name, usually linking to the
                   homepage
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-lg text-white">
                   Navigation Menu
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-text-secondary">
                   Links to collections, pages, and other important pages
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-lg text-white">
                   Search Icon
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-text-secondary">
                   Search functionality (optional, if in your design)
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-lg text-white">Cart Icon</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-text-secondary">
                   Link to cart page or cart drawer trigger
                 </p>
               </CardContent>
@@ -86,7 +86,7 @@ export default function HeaderNavigationPage() {
 
         {/* Building the Header Section */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Building Your Header Section
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -95,14 +95,14 @@ export default function HeaderNavigationPage() {
           </p>
 
           <div className="mt-6 space-y-4">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Create Header Section
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ol className="space-y-2 text-white/80 list-decimal list-inside">
+                <ol className="space-y-2 text-text-secondary list-decimal list-inside">
                   <li>
                     Create a new section file in{" "}
                     <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">
@@ -128,19 +128,19 @@ export default function HeaderNavigationPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Include in Templates
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-white/80 mb-3">
+                <p className="text-text-secondary mb-3">
                   The header section needs to be included in all your templates
                   (product, collection, index, etc.) so it appears on every
                   page.
                 </p>
-                <p className="text-sm text-white/60">
+                <p className="text-sm text-text-tertiary">
                   You can include it at the top of each template, or use a
                   layout file if your theme supports it.
                 </p>
@@ -151,57 +151,57 @@ export default function HeaderNavigationPage() {
 
         {/* Navigation Menus */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Integrating Navigation Menus
           </h2>
           <p className="mt-4 text-lg text-gray-700">
             Shopify menus are created in the admin and accessed in Liquid
             through the{" "}
-            <code className="rounded bg-gray-100 px-1 py-0.5 text-xs">
+            <code className="rounded bg-surface-2 px-1 py-0.5 text-xs">
               linklists
             </code>{" "}
             object.
           </p>
 
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   1
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Create Menu in Admin
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Go to <strong>Online Store → Navigation</strong> and create
                     a new menu (e.g., &quot;Main menu&quot;).
                   </p>
-                  <p className="mt-2 text-sm text-white/60">
+                  <p className="mt-2 text-sm text-text-tertiary">
                     Add links to collections, pages, or external URLs.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   2
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Use in Your Header
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     In your header section, use Liquid to output the menu:
                   </p>
-                  <div className="mt-3 rounded bg-gray-700/50 p-3 text-sm text-white/80 font-mono">
+                  <div className="mt-3 rounded bg-gray-700/50 p-3 text-sm text-text-secondary font-mono">
                     {`{% for link in linklists.main-menu.links %}
   <a href="{{ link.url }}">{{ link.title }}</a>
 {% endfor %}`}
                   </div>
-                  <p className="mt-3 text-sm text-white/60">
+                  <p className="mt-3 text-sm text-text-tertiary">
                     Replace{" "}
                     <code className="rounded bg-gray-700/50 px-1 py-0.5 text-xs">
                       main-menu
@@ -216,18 +216,18 @@ export default function HeaderNavigationPage() {
 
         {/* Styling */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Styling Your Header
           </h2>
           <p className="mt-4 text-lg text-gray-700">
             Match your Figma design by styling the header with CSS:
           </p>
 
-          <div className="mt-6 rounded-lg border border-[#24393d] bg-[#151d1e] p-6">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-background p-6">
             <h3 className="text-xl font-semibold text-white mb-4">
               Key Styling Considerations
             </h3>
-            <ul className="space-y-2 text-white/80 list-disc list-inside">
+            <ul className="space-y-2 text-text-secondary list-disc list-inside">
               <li>
                 <strong>Layout:</strong> Use flexbox or grid to arrange logo and
                 menu items
@@ -253,14 +253,14 @@ export default function HeaderNavigationPage() {
 
         {/* For Your task */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">For Your task</h2>
+          <h2 className="text-3xl font-bold text-text-primary">For Your task</h2>
           <div className="mt-6 space-y-4">
-            <Card className="border-shopify-green/50 bg-shopify-green/10">
+            <Card className="border-accent/50 bg-accent/10">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-3">
                   Checklist
                 </h3>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>Review your Figma design for header specifications</li>
                   <li>Create a header section in your theme</li>
                   <li>Create a navigation menu in Shopify admin</li>
@@ -279,7 +279,7 @@ export default function HeaderNavigationPage() {
 
         {/* Learn More */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Learn More</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Learn More</h2>
           <p className="mt-4 text-lg text-gray-700">
             For comprehensive documentation on headers and navigation:
           </p>
@@ -289,7 +289,7 @@ export default function HeaderNavigationPage() {
                 href="https://shopify.dev/docs/themes/architecture/sections"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Shopify Sections Documentation →
               </a>
@@ -299,7 +299,7 @@ export default function HeaderNavigationPage() {
                 href="https://shopify.dev/docs/api/liquid/objects/linklists"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Linklists Object Documentation →
               </a>
@@ -307,7 +307,7 @@ export default function HeaderNavigationPage() {
             <div>
               <Link
                 href="/live-coding/sections"
-                className="text-shopify-blue hover:underline font-medium"
+                className="text-blue-400 hover:underline font-medium"
               >
                 Sections & Schema Guide →
               </Link>

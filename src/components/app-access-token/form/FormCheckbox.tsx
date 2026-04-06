@@ -34,12 +34,12 @@ export default function FormCheckbox({
           className={cn(
             "flex-shrink-0 w-5 h-5 rounded border-2 transition-all duration-150",
             "flex items-center justify-center",
-            "focus:outline-none focus:ring-2 focus:ring-shopify-green/50",
+            "focus:outline-none focus:ring-2 focus:ring-accent/50",
             checked
-              ? "bg-shopify-green border-shopify-green"
+              ? "bg-accent border-accent"
               : error
-                ? "border-red-500 bg-[#151d1e]"
-                : "border-gray-600 bg-[#151d1e] hover:border-gray-500"
+                ? "border-red-500 bg-background"
+                : "border-accent/10 bg-background hover:border-gray-500"
           )}
         >
           {checked && <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />}

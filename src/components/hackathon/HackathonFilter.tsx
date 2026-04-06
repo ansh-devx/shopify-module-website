@@ -66,8 +66,8 @@ export default function HackathonFilter({
   if (loading) {
     return (
       <div className="flex items-center gap-2">
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-shopify-green border-t-transparent"></div>
-        <span className="text-sm text-gray-500">Loading hackathons...</span>
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent border-t-transparent"></div>
+        <span className="text-sm text-text-tertiary">Loading hackathons...</span>
       </div>
     );
   }
@@ -88,7 +88,7 @@ export default function HackathonFilter({
         id="hackathon-filter"
         value={selectedHackathonId || ""}
         onChange={(e) => onHackathonChange(e.target.value)}
-        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-shopify-green focus:border-transparent bg-white text-black"
+        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent bg-white text-black"
       >
         {hackathons.map((hackathon) => (
           <option key={hackathon.id} value={hackathon.id}>

@@ -10,19 +10,19 @@ export default function CLIInstallation() {
       <div className="space-y-8">
         {/* Installation */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Installation</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Installation</h2>
           <p className="mt-4 text-lg text-gray-700">
             Install Shopify CLI using Homebrew with these two commands:
           </p>
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Step 1: Add Shopify Tap</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Step 1: Add Shopify Tap</h3>
           <CodeBlock
             code={`brew tap shopify/shopify`}
             language="bash"
             filename="terminal"
           />
 
-          <h3 className="mt-6 text-2xl font-semibold text-gray-900">Step 2: Install Shopify CLI</h3>
+          <h3 className="mt-6 text-2xl font-semibold text-text-primary">Step 2: Install Shopify CLI</h3>
           <CodeBlock
             code={`brew install shopify-cli`}
             language="bash"
@@ -32,7 +32,7 @@ export default function CLIInstallation() {
 
         {/* Verify Installation */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Verify Installation</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Verify Installation</h2>
           <p className="mt-4 text-lg text-gray-700">
             Check that Shopify CLI was installed correctly:
           </p>

@@ -26,20 +26,20 @@ export default function ThemeEditorPage() {
 
         {/* Accessing Theme Editor */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Accessing the Theme Editor
           </h2>
           <div className="mt-6 space-y-4">
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   1
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Navigate to Online Store
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     In your Shopify admin, go to <strong>Online Store</strong>{" "}
                     in the left sidebar.
                   </p>
@@ -47,16 +47,16 @@ export default function ThemeEditorPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-shopify-green/20 bg-shopify-green/5 p-6">
+            <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-shopify-green text-white font-bold">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white font-bold">
                   2
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-white">
                     Click Customize
                   </h3>
-                  <p className="mt-2 text-white/80">
+                  <p className="mt-2 text-text-secondary">
                     Find your published theme and click{" "}
                     <strong>&quot;Customize&quot;</strong>.
                   </p>
@@ -68,7 +68,7 @@ export default function ThemeEditorPage() {
 
         {/* Navigating Pages */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Navigating Between Pages
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -76,15 +76,15 @@ export default function ThemeEditorPage() {
             customize each one.
           </p>
 
-          <div className="mt-6 rounded-lg border border-[#24393d] bg-[#151d1e] p-6">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-background p-6">
             <h3 className="text-xl font-semibold text-white mb-4">
               Page Selector
             </h3>
-            <p className="text-white/80 mb-4">
+            <p className="text-text-secondary mb-4">
               At the top of the theme editor, you&apos;ll see a dropdown to
               select different page types:
             </p>
-            <ul className="space-y-2 text-white/80 list-disc list-inside">
+            <ul className="space-y-2 text-text-secondary list-disc list-inside">
               <li>
                 <strong>Homepage:</strong> Customize your store&apos;s homepage
               </li>
@@ -116,21 +116,21 @@ export default function ThemeEditorPage() {
 
         {/* Adding Sections */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Adding Sections</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Adding Sections</h2>
           <p className="mt-4 text-lg text-gray-700">
             Sections are the building blocks of your PDP. Here&apos;s how to add
             them:
           </p>
 
           <div className="mt-6 space-y-4">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Add a Section
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ol className="space-y-2 text-white/80 list-decimal list-inside">
+                <ol className="space-y-2 text-text-secondary list-decimal list-inside">
                   <li>
                     Click <strong>&quot;Add section&quot;</strong> button at the
                     bottom of the sections list
@@ -143,14 +143,14 @@ export default function ThemeEditorPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Reorder Sections
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-white/80">
+                <p className="text-text-secondary">
                   Click and drag the <strong>⋮⋮</strong> icon (six dots) next to
                   a section to reorder it. The order in the editor matches the
                   order on the page.
@@ -162,7 +162,7 @@ export default function ThemeEditorPage() {
 
         {/* Managing Blocks */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Managing Blocks Within Sections
           </h2>
           <p className="mt-4 text-lg text-gray-700">
@@ -171,14 +171,14 @@ export default function ThemeEditorPage() {
           </p>
 
           <div className="mt-6 space-y-4">
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Add a Block
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ol className="space-y-2 text-white/80 list-decimal list-inside">
+                <ol className="space-y-2 text-text-secondary list-decimal list-inside">
                   <li>Click on a section to expand it</li>
                   <li>
                     Click <strong>&quot;Add block&quot;</strong> within that
@@ -189,14 +189,14 @@ export default function ThemeEditorPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-[#24393d] bg-[#151d1e]">
+            <Card className="border-accent/10 bg-background">
               <CardHeader>
                 <CardTitle className="text-xl text-white">
                   Hide or Delete
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>
                     <strong>Hide:</strong> Click the eye icon to hide a section
                     or block without deleting it
@@ -213,18 +213,18 @@ export default function ThemeEditorPage() {
 
         {/* Settings */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Section and Block Settings
           </h2>
           <p className="mt-4 text-lg text-gray-700">
             Each section and block has settings you can customize:
           </p>
 
-          <div className="mt-6 rounded-lg border border-[#24393d] bg-[#151d1e] p-6">
+          <div className="mt-6 rounded-lg border border-accent/10 bg-background p-6">
             <h3 className="text-xl font-semibold text-white mb-4">
               Common Settings
             </h3>
-            <ul className="space-y-2 text-white/80 list-disc list-inside">
+            <ul className="space-y-2 text-text-secondary list-disc list-inside">
               <li>
                 <strong>Content:</strong> Text, images, links, and other content
                 settings
@@ -245,16 +245,16 @@ export default function ThemeEditorPage() {
 
         {/* Navigation Tips */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-text-primary">
             Navigation Tips for Your task
           </h2>
           <div className="mt-6 space-y-4">
-            <Card className="border-shopify-green/50 bg-shopify-green/10">
+            <Card className="border-accent/50 bg-accent/10">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-3">
                   From Homepage to Product Page
                 </h3>
-                <ol className="space-y-2 text-white/80 list-decimal list-inside">
+                <ol className="space-y-2 text-text-secondary list-decimal list-inside">
                   <li>
                     Select <strong>&quot;Homepage&quot;</strong> in the page
                     selector
@@ -273,12 +273,12 @@ export default function ThemeEditorPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-shopify-green/50 bg-shopify-green/10">
+            <Card className="border-accent/50 bg-accent/10">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold text-white mb-3">
                   Testing Your Changes
                 </h3>
-                <ul className="space-y-2 text-white/80 list-disc list-inside">
+                <ul className="space-y-2 text-text-secondary list-disc list-inside">
                   <li>Changes are saved automatically as you make them</li>
                   <li>Use the preview panel to see changes in real-time</li>
                   <li>
@@ -297,7 +297,7 @@ export default function ThemeEditorPage() {
 
         {/* Learn More */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900">Learn More</h2>
+          <h2 className="text-3xl font-bold text-text-primary">Learn More</h2>
           <p className="mt-4 text-lg text-gray-700">
             For comprehensive documentation on the theme editor:
           </p>
@@ -306,7 +306,7 @@ export default function ThemeEditorPage() {
               href="https://shopify.dev/docs/themes/tools/theme-editor"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-shopify-blue hover:underline font-medium"
+              className="text-blue-400 hover:underline font-medium"
             >
               Shopify Theme Editor Documentation →
             </a>

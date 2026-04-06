@@ -18,11 +18,11 @@ export default function Step5ConfigureDistribution({
     <div className="space-y-6">
       {/* Instructions */}
       <div className="space-y-4">
-        <p className="text-white/80">
+        <p className="text-text-secondary">
           Install your app to a Shopify store:
         </p>
 
-        <ol className="space-y-3 list-decimal list-inside text-white/70">
+        <ol className="space-y-3 list-decimal list-inside text-text-secondary">
           <li>Go to "Home" from your app navigation</li>
           <li>Select "Distribution" on the right side</li>
           <li>Choose "Custom distribution (recommended)"</li>
@@ -35,7 +35,7 @@ export default function Step5ConfigureDistribution({
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-600 my-6" />
+      <div className="border-t border-accent/10 my-6" />
 
       {/* Form Input */}
       <FormInput

@@ -135,7 +135,7 @@ export default function DateTimePicker({
           <button
             type="button"
             onClick={() => setShowCalendar(!showCalendar)}
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-shopify-green focus:ring-2 focus:ring-shopify-green focus:border-shopify-green text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-accent focus:ring-2 focus:ring-accent focus:border-accent text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
           >
             <span
               className={
@@ -145,7 +145,7 @@ export default function DateTimePicker({
               {formatDisplayDate()}
             </span>
             <svg
-              className="w-5 h-5 text-shopify-green"
+              className="w-5 h-5 text-accent"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -160,7 +160,7 @@ export default function DateTimePicker({
           </button>
 
           {showCalendar && (
-            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-5 w-80">
+            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-accent/10 p-5 w-80">
               {/* Month Navigation */}
               <div className="flex items-center justify-between mb-4">
                 <button
@@ -173,7 +173,7 @@ export default function DateTimePicker({
                       ),
                     )
                   }
-                  className="p-2 hover:bg-gray-100 rounded-lg text-black transition-colors"
+                  className="p-2 hover:bg-surface-2 rounded-lg text-black transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -202,7 +202,7 @@ export default function DateTimePicker({
                       ),
                     )
                   }
-                  className="p-2 hover:bg-gray-100 rounded-lg text-black transition-colors"
+                  className="p-2 hover:bg-surface-2 rounded-lg text-black transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -265,7 +265,7 @@ export default function DateTimePicker({
                         p-2.5 text-sm rounded-lg transition-all duration-150 font-medium
                         ${
                           isSelected
-                            ? "bg-shopify-green text-white hover:bg-shopify-green shadow-sm"
+                            ? "bg-accent text-white hover:bg-accent shadow-sm"
                             : !disabled
                               ? "text-black hover:bg-black hover:text-white"
                               : "cursor-not-allowed"
@@ -286,7 +286,7 @@ export default function DateTimePicker({
           <button
             type="button"
             onClick={() => setShowTimePicker(!showTimePicker)}
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-shopify-green focus:ring-2 focus:ring-shopify-green focus:border-shopify-green text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg hover:border-accent focus:ring-2 focus:ring-accent focus:border-accent text-left flex items-center justify-between bg-white transition-all duration-150 shadow-sm hover:shadow"
           >
             <span
               className={
@@ -296,7 +296,7 @@ export default function DateTimePicker({
               {formatDisplayTime()}
             </span>
             <svg
-              className="w-5 h-5 text-shopify-green"
+              className="w-5 h-5 text-accent"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -311,7 +311,7 @@ export default function DateTimePicker({
           </button>
 
           {showTimePicker && (
-            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-5 w-80">
+            <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-accent/10 p-5 w-80">
               <div className="mb-3">
                 <div className="text-sm font-semibold text-black mb-1">
                   Select Time
@@ -327,7 +327,7 @@ export default function DateTimePicker({
                   <div className="text-xs font-semibold text-black/70 mb-2 uppercase tracking-wide">
                     Hour
                   </div>
-                  <div className="max-h-56 overflow-y-auto border border-gray-200 rounded-lg">
+                  <div className="max-h-56 overflow-y-auto border border-accent/10 rounded-lg">
                     {hours.map((hour) => {
                       const isSelected =
                         value.time &&
@@ -341,7 +341,7 @@ export default function DateTimePicker({
                             w-full px-4 py-2.5 text-sm font-medium text-left transition-all duration-150
                             ${
                               isSelected
-                                ? "bg-shopify-green text-white shadow-sm"
+                                ? "bg-accent text-white shadow-sm"
                                 : "text-black hover:bg-black hover:text-white"
                             }
                           `}
@@ -358,7 +358,7 @@ export default function DateTimePicker({
                   <div className="text-xs font-semibold text-black/70 mb-2 uppercase tracking-wide">
                     Minute
                   </div>
-                  <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="border border-accent/10 rounded-lg overflow-hidden">
                     {minutes.map((minute) => {
                       const isSelected =
                         value.time &&
@@ -372,7 +372,7 @@ export default function DateTimePicker({
                             w-full px-4 py-2.5 text-sm font-medium text-left transition-all duration-150
                             ${
                               isSelected
-                                ? "bg-shopify-green text-white shadow-sm"
+                                ? "bg-accent text-white shadow-sm"
                                 : "text-black hover:bg-black hover:text-white"
                             }
                           `}
@@ -386,11 +386,11 @@ export default function DateTimePicker({
               </div>
 
               {value.time && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-accent/10">
                   <div className="text-xs text-black/60 mb-1">
                     Selected Time
                   </div>
-                  <div className="text-lg font-bold text-shopify-green">
+                  <div className="text-lg font-bold text-accent">
                     {formatDisplayTime()}
                   </div>
                 </div>
