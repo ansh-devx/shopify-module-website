@@ -64,7 +64,7 @@ function getGreeting() {
 export default function ChatInterface() {
   const { data: session } = useSession();
   const firstName = session?.user?.name?.split(" ")[0] || "there";
-  const greeting = useRef(getGreeting());
+  const [greeting] = useState(() => getGreeting());
 
   const transport = useMemo(
     () =>
@@ -160,13 +160,16 @@ export default function ChatInterface() {
   };
 
   const contributeButton = (
-    <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-      <Link
+    <div className="flex justify-end items-center gap-2 p-4">
+      <MagneticButton
+        variant="secondary"
+        as="a"
         href="/knowledge-hub/my-documents"
-        className="rounded-full border border-accent/15 bg-surface-2 px-4 py-2 text-sm text-text-secondary hover:text-accent hover:border-accent/30 transition-colors"
+        className="py-2"
       >
         My Docs
-      </Link>
+      </MagneticButton>
+
       <MagneticButton
         variant="secondary"
         as="a"
@@ -181,67 +184,69 @@ export default function ChatInterface() {
   // Welcome state — greeting + centered input
   if (!hasMessages) {
     return (
-      <div className="relative flex h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+      <>
         {contributeButton}
-        {/* Badge */}
-        <div className="mb-8 flex items-center gap-2 rounded-full bg-surface-2 border border-accent/10 px-4 py-2">
-          <Image
-            src="/devx-icon.jpeg"
-            alt="devx"
-            width={24}
-            height={24}
-            className="rounded"
-          />
-          <span className="text-sm text-text-secondary font-medium">
-            devx labs
-          </span>
-        </div>
+        <div className="relative flex h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+          {/* Badge */}
+          <div className="mb-8 flex items-center gap-2 rounded-full bg-surface-2 border border-accent/10 px-4 py-2">
+            <Image
+              src="/devx-icon.jpeg"
+              alt="devx"
+              width={24}
+              height={24}
+              className="rounded"
+            />
+            <span className="text-sm text-text-secondary font-medium">
+              devx labs
+            </span>
+          </div>
 
-        {/* Greeting */}
-        <h1 className="font-serif text-5xl sm:text-6xl font-normal text-text-primary/90 tracking-tight text-center mb-12">
-          {greeting.current}, {firstName}!
-        </h1>
+          {/* Greeting */}
+          <h1 className="font-serif text-5xl sm:text-6xl font-normal text-text-primary/90 tracking-tight text-center mb-12">
+            {greeting}, {firstName}!
+          </h1>
 
-        {/* Input */}
-        <div className="w-full max-w-2xl">
-          <div
-            className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40 cursor-text"
-            onClick={(e) => {
-              if ((e.target as HTMLElement).closest("button") === null) {
-                textareaRef.current?.focus();
-              }
-            }}
-          >
-            <div className="px-4 pt-3 pb-2">
-              <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="How can I help you today?"
-                rows={1}
-                className="w-full resize-none bg-transparent text-base text-text-primary placeholder:text-text-tertiary focus:outline-none"
-                autoFocus
-              />
-            </div>
-            <div className="flex items-center justify-end px-3 pb-2">
-              <button
-                type="button"
-                onClick={handleSend}
-                disabled={!input.trim()}
-                className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 cursor-pointer",
-                  input.trim()
-                    ? "bg-accent text-background hover:bg-accent-hover"
-                    : "text-text-tertiary/40",
-                )}
-              >
-                <Send className="h-4 w-4" />
-              </button>
+          {/* Input */}
+          <div className="w-full max-w-2xl">
+            <div
+              className="rounded-2xl border border-text-tertiary/20 bg-surface-2/50 p-1 transition-colors focus-within:border-text-tertiary/40 cursor-text"
+              onClick={(e) => {
+                if ((e.target as HTMLElement).closest("button") === null) {
+                  textareaRef.current?.focus();
+                }
+              }}
+            >
+              <div className="px-4 pt-3 pb-2">
+                <textarea
+                  ref={textareaRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="How can I help you today?"
+                  rows={1}
+                  className="w-full resize-none bg-transparent text-base text-text-primary placeholder:text-text-tertiary focus:outline-none"
+                  autoFocus
+                />
+              </div>
+              <div className="flex items-center justify-end px-3 pb-2">
+                <button
+                  type="button"
+                  onClick={handleSend}
+                  disabled={!input.trim()}
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 cursor-pointer",
+                    input.trim()
+                      ? "bg-accent text-background hover:bg-accent-hover"
+                      : "text-text-tertiary/40",
+                  )}
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 

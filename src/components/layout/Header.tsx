@@ -2,17 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Search } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 import { useSearch } from "@/components/search/SearchProvider";
 import UserProfile from "@/components/auth/UserProfile";
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
   const { openSearch } = useSearch();
 
   return (
     <header className="sticky top-0 z-50 border-b border-accent/10 bg-background/80 backdrop-blur-xl">
       <nav className="flex items-center justify-between p-4 lg:px-8">
-        <div className="flex flex-1 items-center">
+        <div className="flex flex-1 items-center gap-3">
+          {/* Hamburger — mobile only */}
+          <button
+            type="button"
+            onClick={onMenuClick}
+            className="lg:hidden flex items-center justify-center rounded-lg p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors"
+            aria-label="Open navigation menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+
           <Link href="/" className="flex items-center">
             <Image
               src="https://cdn.shopify.com/s/files/1/0767/5530/4673/files/devx_shopify.png"
@@ -24,7 +38,7 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-3 w-[400px] mr-4">
+        <div className="hidden sm:flex items-center gap-3 flex-1 max-w-[400px] mr-4">
           <button
             type="button"
             onClick={openSearch}
@@ -33,7 +47,7 @@ export default function Header() {
           >
             <div className="flex items-center gap-2">
               <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Search</span>
+              <span>Search</span>
             </div>
             <kbd className="hidden rounded border border-accent/10 bg-surface-2 px-2 py-0.5 text-xs text-text-tertiary sm:inline">
               ⌘ K
@@ -42,6 +56,15 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* Search icon — mobile only */}
+          <button
+            type="button"
+            onClick={openSearch}
+            className="sm:hidden flex items-center justify-center rounded-lg p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors"
+            aria-label="Search"
+          >
+            <Search className="h-5 w-5" />
+          </button>
           <UserProfile />
         </div>
       </nav>

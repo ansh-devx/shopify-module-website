@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
@@ -13,6 +14,7 @@ export default function RootLayoutContent({
   children: React.ReactNode;
 }>) {
   const { data: session, status } = useSession();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (status === "loading") {
     return <Loader />;
@@ -35,10 +37,10 @@ export default function RootLayoutContent({
         {/* Grid background */}
         <div className="pointer-events-none fixed inset-0 -z-10 bg-grid opacity-50" />
 
-        <Header />
+        <Header onMenuClick={() => setSidebarOpen(true)} />
         <div className="flex flex-1">
-          <Sidebar />
-          <main className="ml-72 flex-1 overflow-x-hidden">{children}</main>
+          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+          <main className="lg:ml-72 flex-1 overflow-x-hidden">{children}</main>
         </div>
       </div>
     </SearchProvider>
