@@ -6,7 +6,15 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Send, Square, Bot, User, FileText, ExternalLink } from "lucide-react";
+import {
+  Send,
+  Square,
+  Bot,
+  User,
+  FileText,
+  ExternalLink,
+  Plus,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -124,10 +132,23 @@ export default function ChatInterface() {
     }
   };
 
+  const contributeButton = (
+    <div className="absolute top-4 right-4 z-10">
+      <Link
+        href="/knowledge-hub/contribute"
+        className="flex items-center gap-1.5 rounded-full border border-accent/15 bg-surface-2 px-4 py-2 text-sm text-text-secondary hover:border-accent/30 hover:text-accent transition-all"
+      >
+        <Plus className="h-4 w-4" />
+        Contribute
+      </Link>
+    </div>
+  );
+
   // Welcome state — greeting + centered input
   if (!hasMessages) {
     return (
-      <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+      <div className="relative flex h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+        {contributeButton}
         {/* Badge */}
         <div className="mb-8 flex items-center gap-2 rounded-full bg-surface-2 border border-accent/10 px-4 py-2">
           <Image
@@ -186,7 +207,8 @@ export default function ChatInterface() {
 
   // Conversation state
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col">
+    <div className="relative flex h-[calc(100vh-4rem)] flex-col">
+      {contributeButton}
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-8">
         <div className="mx-auto max-w-3xl space-y-6">
