@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { navigationStructure, NavigationItem } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
@@ -12,9 +12,10 @@ interface SidebarItemProps {
   level?: number;
   isOpen: boolean;
   onToggle: (itemId: string) => void;
+  onNavigate?: () => void;
 }
 
-function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
+function SidebarItem({ item, level = 0, isOpen, onToggle, onNavigate }: SidebarItemProps) {
   const pathname = usePathname();
   const router = useRouter();
   const hasChildren = item.children && item.children.length > 0;
@@ -31,6 +32,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
         const firstChild = item.children[0];
         if (firstChild.href) {
           router.push(firstChild.href);
+          onNavigate?.();
         }
       }
     }
@@ -68,11 +70,11 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
     <div>
       {item.href && !hasChildren ? (
         item.isExternal ? (
-          <a href={item.href} target="_blank" rel="noopener noreferrer">
+          <a href={item.href} target="_blank" rel="noopener noreferrer" onClick={onNavigate}>
             {itemContent}
           </a>
         ) : (
-          <Link href={item.href}>{itemContent}</Link>
+          <Link href={item.href} onClick={onNavigate}>{itemContent}</Link>
         )
       ) : (
         <div className="cursor-pointer" onClick={handleToggle}>
@@ -95,6 +97,7 @@ function SidebarItem({ item, level = 0, isOpen, onToggle }: SidebarItemProps) {
                 level={level + 1}
                 isOpen={false}
                 onToggle={() => {}}
+                onNavigate={onNavigate}
               />
             ))}
           </div>
@@ -116,7 +119,12 @@ function findParentItemId(pathname: string): string | null {
   return null;
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
@@ -125,54 +133,99 @@ export default function Sidebar() {
     if (parentId) setOpenItemId(parentId);
   }, [pathname]);
 
+  // Close mobile drawer on route change
+  useEffect(() => {
+    onClose?.();
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleToggle = (itemId: string) => {
     setOpenItemId(openItemId === itemId ? null : itemId);
   };
 
-  return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-72 overflow-y-auto bg-surface-1 border-r border-accent/5">
-      <div className="p-4">
-        <div className="mb-4">
-          <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
-            Learning Path
-          </h2>
-        </div>
-        <nav className="space-y-1">
-          {navigationStructure.map((item) => (
-            <div key={item.id}>
-              {item.id === "hackathon" && (
-                <div className="my-4 px-3">
-                  <div className="border-t border-accent/10 mb-4"></div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
-                    Events
-                  </h2>
-                </div>
-              )}
-              {item.id === "app-access-token" && (
-                <div className="my-4 px-3">
-                  <div className="border-t border-accent/10 mb-4"></div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
-                    Config
-                  </h2>
-                </div>
-              )}
-              {item.id === "knowledge-hub" && (
-                <div className="my-4 px-3">
-                  <div className="border-t border-accent/10 mb-4"></div>
-                  <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
-                    AI
-                  </h2>
-                </div>
-              )}
-              <SidebarItem
-                item={item}
-                isOpen={openItemId === item.id}
-                onToggle={handleToggle}
-              />
-            </div>
-          ))}
-        </nav>
+  const navContent = (
+    <div className="p-4">
+      <div className="mb-4">
+        <h2 className="px-3 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+          Learning Path
+        </h2>
       </div>
-    </aside>
+      <nav className="space-y-1">
+        {navigationStructure.map((item) => (
+          <div key={item.id}>
+            {item.id === "hackathon" && (
+              <div className="my-4 px-3">
+                <div className="border-t border-accent/10 mb-4"></div>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
+                  Events
+                </h2>
+              </div>
+            )}
+            {item.id === "app-access-token" && (
+              <div className="my-4 px-3">
+                <div className="border-t border-accent/10 mb-4"></div>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
+                  Config
+                </h2>
+              </div>
+            )}
+            {item.id === "knowledge-hub" && (
+              <div className="my-4 px-3">
+                <div className="border-t border-accent/10 mb-4"></div>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary mb-2">
+                  AI
+                </h2>
+              </div>
+            )}
+            <SidebarItem
+              item={item}
+              isOpen={openItemId === item.id}
+              onToggle={handleToggle}
+              onNavigate={onClose}
+            />
+          </div>
+        ))}
+      </nav>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar — always visible on lg+ */}
+      <aside className="hidden lg:block fixed left-0 top-16 h-[calc(100vh-4rem)] w-72 overflow-y-auto bg-surface-1 border-r border-accent/5">
+        {navContent}
+      </aside>
+
+      {/* Mobile overlay */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 bg-black/50 lg:hidden transition-opacity duration-300",
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        )}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Mobile drawer */}
+      <aside
+        className={cn(
+          "fixed left-0 top-0 z-50 h-full w-72 overflow-y-auto bg-surface-1 border-r border-accent/5 lg:hidden",
+          "transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <div className="flex items-center justify-between p-4 border-b border-accent/5">
+          <span className="text-sm font-semibold text-text-primary">Navigation</span>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center justify-center rounded-lg p-1.5 text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        {navContent}
+      </aside>
+    </>
   );
 }
