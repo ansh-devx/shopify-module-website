@@ -21,6 +21,7 @@ import {
   Trophy,
   Key,
   BrainCircuit,
+  BarChart3,
   LucideIcon,
 } from "lucide-react";
 
@@ -235,5 +236,12 @@ export const navigationStructure: NavigationItem[] = [
         requiredRole: "ADMIN",
       },
     ],
+  },
+  {
+    id: "claude-analytics",
+    title: "Claude Analytics",
+    href: "/claude-analytics",
+    icon: BarChart3,
+    requiredRole: "SUPERADMIN",
   },
 ];
