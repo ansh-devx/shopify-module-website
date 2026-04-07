@@ -160,21 +160,21 @@ export default function ChatInterface() {
   };
 
   const contributeButton = (
-    <div className="flex justify-end items-center gap-2 p-4">
+    <div className="flex justify-end items-center gap-4 p-4">
       <MagneticButton
         variant="secondary"
         as="a"
         href="/knowledge-hub/my-documents"
-        className="py-2"
+        className="py-2 text-sm"
       >
         My Docs
       </MagneticButton>
 
       <MagneticButton
-        variant="secondary"
+        variant="primary"
         as="a"
         href="/knowledge-hub/contribute"
-        className="py-2"
+        className="py-2 text-sm"
       >
         Contribute
       </MagneticButton>
