@@ -31,6 +31,7 @@ export interface NavigationItem {
   icon?: LucideIcon;
   children?: NavigationItem[];
   isExternal?: boolean;
+  requiredRole?: "ADMIN" | "SUPERADMIN";
 }
 
 export const navigationStructure: NavigationItem[] = [
@@ -231,6 +232,7 @@ export const navigationStructure: NavigationItem[] = [
         id: "knowledge-hub-review",
         title: "Review Queue",
         href: "/knowledge-hub/review",
+        requiredRole: "ADMIN",
       },
     ],
   },

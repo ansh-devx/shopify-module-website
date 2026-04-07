@@ -2,10 +2,28 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useSession } from "next-auth/react";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { navigationStructure, NavigationItem } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
+
+const roleHierarchy: Record<string, number> = {
+  MEMBER: 1,
+  ADMIN: 2,
+  SUPERADMIN: 3,
+};
+
+function filterByRole(items: NavigationItem[], userRole: string): NavigationItem[] {
+  return items.reduce<NavigationItem[]>((acc, item) => {
+    if (item.requiredRole && (roleHierarchy[userRole] || 0) < roleHierarchy[item.requiredRole]) {
+      return acc;
+    }
+    const filtered = item.children ? { ...item, children: filterByRole(item.children, userRole) } : item;
+    acc.push(filtered);
+    return acc;
+  }, []);
+}
 
 interface SidebarItemProps {
   item: NavigationItem;
@@ -126,7 +144,10 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [openItemId, setOpenItemId] = useState<string | null>(null);
+  const userRole = (session?.user as { role?: string } | undefined)?.role || "MEMBER";
+  const visibleNavItems = useMemo(() => filterByRole(navigationStructure, userRole), [userRole]);
 
   useEffect(() => {
     const parentId = findParentItemId(pathname);
@@ -150,7 +171,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         </h2>
       </div>
       <nav className="space-y-1">
-        {navigationStructure.map((item) => (
+        {visibleNavItems.map((item) => (
           <div key={item.id}>
             {item.id === "hackathon" && (
               <div className="my-4 px-3">
