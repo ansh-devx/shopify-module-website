@@ -80,6 +80,7 @@ export default function ChatInterface() {
 
   const [input, setInput] = useState("");
   const [sources, setSources] = useState<SourceArticle[]>([]);
+  const [sourcesLoading, setSourcesLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -103,6 +104,7 @@ export default function ChatInterface() {
     const match = text.match(/<!--\s*sources:\s*(.+?)\s*-->/);
     if (match) {
       const slugs = match[1].split(",").map((s) => s.trim());
+      setSourcesLoading(true);
       // Fetch article metadata for matched slugs
       Promise.all(
         slugs.map((slug) =>
@@ -123,6 +125,7 @@ export default function ChatInterface() {
         ),
       ).then((results) => {
         setSources(results.filter((r): r is SourceArticle => r !== null));
+        setSourcesLoading(false);
       });
     }
   }, [isDone, messages]);
@@ -144,6 +147,7 @@ export default function ChatInterface() {
     if (!text || isLoading) return;
     setInput("");
     setSources([]);
+    setSourcesLoading(false);
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
@@ -186,7 +190,7 @@ export default function ChatInterface() {
     return (
       <>
         {contributeButton}
-        <div className="relative flex h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+        <div className="relative flex h-[calc(100vh-172px)] flex-col items-center justify-center px-4">
           {/* Badge */}
           <div className="mb-8 flex items-center gap-2 rounded-full bg-surface-2 border border-accent/10 px-4 py-2">
             <Image
@@ -328,8 +332,28 @@ export default function ChatInterface() {
             </div>
           )}
 
-          {/* Source Articles — shown after AI finishes */}
-          {isDone && sources.length > 0 && (
+          {/* Source Articles — skeleton while loading, cards when ready */}
+          {isDone && sourcesLoading && (
+            <div className="ml-11 animate-pulse">
+              <div className="h-3 w-16 rounded bg-surface-3 mb-3" />
+              <div className="flex flex-col gap-2">
+                {[1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 rounded-xl border border-accent/10 bg-surface-2/60 px-4 py-3"
+                  >
+                    <div className="h-5 w-5 rounded bg-surface-3 shrink-0 mt-0.5" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 w-3/4 rounded bg-surface-3" />
+                      <div className="h-3 w-1/2 rounded bg-surface-3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {isDone && !sourcesLoading && sources.length > 0 && (
             <div className="ml-11">
               <p className="text-xs font-medium text-text-tertiary uppercase tracking-wider mb-3">
                 Sources
