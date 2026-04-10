@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo } from "react";
-import { Users, Activity, Coins, Sparkles } from "lucide-react";
+import { Users, Activity, Coins, Sparkles, MessageSquare, Wrench } from "lucide-react";
 import RoleGuard from "@/components/auth/RoleGuard";
 import { UserRole } from "@/types";
 import Loader from "@/components/ui/Loader";
@@ -15,6 +15,8 @@ import ProjectsTable, {
 import SkillsBarChart from "@/components/claude-analytics/SkillsBarChart";
 import ModelsPieChart from "@/components/claude-analytics/ModelsPieChart";
 import TopUsersChart from "@/components/claude-analytics/TopUsersChart";
+import ToolsBarChart from "@/components/claude-analytics/ToolsBarChart";
+import AgentsChart from "@/components/claude-analytics/AgentsChart";
 import { ClaudeAnalyticsUser, normalizeUser } from "@/lib/claude-analytics/types";
 import { formatTokens } from "@/lib/claude-analytics/formatTokens";
 
@@ -45,11 +47,15 @@ export default function ClaudeAnalyticsPage() {
     const totalSessions = users.reduce((s, u) => s + u.total_sessions, 0);
     const totalTokens = users.reduce((s, u) => s + u.total_tokens, 0);
     const totalSkillUses = users.reduce((s, u) => s + u.total_skill_uses, 0);
+    const totalMessages = users.reduce((s, u) => s + u.message_count, 0);
+    const totalToolUses = users.reduce((s, u) => s + u.total_tool_uses, 0);
     return {
       totalUsers: users.length,
       totalSessions,
       totalTokens,
       totalSkillUses,
+      totalMessages,
+      totalToolUses,
     };
   }, [users]);
 
@@ -71,6 +77,26 @@ export default function ClaudeAnalyticsPage() {
       });
     });
     return models;
+  }, [users]);
+
+  const aggregatedTools = useMemo(() => {
+    const tools: Record<string, number> = {};
+    users.forEach((u) => {
+      Object.entries(u.tools).forEach(([tool, count]) => {
+        tools[tool] = (tools[tool] || 0) + count;
+      });
+    });
+    return tools;
+  }, [users]);
+
+  const aggregatedAgents = useMemo(() => {
+    const agents: Record<string, number> = {};
+    users.forEach((u) => {
+      Object.entries(u.agents).forEach(([agent, count]) => {
+        agents[agent] = (agents[agent] || 0) + count;
+      });
+    });
+    return agents;
   }, [users]);
 
   const aggregatedProjects = useMemo(() => {
@@ -151,7 +177,7 @@ export default function ClaudeAnalyticsPage() {
           <>
             {/* Summary Cards */}
             <section className="mx-auto max-w-7xl px-6 lg:px-8">
-              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <StaggerItem>
                   <StatCard
                     label="Total Users"
@@ -171,6 +197,20 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Tokens"
                     value={formatTokens(stats.totalTokens)}
                     icon={Coins}
+                  />
+                </StaggerItem>
+                <StaggerItem>
+                  <StatCard
+                    label="Total Messages"
+                    value={stats.totalMessages.toLocaleString()}
+                    icon={MessageSquare}
+                  />
+                </StaggerItem>
+                <StaggerItem>
+                  <StatCard
+                    label="Total Tool Uses"
+                    value={stats.totalToolUses.toLocaleString()}
+                    icon={Wrench}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -236,6 +276,24 @@ export default function ClaudeAnalyticsPage() {
                   <ModelsPieChart models={aggregatedModels} />
                 </div>
               </ScrollReveal>
+            </section>
+
+            {/* Tools & Agents Distribution */}
+            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
+              <ScrollReveal>
+                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
+                  Tools & Agents{" "}
+                  <span className="text-gradient italic">Distribution</span>
+                </h2>
+              </ScrollReveal>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ScrollReveal delay={0.1}>
+                  <ToolsBarChart tools={aggregatedTools} />
+                </ScrollReveal>
+                <ScrollReveal delay={0.2}>
+                  <AgentsChart agents={aggregatedAgents} />
+                </ScrollReveal>
+              </div>
             </section>
 
             {/* Projects Overview */}
