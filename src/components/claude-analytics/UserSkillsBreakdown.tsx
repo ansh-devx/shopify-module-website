@@ -11,7 +11,8 @@ import {
 } from "recharts";
 import { Card } from "@/components/ui/Card";
 import {
-  SKILLS_BY_CATEGORY,
+  groupSkillsByCategory,
+  getSkillDisplayName,
   SKILL_CATEGORY_COLORS,
   type SkillCategory,
 } from "@/lib/claude-analytics/skillCategories";
@@ -25,8 +26,10 @@ export default function UserSkillsBreakdown({
 }: UserSkillsBreakdownProps) {
   const chartData = Object.entries(skills)
     .filter(([, count]) => count > 0)
-    .map(([name, count]) => ({ name, count }))
+    .map(([name, count]) => ({ name: getSkillDisplayName(name), fullName: name, count }))
     .sort((a, b) => b.count - a.count);
+
+  const grouped = groupSkillsByCategory(skills);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -89,12 +92,10 @@ export default function UserSkillsBreakdown({
           Grouped by workflow type
         </p>
         <div className="space-y-5 max-h-[380px] overflow-y-auto">
-          {(Object.keys(SKILLS_BY_CATEGORY) as SkillCategory[]).map(
-            (category) => {
-              const categorySkills = SKILLS_BY_CATEGORY[category]
-                .map((name) => ({ name, count: skills[name] || 0 }))
-                .sort((a, b) => b.count - a.count);
-
+          {(Object.keys(grouped) as SkillCategory[])
+            .filter((cat) => grouped[cat].length > 0)
+            .map((category) => {
+              const categorySkills = grouped[category];
               const categoryTotal = categorySkills.reduce(
                 (s, sk) => s + sk.count,
                 0
@@ -125,7 +126,7 @@ export default function UserSkillsBreakdown({
                         className="flex items-center justify-between py-1.5 px-3 rounded-lg hover:bg-surface-2 transition-colors"
                       >
                         <span className="text-sm text-text-secondary">
-                          {skill.name}
+                          {getSkillDisplayName(skill.name)}
                         </span>
                         <span className="text-sm font-medium text-text-primary tabular-nums">
                           {skill.count}
@@ -135,8 +136,7 @@ export default function UserSkillsBreakdown({
                   </div>
                 </div>
               );
-            }
-          )}
+            })}
         </div>
       </Card>
     </div>

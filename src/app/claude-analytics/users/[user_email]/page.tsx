@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo, use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Activity, Coins, Sparkles } from "lucide-react";
+import { ArrowLeft, Activity, Coins, Sparkles, MessageSquare, Wrench } from "lucide-react";
 import RoleGuard from "@/components/auth/RoleGuard";
 import { UserRole } from "@/types";
 import Loader from "@/components/ui/Loader";
@@ -14,6 +14,9 @@ import ProjectsTable, {
 } from "@/components/claude-analytics/ProjectsTable";
 import ModelsPieChart from "@/components/claude-analytics/ModelsPieChart";
 import UserSkillsBreakdown from "@/components/claude-analytics/UserSkillsBreakdown";
+import ToolsBarChart from "@/components/claude-analytics/ToolsBarChart";
+import AgentsChart from "@/components/claude-analytics/AgentsChart";
+import SessionsTable from "@/components/claude-analytics/SessionsTable";
 import { ClaudeAnalyticsUser, normalizeUser } from "@/lib/claude-analytics/types";
 import { formatTokens } from "@/lib/claude-analytics/formatTokens";
 import { Card } from "@/components/ui/Card";
@@ -118,7 +121,7 @@ export default function UserDetailPage({ params }: PageProps) {
                 <p className="mt-2 text-text-tertiary">{email}</p>
               </ScrollReveal>
 
-              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
                 <StaggerItem>
                   <StatCard
                     label="Sessions"
@@ -131,6 +134,20 @@ export default function UserDetailPage({ params }: PageProps) {
                     label="Tokens"
                     value={formatTokens(userData.total_tokens)}
                     icon={Coins}
+                  />
+                </StaggerItem>
+                <StaggerItem>
+                  <StatCard
+                    label="Messages"
+                    value={userData.message_count.toLocaleString()}
+                    icon={MessageSquare}
+                  />
+                </StaggerItem>
+                <StaggerItem>
+                  <StatCard
+                    label="Tool Uses"
+                    value={userData.total_tool_uses.toLocaleString()}
+                    icon={Wrench}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -201,6 +218,57 @@ export default function UserDetailPage({ params }: PageProps) {
                       </div>
                     )}
                   </Card>
+                </div>
+              </ScrollReveal>
+            </section>
+
+            {/* Tools & Agents Breakdown */}
+            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
+              <ScrollReveal>
+                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
+                  Tools & Agents{" "}
+                  <span className="text-gradient italic">Breakdown</span>
+                </h2>
+              </ScrollReveal>
+              <ScrollReveal delay={0.1}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <ToolsBarChart tools={userData.tools} />
+                  <AgentsChart agents={userData.agents} />
+                </div>
+              </ScrollReveal>
+            </section>
+
+            {/* Session History */}
+            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
+              <ScrollReveal>
+                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
+                  Session{" "}
+                  <span className="text-gradient italic">History</span>
+                </h2>
+              </ScrollReveal>
+              <ScrollReveal delay={0.1}>
+                <div className="space-y-6">
+                  {Object.entries(userData.projects)
+                    .filter(
+                      ([, p]) =>
+                        Object.keys(p.session_details).length > 0
+                    )
+                    .map(([name, project]) => (
+                      <SessionsTable
+                        key={name}
+                        sessions={project.session_details}
+                        projectName={name}
+                      />
+                    ))}
+                  {Object.values(userData.projects).every(
+                    (p) => Object.keys(p.session_details).length === 0
+                  ) && (
+                    <Card className="p-8 text-center">
+                      <p className="text-sm text-text-tertiary">
+                        No session history available
+                      </p>
+                    </Card>
+                  )}
                 </div>
               </ScrollReveal>
             </section>

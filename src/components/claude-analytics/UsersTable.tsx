@@ -12,6 +12,8 @@ type SortKey =
   | "user_name"
   | "total_sessions"
   | "total_tokens"
+  | "message_count"
+  | "total_tool_uses"
   | "total_skill_uses"
   | "last_active";
 
@@ -60,6 +62,8 @@ export default function UsersTable({ users }: UsersTableProps) {
     { key: "user_name", label: "Name" },
     { key: "total_sessions", label: "Sessions" },
     { key: "total_tokens", label: "Tokens" },
+    { key: "message_count", label: "Messages" },
+    { key: "total_tool_uses", label: "Tool Uses" },
     { key: "total_skill_uses", label: "Skill Uses" },
     { key: "last_active", label: "Last Active" },
   ];
@@ -110,6 +114,12 @@ export default function UsersTable({ users }: UsersTableProps) {
                 </td>
                 <td className="px-5 py-3.5 text-sm text-text-secondary tabular-nums">
                   {formatTokens(user.total_tokens)}
+                </td>
+                <td className="px-5 py-3.5 text-sm text-text-secondary tabular-nums">
+                  {user.message_count.toLocaleString()}
+                </td>
+                <td className="px-5 py-3.5 text-sm text-text-secondary tabular-nums">
+                  {user.total_tool_uses.toLocaleString()}
                 </td>
                 <td className="px-5 py-3.5 text-sm text-text-secondary tabular-nums">
                   {user.total_skill_uses.toLocaleString()}

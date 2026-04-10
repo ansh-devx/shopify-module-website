@@ -12,8 +12,8 @@ import {
 } from "recharts";
 import { Card } from "@/components/ui/Card";
 import {
-  ALL_SKILLS,
   getSkillCategory,
+  getSkillDisplayName,
   SKILL_CATEGORY_COLORS,
   type SkillCategory,
 } from "@/lib/claude-analytics/skillCategories";
@@ -29,11 +29,14 @@ export default function SkillsBarChart({
   title = "Skills Distribution",
   showZero = true,
 }: SkillsBarChartProps) {
-  const data = (
-    showZero ? ALL_SKILLS : Object.keys(skills).filter((s) => skills[s] > 0)
-  )
+  const skillKeys = showZero
+    ? Object.keys(skills)
+    : Object.keys(skills).filter((s) => skills[s] > 0);
+
+  const data = skillKeys
     .map((skill) => ({
-      name: skill,
+      name: getSkillDisplayName(skill),
+      fullName: skill,
       count: skills[skill] || 0,
       category: getSkillCategory(skill),
       fill: "#8dd5d6",
@@ -52,7 +55,8 @@ export default function SkillsBarChart({
     <Card className="p-6">
       <h3 className="text-lg font-semibold text-text-primary mb-1">{title}</h3>
       <p className="text-sm text-text-tertiary mb-6">
-        Usage count across all {showZero ? "15" : "active"} skills
+        Usage count across {data.length} {showZero ? "" : "active "}skill
+        {data.length !== 1 ? "s" : ""}
       </p>
       <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -90,10 +94,7 @@ export default function SkillsBarChart({
               }}
               cursor={{ fill: "rgba(141,213,214,0.05)" }}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={((value: any, _name: any, props: any) => [
-                value,
-                props?.payload?.category || "",
-              ]) as any}
+              formatter={((value: any, _name: any, props: any) => [value, props?.payload?.category || ""]) as any}
             />
             {/* @ts-expect-error recharts Legend payload type is overly strict */}
             <Legend payload={legendPayload} />
