@@ -16,6 +16,12 @@ import {
   SKILL_CATEGORY_COLORS,
   type SkillCategory,
 } from "@/lib/claude-analytics/skillCategories";
+import {
+  CHART_TOOLTIP_STYLE,
+  CHART_GRID_PROPS,
+  CHART_AXIS_TICK,
+  BAR_ACTIVE_STYLE,
+} from "./chartConfig";
 
 interface UserSkillsBreakdownProps {
   skills: Record<string, number>;
@@ -26,7 +32,11 @@ export default function UserSkillsBreakdown({
 }: UserSkillsBreakdownProps) {
   const chartData = Object.entries(skills)
     .filter(([, count]) => count > 0)
-    .map(([name, count]) => ({ name: getSkillDisplayName(name), fullName: name, count }))
+    .map(([name, count]) => ({
+      name: getSkillDisplayName(name),
+      fullName: name,
+      count,
+    }))
     .sort((a, b) => b.count - a.count);
 
   const grouped = groupSkillsByCategory(skills);
@@ -47,14 +57,10 @@ export default function UserSkillsBreakdown({
               data={chartData}
               margin={{ top: 5, right: 20, left: 0, bottom: 60 }}
             >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="rgba(141,213,214,0.08)"
-                vertical={false}
-              />
+              <CartesianGrid {...CHART_GRID_PROPS} vertical={false} />
               <XAxis
                 dataKey="name"
-                tick={{ fill: "var(--text-tertiary)", fontSize: 11 }}
+                tick={CHART_AXIS_TICK.small}
                 angle={-45}
                 textAnchor="end"
                 height={80}
@@ -62,22 +68,21 @@ export default function UserSkillsBreakdown({
                 tickLine={false}
               />
               <YAxis
-                tick={{ fill: "var(--text-tertiary)", fontSize: 12 }}
+                tick={CHART_AXIS_TICK.secondary}
                 axisLine={false}
                 tickLine={false}
               />
               <Tooltip
-                contentStyle={{
-                  backgroundColor: "var(--surface-2)",
-                  border: "1px solid rgba(141,213,214,0.15)",
-                  borderRadius: "12px",
-                  color: "var(--text-primary)",
-                  fontSize: "13px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                }}
-                cursor={{ fill: "rgba(141,213,214,0.05)" }}
+                {...CHART_TOOLTIP_STYLE}
               />
-              <Bar dataKey="count" radius={[4, 4, 0, 0]} fill="#8dd5d6" />
+              <Bar
+                dataKey="count"
+                radius={[4, 4, 0, 0]}
+                fill="#8dd5d6"
+                activeBar={BAR_ACTIVE_STYLE}
+                animationDuration={800}
+                animationEasing="ease-out"
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>

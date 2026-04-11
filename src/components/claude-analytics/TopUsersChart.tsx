@@ -13,12 +13,21 @@ import {
 import { Card } from "@/components/ui/Card";
 import { ClaudeAnalyticsUser } from "@/lib/claude-analytics/types";
 import { formatTokens } from "@/lib/claude-analytics/formatTokens";
+import {
+  CHART_TOOLTIP_STYLE,
+  CHART_GRID_PROPS,
+  CHART_AXIS_TICK,
+  CHART_LABEL_STYLE,
+  BAR_ACTIVE_STYLE,
+  BAR_ACTIVE_WARM,
+} from "./chartConfig";
 
 interface TopUsersChartProps {
   users: ClaudeAnalyticsUser[];
   metric: "total_tokens" | "total_sessions";
   title: string;
   color?: string;
+  onUserClick?: (email: string) => void;
 }
 
 export default function TopUsersChart({
@@ -26,11 +35,13 @@ export default function TopUsersChart({
   metric,
   title,
   color = "#8dd5d6",
+  onUserClick,
 }: TopUsersChartProps) {
   const data = [...users]
     .sort((a, b) => b[metric] - a[metric])
     .map((u) => ({
       name: u.user_name,
+      email: u.user_email,
       value: u[metric],
       formatted:
         metric === "total_tokens"
@@ -38,11 +49,15 @@ export default function TopUsersChart({
           : u[metric].toLocaleString(),
     }));
 
+  const activeStyle =
+    color === "#d6b88d" ? BAR_ACTIVE_WARM : BAR_ACTIVE_STYLE;
+
   return (
     <Card className="p-6">
       <h3 className="text-lg font-semibold text-text-primary mb-1">{title}</h3>
       <p className="text-sm text-text-tertiary mb-4">
-        Ranked by {metric === "total_tokens" ? "token consumption" : "session count"}
+        Ranked by{" "}
+        {metric === "total_tokens" ? "token consumption" : "session count"}
       </p>
       <div style={{ height: Math.max(180, data.length * 48) }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -52,13 +67,12 @@ export default function TopUsersChart({
             margin={{ top: 5, right: 80, left: 0, bottom: 5 }}
           >
             <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(141,213,214,0.08)"
+              {...CHART_GRID_PROPS}
               horizontal={false}
             />
             <XAxis
               type="number"
-              tick={{ fill: "var(--text-tertiary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.secondary}
               tickFormatter={(v) =>
                 metric === "total_tokens"
                   ? formatTokens(v)
@@ -70,38 +84,43 @@ export default function TopUsersChart({
             <YAxis
               type="category"
               dataKey="name"
-              tick={{ fill: "var(--text-secondary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.primary}
               width={120}
               axisLine={false}
               tickLine={false}
             />
             <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--surface-2)",
-                border: "1px solid rgba(141,213,214,0.15)",
-                borderRadius: "12px",
-                color: "var(--text-primary)",
-                fontSize: "13px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-              }}
-              cursor={{ fill: "rgba(141,213,214,0.05)" }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...CHART_TOOLTIP_STYLE}
+              /* eslint-disable @typescript-eslint/no-explicit-any */
               formatter={((value: any) => [
                 metric === "total_tokens"
                   ? formatTokens(Number(value))
                   : Number(value).toLocaleString(),
                 metric === "total_tokens" ? "Tokens" : "Sessions",
               ]) as any}
+              /* eslint-enable @typescript-eslint/no-explicit-any */
             />
-            <Bar dataKey="value" fill={color} radius={[0, 6, 6, 0]} barSize={28}>
+            <Bar
+              dataKey="value"
+              fill={color}
+              radius={[0, 6, 6, 0]}
+              barSize={28}
+              activeBar={activeStyle}
+              animationDuration={800}
+              animationEasing="ease-out"
+              style={{ cursor: onUserClick ? "pointer" : undefined }}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onClick={(_data: any, _index: any, e: any) => {
+                const payload = e?.payload ?? _data;
+                if (onUserClick && payload?.email) {
+                  onUserClick(payload.email);
+                }
+              }}
+            >
               <LabelList
                 dataKey="formatted"
                 position="right"
-                style={{
-                  fill: "var(--text-secondary)",
-                  fontSize: 12,
-                  fontFamily: "var(--font-sans)",
-                }}
+                style={CHART_LABEL_STYLE}
               />
             </Bar>
           </BarChart>

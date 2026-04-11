@@ -11,6 +11,15 @@ import {
   LabelList,
 } from "recharts";
 import { Card } from "@/components/ui/Card";
+import { Wrench } from "lucide-react";
+import EmptyState from "./EmptyState";
+import {
+  CHART_TOOLTIP_STYLE,
+  CHART_GRID_PROPS,
+  CHART_AXIS_TICK,
+  CHART_LABEL_STYLE,
+  BAR_ACTIVE_STYLE,
+} from "./chartConfig";
 
 interface ToolsBarChartProps {
   tools: Record<string, number>;
@@ -31,9 +40,11 @@ export default function ToolsBarChart({
         <h3 className="text-lg font-semibold text-text-primary mb-1">
           {title}
         </h3>
-        <div className="h-[200px] flex items-center justify-center">
-          <p className="text-sm text-text-tertiary">No tool data available</p>
-        </div>
+        <EmptyState
+          icon={Wrench}
+          title="No tool data"
+          description="No tool usage has been recorded yet."
+        />
       </Card>
     );
   }
@@ -53,51 +64,45 @@ export default function ToolsBarChart({
             margin={{ top: 5, right: 80, left: 0, bottom: 5 }}
           >
             <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(141,213,214,0.08)"
+              {...CHART_GRID_PROPS}
               horizontal={false}
             />
             <XAxis
               type="number"
-              tick={{ fill: "var(--text-tertiary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.secondary}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
               type="category"
               dataKey="name"
-              tick={{ fill: "var(--text-secondary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.primary}
               width={100}
               axisLine={false}
               tickLine={false}
             />
             <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--surface-2)",
-                border: "1px solid rgba(141,213,214,0.15)",
-                borderRadius: "12px",
-                color: "var(--text-primary)",
-                fontSize: "13px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-              }}
-              cursor={{ fill: "rgba(141,213,214,0.05)" }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={((value: any) => [Number(value).toLocaleString(), "Calls"]) as any}
+              {...CHART_TOOLTIP_STYLE}
+              /* eslint-disable @typescript-eslint/no-explicit-any */
+              formatter={((value: any) => [
+                Number(value).toLocaleString(),
+                "Calls",
+              ]) as any}
+              /* eslint-enable @typescript-eslint/no-explicit-any */
             />
             <Bar
               dataKey="count"
               fill="#8dd5d6"
               radius={[0, 6, 6, 0]}
               barSize={28}
+              activeBar={BAR_ACTIVE_STYLE}
+              animationDuration={800}
+              animationEasing="ease-out"
             >
               <LabelList
                 dataKey="count"
                 position="right"
-                style={{
-                  fill: "var(--text-secondary)",
-                  fontSize: 12,
-                  fontFamily: "var(--font-sans)",
-                }}
+                style={CHART_LABEL_STYLE}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(v: any) => Number(v).toLocaleString()}
               />

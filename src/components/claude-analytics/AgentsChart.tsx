@@ -11,6 +11,15 @@ import {
   LabelList,
 } from "recharts";
 import { Card } from "@/components/ui/Card";
+import { Bot } from "lucide-react";
+import EmptyState from "./EmptyState";
+import {
+  CHART_TOOLTIP_STYLE,
+  CHART_GRID_PROPS,
+  CHART_AXIS_TICK,
+  CHART_LABEL_STYLE,
+  BAR_ACTIVE_WARM,
+} from "./chartConfig";
 
 interface AgentsChartProps {
   agents: Record<string, number>;
@@ -25,7 +34,6 @@ export default function AgentsChart({
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 
-  // Estimate YAxis width from longest label (~7.2px per char at 12px font)
   const maxLabelLen = data.reduce((max, d) => Math.max(max, d.name.length), 0);
   const yAxisWidth = Math.max(100, Math.min(280, maxLabelLen * 7.2 + 16));
 
@@ -35,9 +43,11 @@ export default function AgentsChart({
         <h3 className="text-lg font-semibold text-text-primary mb-1">
           {title}
         </h3>
-        <div className="h-[200px] flex items-center justify-center">
-          <p className="text-sm text-text-tertiary">No agent data available</p>
-        </div>
+        <EmptyState
+          icon={Bot}
+          title="No agent data"
+          description="No agent usage has been recorded yet."
+        />
       </Card>
     );
   }
@@ -58,51 +68,46 @@ export default function AgentsChart({
             margin={{ top: 5, right: 80, left: 0, bottom: 5 }}
           >
             <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(141,213,214,0.08)"
+              {...CHART_GRID_PROPS}
               horizontal={false}
             />
             <XAxis
               type="number"
-              tick={{ fill: "var(--text-tertiary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.secondary}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
               type="category"
               dataKey="name"
-              tick={{ fill: "var(--text-secondary)", fontSize: 12 }}
+              tick={CHART_AXIS_TICK.primary}
               width={yAxisWidth}
               axisLine={false}
               tickLine={false}
             />
             <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--surface-2)",
-                border: "1px solid rgba(141,213,214,0.15)",
-                borderRadius: "12px",
-                color: "var(--text-primary)",
-                fontSize: "13px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-              }}
-              cursor={{ fill: "rgba(141,213,214,0.05)" }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={((value: any) => [Number(value).toLocaleString(), "Invocations"]) as any}
+              {...CHART_TOOLTIP_STYLE}
+              /* eslint-disable @typescript-eslint/no-explicit-any */
+              formatter={((value: any) => [
+                Number(value).toLocaleString(),
+                "Invocations",
+              ]) as any}
+              /* eslint-enable @typescript-eslint/no-explicit-any */
             />
             <Bar
               dataKey="count"
               fill="#d6b88d"
               radius={[0, 6, 6, 0]}
               barSize={28}
+              activeBar={BAR_ACTIVE_WARM}
+              animationDuration={800}
+              animationBegin={200}
+              animationEasing="ease-out"
             >
               <LabelList
                 dataKey="count"
                 position="right"
-                style={{
-                  fill: "var(--text-secondary)",
-                  fontSize: 12,
-                  fontFamily: "var(--font-sans)",
-                }}
+                style={CHART_LABEL_STYLE}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={(v: any) => Number(v).toLocaleString()}
               />

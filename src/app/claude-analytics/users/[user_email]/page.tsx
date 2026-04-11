@@ -2,13 +2,23 @@
 
 import { useEffect, useRef, useState, useMemo, use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Activity, Coins, Sparkles, MessageSquare, Wrench } from "lucide-react";
+import {
+  ArrowLeft,
+  Activity,
+  Coins,
+  Sparkles,
+  MessageSquare,
+  Wrench,
+  FolderOpen,
+} from "lucide-react";
 import RoleGuard from "@/components/auth/RoleGuard";
 import { UserRole } from "@/types";
-import Loader from "@/components/ui/Loader";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
+import { Card } from "@/components/ui/Card";
 import StatCard from "@/components/claude-analytics/StatCard";
+import SectionHeader from "@/components/claude-analytics/SectionHeader";
+import EmptyState from "@/components/claude-analytics/EmptyState";
 import ProjectsTable, {
   type ProjectRow,
 } from "@/components/claude-analytics/ProjectsTable";
@@ -17,9 +27,22 @@ import UserSkillsBreakdown from "@/components/claude-analytics/UserSkillsBreakdo
 import ToolsBarChart from "@/components/claude-analytics/ToolsBarChart";
 import AgentsChart from "@/components/claude-analytics/AgentsChart";
 import SessionsTable from "@/components/claude-analytics/SessionsTable";
-import { ClaudeAnalyticsUser, normalizeUser } from "@/lib/claude-analytics/types";
+import {
+  SkeletonCard,
+  SkeletonChart,
+  SkeletonTable,
+} from "@/components/claude-analytics/Skeletons";
+import ActivityHeatmap from "@/components/claude-analytics/ActivityHeatmap";
+import UsageTimeline from "@/components/claude-analytics/UsageTimeline";
+import {
+  ClaudeAnalyticsUser,
+  normalizeUser,
+} from "@/lib/claude-analytics/types";
 import { formatTokens } from "@/lib/claude-analytics/formatTokens";
-import { Card } from "@/components/ui/Card";
+import {
+  buildHeatmapData,
+  aggregateDailyActivity,
+} from "@/lib/claude-analytics/aggregate";
 
 interface PageProps {
   params: Promise<{ user_email: string }>;
@@ -63,16 +86,40 @@ export default function UserDetailPage({ params }: PageProps) {
     }));
   }, [userData]);
 
-  const modelsTable = useMemo(() => {
-    if (!userData) return [];
-    const total = Object.values(userData.models).reduce((s, v) => s + v, 0);
-    return Object.entries(userData.models)
-      .map(([name, sessions]) => ({
-        name,
-        sessions,
-        percent: total > 0 ? ((sessions / total) * 100).toFixed(0) : "0",
-      }))
-      .sort((a, b) => b.sessions - a.sessions);
+  // Time-series data (wrap single user in array for aggregate helpers)
+  const userAsArray = useMemo(
+    () => (userData ? [userData] : []),
+    [userData]
+  );
+  const heatmapData = useMemo(
+    () => buildHeatmapData(userAsArray, 90),
+    [userAsArray]
+  );
+  const dailyActivity = useMemo(
+    () => aggregateDailyActivity(userAsArray),
+    [userAsArray]
+  );
+
+  // Computed subtexts
+  const subtexts = useMemo(() => {
+    if (!userData) return {};
+    const avgTokens =
+      userData.total_sessions > 0
+        ? formatTokens(
+            Math.round(userData.total_tokens / userData.total_sessions)
+          )
+        : "0";
+    const avgMessages =
+      userData.total_sessions > 0
+        ? Math.round(userData.message_count / userData.total_sessions)
+        : 0;
+    return {
+      sessions: `across ${Object.keys(userData.projects).length} projects`,
+      tokens: `~${avgTokens} per session`,
+      messages: `~${avgMessages} per session`,
+      tools: `${Object.keys(userData.tools).length} unique tools`,
+      skills: `${Object.keys(userData.skills).filter((s) => userData.skills[s] > 0).length} active skills`,
+    };
   }, [userData]);
 
   return (
@@ -80,7 +127,6 @@ export default function UserDetailPage({ params }: PageProps) {
       <div className="relative">
         {/* Header */}
         <section className="relative mx-auto max-w-7xl px-6 pt-12 pb-4 lg:px-8">
-          {/* Background effects */}
           <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute top-0 right-1/3 h-[250px] w-[250px] rounded-full bg-accent/[0.04] blur-[100px] animate-pulse-glow" />
           </div>
@@ -95,12 +141,6 @@ export default function UserDetailPage({ params }: PageProps) {
             </Link>
           </ScrollReveal>
 
-          {loading && (
-            <div className="flex justify-center py-24">
-              <Loader />
-            </div>
-          )}
-
           {error && (
             <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-4 text-red-400 text-sm">
               {error}
@@ -108,192 +148,219 @@ export default function UserDetailPage({ params }: PageProps) {
           )}
         </section>
 
-        {!loading && !error && userData && (
-          <>
-            {/* User Info + Summary Cards */}
-            <section className="mx-auto max-w-7xl px-6 lg:px-8">
-              <ScrollReveal>
-                <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">
-                  <span className="text-gradient-shimmer">
-                    {userData.user_name}
-                  </span>
-                </h1>
-                <p className="mt-2 text-text-tertiary">{email}</p>
-              </ScrollReveal>
-
-              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
-                <StaggerItem>
-                  <StatCard
-                    label="Sessions"
-                    value={userData.total_sessions.toLocaleString()}
-                    icon={Activity}
-                  />
-                </StaggerItem>
-                <StaggerItem>
-                  <StatCard
-                    label="Tokens"
-                    value={formatTokens(userData.total_tokens)}
-                    icon={Coins}
-                  />
-                </StaggerItem>
-                <StaggerItem>
-                  <StatCard
-                    label="Messages"
-                    value={userData.message_count.toLocaleString()}
-                    icon={MessageSquare}
-                  />
-                </StaggerItem>
-                <StaggerItem>
-                  <StatCard
-                    label="Tool Uses"
-                    value={userData.total_tool_uses.toLocaleString()}
-                    icon={Wrench}
-                  />
-                </StaggerItem>
-                <StaggerItem>
-                  <StatCard
-                    label="Skill Uses"
-                    value={userData.total_skill_uses.toLocaleString()}
-                    icon={Sparkles}
-                  />
-                </StaggerItem>
-              </StaggerContainer>
-            </section>
-
-            {/* Skills Breakdown */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Skills{" "}
-                  <span className="text-gradient italic">Breakdown</span>
-                </h2>
-              </ScrollReveal>
-              <ScrollReveal delay={0.1}>
-                <UserSkillsBreakdown skills={userData.skills} />
-              </ScrollReveal>
-            </section>
-
-            {/* Model Distribution */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Model{" "}
-                  <span className="text-gradient italic">Distribution</span>
-                </h2>
-              </ScrollReveal>
-              <ScrollReveal delay={0.1}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <ModelsPieChart models={userData.models} />
-                  <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-text-primary mb-1">
-                      Model Usage
-                    </h3>
-                    <p className="text-sm text-text-tertiary mb-4">
-                      Session breakdown by model
-                    </p>
-                    {modelsTable.length === 0 ? (
-                      <p className="text-sm text-text-tertiary py-8 text-center">
-                        No model data available
-                      </p>
-                    ) : (
-                      <div className="space-y-1">
-                        {modelsTable.map((m) => (
-                          <div
-                            key={m.name}
-                            className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-surface-2 transition-colors"
-                          >
-                            <span className="text-sm font-medium text-text-primary">
-                              {m.name.replace("claude-", "")}
-                            </span>
-                            <div className="flex items-center gap-3">
-                              <span className="text-sm text-text-secondary tabular-nums">
-                                {m.sessions} sessions
-                              </span>
-                              <span className="text-xs text-text-tertiary tabular-nums w-10 text-right">
-                                {m.percent}%
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </Card>
+        <div className="space-y-12">
+          {/* User Info + Summary Cards */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            {loading ? (
+              <>
+                <div className="mb-8">
+                  <div className="h-10 w-48 rounded bg-surface-3 animate-pulse mb-2" />
+                  <div className="h-4 w-64 rounded bg-surface-3/60 animate-pulse" />
                 </div>
-              </ScrollReveal>
-            </section>
-
-            {/* Tools & Agents Breakdown */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Tools & Agents{" "}
-                  <span className="text-gradient italic">Breakdown</span>
-                </h2>
-              </ScrollReveal>
-              <ScrollReveal delay={0.1}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <ToolsBarChart tools={userData.tools} />
-                  <AgentsChart agents={userData.agents} />
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <SkeletonCard key={i} />
+                  ))}
                 </div>
-              </ScrollReveal>
-            </section>
+              </>
+            ) : (
+              userData && (
+                <>
+                  <ScrollReveal>
+                    <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">
+                      <span className="text-gradient-shimmer">
+                        {userData.user_name}
+                      </span>
+                    </h1>
+                    <p className="mt-2 text-text-tertiary">{email}</p>
+                  </ScrollReveal>
 
-            {/* Session History */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Session{" "}
-                  <span className="text-gradient italic">History</span>
-                </h2>
-              </ScrollReveal>
-              <ScrollReveal delay={0.1}>
-                <div className="space-y-6">
-                  {Object.entries(userData.projects)
-                    .filter(
-                      ([, p]) =>
-                        Object.keys(p.session_details).length > 0
-                    )
-                    .map(([name, project]) => (
-                      <SessionsTable
-                        key={name}
-                        sessions={project.session_details}
-                        projectName={name}
+                  <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-8">
+                    <StaggerItem>
+                      <StatCard
+                        label="Sessions"
+                        value={userData.total_sessions.toLocaleString()}
+                        icon={Activity}
+                        subtext={subtexts.sessions}
                       />
-                    ))}
-                  {Object.values(userData.projects).every(
-                    (p) => Object.keys(p.session_details).length === 0
-                  ) && (
-                    <Card className="p-8 text-center">
-                      <p className="text-sm text-text-tertiary">
-                        No session history available
-                      </p>
-                    </Card>
-                  )}
-                </div>
-              </ScrollReveal>
-            </section>
+                    </StaggerItem>
+                    <StaggerItem>
+                      <StatCard
+                        label="Tokens"
+                        value={formatTokens(userData.total_tokens)}
+                        icon={Coins}
+                        subtext={subtexts.tokens}
+                      />
+                    </StaggerItem>
+                    <StaggerItem>
+                      <StatCard
+                        label="Messages"
+                        value={userData.message_count.toLocaleString()}
+                        icon={MessageSquare}
+                        subtext={subtexts.messages}
+                      />
+                    </StaggerItem>
+                    <StaggerItem>
+                      <StatCard
+                        label="Tool Uses"
+                        value={userData.total_tool_uses.toLocaleString()}
+                        icon={Wrench}
+                        subtext={subtexts.tools}
+                      />
+                    </StaggerItem>
+                    <StaggerItem>
+                      <StatCard
+                        label="Skill Uses"
+                        value={userData.total_skill_uses.toLocaleString()}
+                        icon={Sparkles}
+                        subtext={subtexts.skills}
+                      />
+                    </StaggerItem>
+                  </StaggerContainer>
+                </>
+              )
+            )}
+          </section>
 
-            {/* Projects */}
-            <section className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  <span className="text-gradient italic">Projects</span>
-                </h2>
-              </ScrollReveal>
+          {/* Activity Heatmap */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader
+              title="Session"
+              accent="Activity"
+              description="Activity across the past 90 days"
+            />
+            {loading ? (
+              <SkeletonChart height={140} />
+            ) : (
+              userData && (
+                <ScrollReveal delay={0.1}>
+                  <ActivityHeatmap data={heatmapData} />
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* Usage Timeline */}
+          {!loading && dailyActivity.length > 1 && (
+            <section className="mx-auto max-w-7xl px-6 lg:px-8">
+              <SectionHeader title="Usage" accent="Timeline" />
               <ScrollReveal delay={0.1}>
-                {projects.length === 0 ? (
-                  <Card className="p-8 text-center">
-                    <p className="text-sm text-text-tertiary">
-                      No project data available
-                    </p>
-                  </Card>
-                ) : (
-                  <ProjectsTable projects={projects} />
-                )}
+                <UsageTimeline data={dailyActivity} />
               </ScrollReveal>
             </section>
-          </>
-        )}
+          )}
+
+          {/* Skills Breakdown */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Skills" accent="Breakdown" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart height={380} />
+                <SkeletonChart height={380} />
+              </div>
+            ) : (
+              userData && (
+                <ScrollReveal delay={0.1}>
+                  <UserSkillsBreakdown skills={userData.skills} />
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* Model Distribution */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Model" accent="Distribution" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart height={280} />
+                <SkeletonChart height={280} />
+              </div>
+            ) : (
+              userData && (
+                <ScrollReveal delay={0.1}>
+                  <ModelsPieChart models={userData.models} />
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* Tools & Agents Breakdown */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Tools & Agents" accent="Breakdown" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart />
+                <SkeletonChart />
+              </div>
+            ) : (
+              userData && (
+                <ScrollReveal delay={0.1}>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <ToolsBarChart tools={userData.tools} />
+                    <AgentsChart agents={userData.agents} />
+                  </div>
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* Session History */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Session" accent="History" />
+            {loading ? (
+              <SkeletonTable rows={6} />
+            ) : (
+              userData && (
+                <ScrollReveal delay={0.1}>
+                  <div className="space-y-6">
+                    {Object.entries(userData.projects)
+                      .filter(
+                        ([, p]) => Object.keys(p.session_details).length > 0
+                      )
+                      .map(([name, project]) => (
+                        <SessionsTable
+                          key={name}
+                          sessions={project.session_details}
+                          projectName={name}
+                        />
+                      ))}
+                    {Object.values(userData.projects).every(
+                      (p) => Object.keys(p.session_details).length === 0
+                    ) && (
+                      <Card className="p-0 overflow-hidden">
+                        <EmptyState
+                          icon={Activity}
+                          title="No session history"
+                          description="No session details have been recorded yet."
+                        />
+                      </Card>
+                    )}
+                  </div>
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* Projects */}
+          <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
+            <SectionHeader title="" accent="Projects" />
+            {loading ? (
+              <SkeletonTable />
+            ) : projects.length === 0 ? (
+              <Card className="p-0 overflow-hidden">
+                <EmptyState
+                  icon={FolderOpen}
+                  title="No project data"
+                  description="No project activity has been recorded yet."
+                />
+              </Card>
+            ) : (
+              <ScrollReveal delay={0.1}>
+                <ProjectsTable projects={projects} />
+              </ScrollReveal>
+            )}
+          </section>
+        </div>
       </div>
     </RoleGuard>
   );
