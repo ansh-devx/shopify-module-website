@@ -1,30 +1,69 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
-import { Users, Activity, Coins, Sparkles, MessageSquare, Wrench } from "lucide-react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Users,
+  Activity,
+  Coins,
+  Sparkles,
+  MessageSquare,
+  Wrench,
+  Download,
+  Zap,
+  TrendingUp,
+  Star,
+  Cpu,
+} from "lucide-react";
 import RoleGuard from "@/components/auth/RoleGuard";
 import { UserRole } from "@/types";
-import Loader from "@/components/ui/Loader";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
+import { Card } from "@/components/ui/Card";
 import StatCard from "@/components/claude-analytics/StatCard";
+import SectionHeader from "@/components/claude-analytics/SectionHeader";
 import UsersTable from "@/components/claude-analytics/UsersTable";
-import ProjectsTable, {
-  type ProjectRow,
-} from "@/components/claude-analytics/ProjectsTable";
+import ProjectsTable from "@/components/claude-analytics/ProjectsTable";
 import SkillsBarChart from "@/components/claude-analytics/SkillsBarChart";
 import ModelsPieChart from "@/components/claude-analytics/ModelsPieChart";
 import TopUsersChart from "@/components/claude-analytics/TopUsersChart";
 import ToolsBarChart from "@/components/claude-analytics/ToolsBarChart";
 import AgentsChart from "@/components/claude-analytics/AgentsChart";
-import { ClaudeAnalyticsUser, normalizeUser } from "@/lib/claude-analytics/types";
+import ActivityHeatmap from "@/components/claude-analytics/ActivityHeatmap";
+import UsageTimeline from "@/components/claude-analytics/UsageTimeline";
+import UserSpotlight from "@/components/claude-analytics/UserSpotlight";
+import {
+  SkeletonCard,
+  SkeletonChart,
+  SkeletonTable,
+  SkeletonInsights,
+} from "@/components/claude-analytics/Skeletons";
+import {
+  ClaudeAnalyticsUser,
+  normalizeUser,
+} from "@/lib/claude-analytics/types";
 import { formatTokens } from "@/lib/claude-analytics/formatTokens";
+import {
+  aggregateField,
+  aggregateProjects,
+  computeInsights,
+  aggregateDailyActivity,
+  buildHeatmapData,
+  buildSparkline,
+} from "@/lib/claude-analytics/aggregate";
+import { getSkillDisplayName } from "@/lib/claude-analytics/skillCategories";
 
 export default function ClaudeAnalyticsPage() {
   const [users, setUsers] = useState<ClaudeAnalyticsUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   const hasFetched = useRef(false);
+
+  const handleUserClick = useCallback(
+    (email: string) => router.push(`/claude-analytics/users/${btoa(email)}`),
+    [router]
+  );
 
   useEffect(() => {
     if (hasFetched.current) return;
@@ -43,6 +82,7 @@ export default function ClaudeAnalyticsPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  // ── Aggregate data ───────────────────────────────────────
   const stats = useMemo(() => {
     const totalSessions = users.reduce((s, u) => s + u.total_sessions, 0);
     const totalTokens = users.reduce((s, u) => s + u.total_tokens, 0);
@@ -59,111 +99,139 @@ export default function ClaudeAnalyticsPage() {
     };
   }, [users]);
 
-  const aggregatedSkills = useMemo(() => {
-    const skills: Record<string, number> = {};
-    users.forEach((u) => {
-      Object.entries(u.skills).forEach(([skill, count]) => {
-        skills[skill] = (skills[skill] || 0) + count;
-      });
-    });
-    return skills;
+  const aggregatedSkills = useMemo(
+    () => aggregateField(users, "skills"),
+    [users]
+  );
+  const aggregatedModels = useMemo(
+    () => aggregateField(users, "models"),
+    [users]
+  );
+  const aggregatedTools = useMemo(
+    () => aggregateField(users, "tools"),
+    [users]
+  );
+  const aggregatedAgents = useMemo(
+    () => aggregateField(users, "agents"),
+    [users]
+  );
+  const aggregatedProjects = useMemo(
+    () => aggregateProjects(users),
+    [users]
+  );
+  const insights = useMemo(() => computeInsights(users), [users]);
+
+  // ── Time-series data ─────────────────────────────────────
+  const dailyActivity = useMemo(
+    () => aggregateDailyActivity(users),
+    [users]
+  );
+  const heatmapData = useMemo(() => buildHeatmapData(users, 90), [users]);
+  const sparklineSessions = useMemo(
+    () => buildSparkline(users, "sessions", 14),
+    [users]
+  );
+  const sparklineTokens = useMemo(
+    () => buildSparkline(users, "tokens", 14),
+    [users]
+  );
+  const sparklineMessages = useMemo(
+    () => buildSparkline(users, "messages", 14),
+    [users]
+  );
+
+  // ── CSV export ───────────────────────────────────────────
+  const exportCSV = useCallback(() => {
+    if (users.length === 0) return;
+    const headers = [
+      "Name",
+      "Email",
+      "Sessions",
+      "Tokens",
+      "Messages",
+      "Tool Uses",
+      "Skill Uses",
+      "Last Active",
+    ];
+    const rows = users.map((u) => [
+      u.user_name,
+      u.user_email,
+      u.total_sessions,
+      u.total_tokens,
+      u.message_count,
+      u.total_tool_uses,
+      u.total_skill_uses,
+      u.last_active,
+    ]);
+    const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `claude-analytics-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }, [users]);
 
-  const aggregatedModels = useMemo(() => {
-    const models: Record<string, number> = {};
-    users.forEach((u) => {
-      Object.entries(u.models).forEach(([model, count]) => {
-        models[model] = (models[model] || 0) + count;
-      });
-    });
-    return models;
-  }, [users]);
-
-  const aggregatedTools = useMemo(() => {
-    const tools: Record<string, number> = {};
-    users.forEach((u) => {
-      Object.entries(u.tools).forEach(([tool, count]) => {
-        tools[tool] = (tools[tool] || 0) + count;
-      });
-    });
-    return tools;
-  }, [users]);
-
-  const aggregatedAgents = useMemo(() => {
-    const agents: Record<string, number> = {};
-    users.forEach((u) => {
-      Object.entries(u.agents).forEach(([agent, count]) => {
-        agents[agent] = (agents[agent] || 0) + count;
-      });
-    });
-    return agents;
-  }, [users]);
-
-  const aggregatedProjects = useMemo(() => {
-    const projectMap: Record<
-      string,
-      {
-        tokens: number;
-        skills: number;
-        sessions: number;
-        userSet: Set<string>;
-      }
-    > = {};
-    users.forEach((u) => {
-      Object.entries(u.projects).forEach(([name, data]) => {
-        if (!projectMap[name]) {
-          projectMap[name] = {
-            tokens: 0,
-            skills: 0,
-            sessions: 0,
-            userSet: new Set(),
-          };
-        }
-        projectMap[name].tokens += data.tokens;
-        projectMap[name].skills += data.skills;
-        projectMap[name].sessions += data.sessions;
-        projectMap[name].userSet.add(u.user_email);
-      });
-    });
-    return Object.entries(projectMap).map(
-      ([name, { tokens, skills, sessions, userSet }]): ProjectRow => ({
-        name,
-        tokens,
-        skills,
-        sessions,
-        activeUsers: userSet.size,
-      })
-    );
-  }, [users]);
+  // ── Subtexts for stat cards ──────────────────────────────
+  const subtexts = useMemo(() => {
+    if (users.length === 0) return {};
+    const avgTokens =
+      stats.totalSessions > 0
+        ? formatTokens(Math.round(stats.totalTokens / stats.totalSessions))
+        : "0";
+    const avgSessions =
+      users.length > 0
+        ? Math.round(stats.totalSessions / users.length)
+        : 0;
+    const avgMessages =
+      stats.totalSessions > 0
+        ? Math.round(stats.totalMessages / stats.totalSessions)
+        : 0;
+    return {
+      users: `${stats.totalSessions > 0 ? avgSessions : 0} sessions/user avg`,
+      sessions: `across ${users.length} users`,
+      tokens: `~${avgTokens} per session`,
+      messages: `~${avgMessages} per session`,
+      tools: `${Object.keys(aggregatedTools).length} unique tools`,
+      skills: `${Object.keys(aggregatedSkills).length} unique skills`,
+    };
+  }, [users, stats, aggregatedTools, aggregatedSkills]);
 
   return (
     <RoleGuard requiredRole={UserRole.SUPERADMIN} redirectTo="/">
       <div className="relative">
-        {/* Hero Header */}
+        {/* ── Hero Header ─────────────────────────────────── */}
         <section className="relative mx-auto max-w-7xl px-6 pt-12 pb-8 lg:px-8">
-          {/* Background effects */}
           <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute top-0 left-1/4 h-[300px] w-[300px] rounded-full bg-accent/[0.04] blur-[100px] animate-pulse-glow" />
             <div className="absolute bottom-0 right-1/4 h-[200px] w-[200px] rounded-full bg-accent-warm/[0.03] blur-[80px] animate-float" />
           </div>
 
           <ScrollReveal>
-            <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">
-              Claude{" "}
-              <span className="text-gradient-shimmer">Analytics</span>
-            </h1>
-            <p className="mt-3 text-lg text-text-secondary max-w-2xl">
-              Team-wide Claude Code usage overview — sessions, tokens, skills,
-              and model distribution across all users.
-            </p>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">
+                  Claude{" "}
+                  <span className="text-gradient-shimmer">Analytics</span>
+                </h1>
+                <p className="mt-3 text-lg text-text-secondary max-w-2xl">
+                  Team-wide Claude Code usage overview — sessions, tokens,
+                  skills, and model distribution across all users.
+                </p>
+              </div>
+              {!loading && users.length > 0 && (
+                <button
+                  onClick={exportCSV}
+                  className="shrink-0 mt-2 inline-flex items-center gap-2 rounded-xl border border-accent/15 bg-accent/5 px-4 py-2.5 text-sm font-medium text-accent hover:bg-accent/10 hover:border-accent/25 transition-all duration-300"
+                >
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Export CSV</span>
+                </button>
+              )}
+            </div>
           </ScrollReveal>
         </section>
-
-        {loading && (
-          <div className="flex justify-center py-24">
-            <Loader />
-          </div>
-        )}
 
         {error && (
           <section className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -173,16 +241,23 @@ export default function ClaudeAnalyticsPage() {
           </section>
         )}
 
-        {!loading && !error && (
-          <>
-            {/* Summary Cards */}
-            <section className="mx-auto max-w-7xl px-6 lg:px-8">
-              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-12">
+          {/* ── Summary Cards with Sparklines ─────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            {loading ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : (
+              <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
                 <StaggerItem>
                   <StatCard
                     label="Total Users"
                     value={stats.totalUsers}
                     icon={Users}
+                    subtext={subtexts.users}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -190,6 +265,8 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Sessions"
                     value={stats.totalSessions.toLocaleString()}
                     icon={Activity}
+                    subtext={subtexts.sessions}
+                    sparkline={sparklineSessions}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -197,6 +274,8 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Tokens"
                     value={formatTokens(stats.totalTokens)}
                     icon={Coins}
+                    subtext={subtexts.tokens}
+                    sparkline={sparklineTokens}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -204,6 +283,8 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Messages"
                     value={stats.totalMessages.toLocaleString()}
                     icon={MessageSquare}
+                    subtext={subtexts.messages}
+                    sparkline={sparklineMessages}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -211,6 +292,7 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Tool Uses"
                     value={stats.totalToolUses.toLocaleString()}
                     icon={Wrench}
+                    subtext={subtexts.tools}
                   />
                 </StaggerItem>
                 <StaggerItem>
@@ -218,18 +300,128 @@ export default function ClaudeAnalyticsPage() {
                     label="Total Skill Uses"
                     value={stats.totalSkillUses.toLocaleString()}
                     icon={Sparkles}
+                    subtext={subtexts.skills}
                   />
                 </StaggerItem>
               </StaggerContainer>
-            </section>
+            )}
+          </section>
 
-            {/* Top Users Charts */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Top <span className="text-gradient italic">Users</span>
-                </h2>
+          {/* ── Quick Insights ────────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            {loading ? (
+              <SkeletonInsights />
+            ) : (
+              insights && (
+                <ScrollReveal>
+                  <Card className="p-5 border-accent-warm/10">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className="rounded-lg bg-accent-warm/10 p-2">
+                        <Zap className="h-4 w-4 text-accent-warm" />
+                      </div>
+                      <h3 className="text-sm font-semibold text-text-primary">
+                        Quick Insights
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                      <div>
+                        <p className="text-xs text-text-tertiary mb-0.5 flex items-center gap-1">
+                          <TrendingUp className="h-3 w-3" /> Most Active
+                        </p>
+                        <p className="text-sm font-medium text-text-primary">
+                          {insights.mostActiveUser}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-text-tertiary mb-0.5 flex items-center gap-1">
+                          <Coins className="h-3 w-3" /> Avg Tokens/Session
+                        </p>
+                        <p className="text-sm font-medium text-text-primary">
+                          {formatTokens(insights.avgTokensPerSession)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-text-tertiary mb-0.5 flex items-center gap-1">
+                          <Star className="h-3 w-3" /> Top Skill
+                        </p>
+                        <p className="text-sm font-medium text-text-primary">
+                          {insights.topSkill
+                            ? getSkillDisplayName(insights.topSkill)
+                            : "N/A"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-text-tertiary mb-0.5 flex items-center gap-1">
+                          <Cpu className="h-3 w-3" /> Top Model
+                        </p>
+                        <p className="text-sm font-medium text-text-primary">
+                          {insights.topModel || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                </ScrollReveal>
+              )
+            )}
+          </section>
+
+          {/* ── Activity Heatmap ──────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader
+              title="Team"
+              accent="Activity"
+              description="Session activity across the past 90 days"
+            />
+            {loading ? (
+              <SkeletonChart height={140} />
+            ) : (
+              <ScrollReveal delay={0.1}>
+                <ActivityHeatmap data={heatmapData} />
               </ScrollReveal>
+            )}
+          </section>
+
+          {/* ── Usage Timeline ────────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Usage" accent="Timeline" />
+            {loading ? (
+              <SkeletonChart height={280} />
+            ) : (
+              <ScrollReveal delay={0.1}>
+                <UsageTimeline data={dailyActivity} />
+              </ScrollReveal>
+            )}
+          </section>
+
+          {/* ── User Spotlight (Top 3) ───────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader
+              title="User"
+              accent="Spotlight"
+              description="Top contributors ranked by token consumption"
+            />
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <SkeletonChart height={200} />
+                <SkeletonChart height={200} />
+                <SkeletonChart height={200} />
+              </div>
+            ) : (
+              <ScrollReveal delay={0.1}>
+                <UserSpotlight users={users} />
+              </ScrollReveal>
+            )}
+          </section>
+
+          {/* ── Top Users Charts ──────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Top" accent="Users" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart height={320} />
+                <SkeletonChart height={320} />
+              </div>
+            ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <ScrollReveal delay={0.1}>
                   <TopUsersChart
@@ -237,6 +429,7 @@ export default function ClaudeAnalyticsPage() {
                     metric="total_tokens"
                     title="By Token Consumption"
                     color="#8dd5d6"
+                    onUserClick={handleUserClick}
                   />
                 </ScrollReveal>
                 <ScrollReveal delay={0.2}>
@@ -245,47 +438,49 @@ export default function ClaudeAnalyticsPage() {
                     metric="total_sessions"
                     title="By Session Count"
                     color="#d6b88d"
+                    onUserClick={handleUserClick}
                   />
                 </ScrollReveal>
               </div>
-            </section>
+            )}
+          </section>
 
-            {/* Skills Distribution */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Skills{" "}
-                  <span className="text-gradient italic">Distribution</span>
-                </h2>
-              </ScrollReveal>
+          {/* ── Skills Distribution ───────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Skills" accent="Distribution" />
+            {loading ? (
+              <SkeletonChart height={400} />
+            ) : (
               <ScrollReveal delay={0.1}>
                 <SkillsBarChart skills={aggregatedSkills} />
               </ScrollReveal>
-            </section>
+            )}
+          </section>
 
-            {/* Model Distribution */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Model{" "}
-                  <span className="text-gradient italic">Distribution</span>
-                </h2>
-              </ScrollReveal>
+          {/* ── Model Distribution ────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Model" accent="Distribution" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart height={280} />
+                <SkeletonChart height={280} />
+              </div>
+            ) : (
               <ScrollReveal delay={0.1}>
-                <div className="max-w-lg mx-auto">
-                  <ModelsPieChart models={aggregatedModels} />
-                </div>
+                <ModelsPieChart models={aggregatedModels} />
               </ScrollReveal>
-            </section>
+            )}
+          </section>
 
-            {/* Tools & Agents Distribution */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Tools & Agents{" "}
-                  <span className="text-gradient italic">Distribution</span>
-                </h2>
-              </ScrollReveal>
+          {/* ── Tools & Agents Distribution ───────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Tools & Agents" accent="Distribution" />
+            {loading ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkeletonChart />
+                <SkeletonChart />
+              </div>
+            ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <ScrollReveal delay={0.1}>
                   <ToolsBarChart tools={aggregatedTools} />
@@ -294,37 +489,36 @@ export default function ClaudeAnalyticsPage() {
                   <AgentsChart agents={aggregatedAgents} />
                 </ScrollReveal>
               </div>
-            </section>
+            )}
+          </section>
 
-            {/* Projects Overview */}
-            <section className="mx-auto max-w-7xl px-6 pt-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  Projects{" "}
-                  <span className="text-gradient italic">Overview</span>
-                </h2>
-              </ScrollReveal>
+          {/* ── Projects Overview ─────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 lg:px-8">
+            <SectionHeader title="Projects" accent="Overview" />
+            {loading ? (
+              <SkeletonTable />
+            ) : (
               <ScrollReveal delay={0.1}>
                 <ProjectsTable
                   projects={aggregatedProjects}
                   showActiveUsers
                 />
               </ScrollReveal>
-            </section>
+            )}
+          </section>
 
-            {/* Users Table */}
-            <section className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-              <ScrollReveal>
-                <h2 className="font-serif text-2xl tracking-tight text-text-primary sm:text-3xl mb-6">
-                  All <span className="text-gradient italic">Users</span>
-                </h2>
-              </ScrollReveal>
+          {/* ── Users Table ───────────────────────────────── */}
+          <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
+            <SectionHeader title="All" accent="Users" />
+            {loading ? (
+              <SkeletonTable rows={8} />
+            ) : (
               <ScrollReveal delay={0.1}>
                 <UsersTable users={users} />
               </ScrollReveal>
-            </section>
-          </>
-        )}
+            )}
+          </section>
+        </div>
       </div>
     </RoleGuard>
   );
