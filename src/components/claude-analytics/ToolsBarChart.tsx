@@ -34,6 +34,12 @@ export default function ToolsBarChart({
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 
+  const longestName = data.reduce(
+    (max, d) => Math.max(max, d.name.length),
+    0
+  );
+  const yAxisWidth = Math.min(200, Math.max(100, longestName * 7.5));
+
   if (data.length === 0) {
     return (
       <Card className="p-6">
@@ -76,10 +82,32 @@ export default function ToolsBarChart({
             <YAxis
               type="category"
               dataKey="name"
-              tick={CHART_AXIS_TICK.primary}
-              width={100}
+              width={yAxisWidth}
               axisLine={false}
               tickLine={false}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              tick={(props: any) => {
+                const { x, y, payload } = props;
+                const maxChars = Math.floor(yAxisWidth / 7);
+                const fullName = payload.value as string;
+                const label =
+                  fullName.length > maxChars
+                    ? fullName.slice(0, maxChars - 1) + "\u2026"
+                    : fullName;
+                return (
+                  <text
+                    x={x}
+                    y={y}
+                    dy={4}
+                    textAnchor="end"
+                    fill="var(--text-secondary)"
+                    fontSize={12}
+                  >
+                    <title>{fullName}</title>
+                    {label}
+                  </text>
+                );
+              }}
             />
             <Tooltip
               {...CHART_TOOLTIP_STYLE}
