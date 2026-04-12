@@ -20,11 +20,11 @@ const RANK_STYLES = [
     label: "1st",
   },
   {
-    gradient: "from-gray-400/15 via-gray-400/5 to-transparent",
-    border: "border-gray-400/20 hover:border-gray-400/35",
-    badge: "bg-gray-400/15 text-gray-400",
-    glow: "hover:shadow-[0_0_25px_rgba(156,163,175,0.06)]",
-    icon: "text-gray-400",
+    gradient: "from-slate-300/20 via-slate-400/10 to-transparent",
+    border: "border-slate-400/25 hover:border-slate-300/40",
+    badge: "bg-slate-300/15 text-slate-300",
+    glow: "hover:shadow-[0_0_25px_rgba(203,213,225,0.08)]",
+    icon: "text-slate-300",
     label: "2nd",
   },
   {

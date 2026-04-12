@@ -49,6 +49,12 @@ export default function TopUsersChart({
           : u[metric].toLocaleString(),
     }));
 
+  const longestName = data.reduce(
+    (max, d) => Math.max(max, d.name.length),
+    0
+  );
+  const yAxisWidth = Math.min(200, Math.max(120, longestName * 7.5));
+
   const activeStyle =
     color === "#d6b88d" ? BAR_ACTIVE_WARM : BAR_ACTIVE_STYLE;
 
@@ -64,7 +70,7 @@ export default function TopUsersChart({
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 5, right: 80, left: 0, bottom: 5 }}
+            margin={{ top: 5, right: 80, left: 5, bottom: 5 }}
           >
             <CartesianGrid
               {...CHART_GRID_PROPS}
@@ -84,10 +90,32 @@ export default function TopUsersChart({
             <YAxis
               type="category"
               dataKey="name"
-              tick={CHART_AXIS_TICK.primary}
-              width={120}
+              width={yAxisWidth}
               axisLine={false}
               tickLine={false}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              tick={(props: any) => {
+                const { x, y, payload } = props;
+                const maxChars = Math.floor(yAxisWidth / 7);
+                const fullName = payload.value as string;
+                const label =
+                  fullName.length > maxChars
+                    ? fullName.slice(0, maxChars - 1) + "\u2026"
+                    : fullName;
+                return (
+                  <text
+                    x={x}
+                    y={y}
+                    dy={4}
+                    textAnchor="end"
+                    fill="var(--text-secondary)"
+                    fontSize={12}
+                  >
+                    <title>{fullName}</title>
+                    {label}
+                  </text>
+                );
+              }}
             />
             <Tooltip
               {...CHART_TOOLTIP_STYLE}

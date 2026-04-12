@@ -240,8 +240,29 @@ export const navigationStructure: NavigationItem[] = [
   {
     id: "claude-analytics",
     title: "Claude Analytics",
-    href: "/claude-analytics",
     icon: BarChart3,
     requiredRole: "SUPERADMIN",
+    children: [
+      {
+        id: "ca-overview",
+        title: "Overview",
+        href: "/claude-analytics",
+      },
+      {
+        id: "ca-users",
+        title: "Users",
+        href: "/claude-analytics/users",
+      },
+      {
+        id: "ca-skills-models",
+        title: "Skills & Models",
+        href: "/claude-analytics/skills-models",
+      },
+      {
+        id: "ca-tools-projects",
+        title: "Tools & Projects",
+        href: "/claude-analytics/tools-projects",
+      },
+    ],
   },
 ];

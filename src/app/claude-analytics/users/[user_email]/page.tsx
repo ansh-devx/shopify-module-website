@@ -176,46 +176,17 @@ export default function UserDetailPage({ params }: PageProps) {
                   </ScrollReveal>
 
                   <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mt-8">
-                    <StaggerItem>
-                      <StatCard
-                        label="Sessions"
-                        value={userData.total_sessions.toLocaleString()}
-                        icon={Activity}
-                        subtext={subtexts.sessions}
-                      />
-                    </StaggerItem>
-                    <StaggerItem>
-                      <StatCard
-                        label="Tokens"
-                        value={formatTokens(userData.total_tokens)}
-                        icon={Coins}
-                        subtext={subtexts.tokens}
-                      />
-                    </StaggerItem>
-                    <StaggerItem>
-                      <StatCard
-                        label="Messages"
-                        value={userData.message_count.toLocaleString()}
-                        icon={MessageSquare}
-                        subtext={subtexts.messages}
-                      />
-                    </StaggerItem>
-                    <StaggerItem>
-                      <StatCard
-                        label="Tool Uses"
-                        value={userData.total_tool_uses.toLocaleString()}
-                        icon={Wrench}
-                        subtext={subtexts.tools}
-                      />
-                    </StaggerItem>
-                    <StaggerItem>
-                      <StatCard
-                        label="Skill Uses"
-                        value={userData.total_skill_uses.toLocaleString()}
-                        icon={Sparkles}
-                        subtext={subtexts.skills}
-                      />
-                    </StaggerItem>
+                    {[
+                      { label: "Sessions", value: userData.total_sessions.toLocaleString(), icon: Activity, subtext: subtexts.sessions },
+                      { label: "Tokens", value: formatTokens(userData.total_tokens), icon: Coins, subtext: subtexts.tokens },
+                      { label: "Messages", value: userData.message_count.toLocaleString(), icon: MessageSquare, subtext: subtexts.messages },
+                      { label: "Tool Uses", value: userData.total_tool_uses.toLocaleString(), icon: Wrench, subtext: subtexts.tools },
+                      { label: "Skill Uses", value: userData.total_skill_uses.toLocaleString(), icon: Sparkles, subtext: subtexts.skills },
+                    ].map((card) => (
+                      <StaggerItem key={card.label}>
+                        <StatCard {...card} />
+                      </StaggerItem>
+                    ))}
                   </StaggerContainer>
                 </>
               )
