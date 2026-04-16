@@ -42,17 +42,38 @@ export interface ClaudeAnalyticsUser {
   session_tools: Record<string, Record<string, number>>;
 }
 
+function normalizeSession(raw: Record<string, unknown> | null | undefined): SessionDetail {
+  const s = raw || {};
+  return {
+    name: (s.name as string) || "",
+    started_at: (s.started_at as string) || "",
+    tokens: (s.tokens as number) || 0,
+    messages: (s.messages as number) || 0,
+    models: Array.isArray(s.models) ? (s.models as string[]) : [],
+    skills: (s.skills as Record<string, number>) || {},
+    agents: (s.agents as Record<string, number>) || {},
+    tools: (s.tools as Record<string, number>) || {},
+  };
+}
+
 /** Normalize a raw API user object, filling in missing/optional fields with defaults */
 export function normalizeUser(raw: Record<string, unknown>): ClaudeAnalyticsUser {
   // Normalize projects to ensure session_details exists on each entry
   const rawProjects = (raw.projects as Record<string, Record<string, unknown>>) || {};
   const projects: Record<string, ProjectData> = {};
   for (const [name, data] of Object.entries(rawProjects)) {
+    const safeData = data || {};
+    const rawSessions =
+      (safeData.session_details as Record<string, Record<string, unknown>>) || {};
+    const session_details: Record<string, SessionDetail> = {};
+    for (const [sid, sessionRaw] of Object.entries(rawSessions)) {
+      session_details[sid] = normalizeSession(sessionRaw);
+    }
     projects[name] = {
-      tokens: (data.tokens as number) || 0,
-      skills: (data.skills as number) || 0,
-      sessions: (data.sessions as number) || 0,
-      session_details: (data.session_details as Record<string, SessionDetail>) || {},
+      tokens: (safeData.tokens as number) || 0,
+      skills: (safeData.skills as number) || 0,
+      sessions: (safeData.sessions as number) || 0,
+      session_details,
     };
   }
 
