@@ -281,34 +281,39 @@ export default function UserDetailPage({ params }: PageProps) {
             {loading ? (
               <SkeletonTable rows={6} />
             ) : (
-              userData && (
-                <ScrollReveal delay={0.1}>
+              userData &&
+              (() => {
+                const projectsWithSessions = Object.entries(userData.projects)
+                  .filter(
+                    ([, p]) =>
+                      p.session_details &&
+                      Object.keys(p.session_details).length > 0
+                  );
+                return (
                   <div className="space-y-6">
-                    {Object.entries(userData.projects)
-                      .filter(
-                        ([, p]) => Object.keys(p.session_details).length > 0
-                      )
-                      .map(([name, project]) => (
-                        <SessionsTable
-                          key={name}
-                          sessions={project.session_details}
-                          projectName={name}
-                        />
-                      ))}
-                    {Object.values(userData.projects).every(
-                      (p) => Object.keys(p.session_details).length === 0
-                    ) && (
-                      <Card className="p-0 overflow-hidden">
-                        <EmptyState
-                          icon={Activity}
-                          title="No session history"
-                          description="No session details have been recorded yet."
-                        />
-                      </Card>
+                    {projectsWithSessions.length > 0 ? (
+                      projectsWithSessions.map(([name, project]) => (
+                        <ScrollReveal key={name} delay={0.05} amount={0}>
+                          <SessionsTable
+                            sessions={project.session_details}
+                            projectName={name}
+                          />
+                        </ScrollReveal>
+                      ))
+                    ) : (
+                      <ScrollReveal delay={0.1} amount={0}>
+                        <Card className="p-0 overflow-hidden">
+                          <EmptyState
+                            icon={Activity}
+                            title="No session history"
+                            description="No session details have been recorded yet."
+                          />
+                        </Card>
+                      </ScrollReveal>
                     )}
                   </div>
-                </ScrollReveal>
-              )
+                );
+              })()
             )}
           </section>
 
