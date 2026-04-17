@@ -45,14 +45,32 @@ export default function SkillsBarChart({
     ? Object.keys(skills)
     : Object.keys(skills).filter((s) => skills[s] > 0);
 
-  const allData = skillKeys
-    .map((skill) => ({
-      name: getSkillDisplayName(skill),
-      fullName: skill,
-      count: skills[skill] || 0,
-      category: getSkillCategory(skill),
-    }))
-    .sort((a, b) => b.count - a.count);
+  const mergedByName = new Map<
+    string,
+    { name: string; fullName: string; count: number; category: SkillCategory }
+  >();
+  for (const skill of skillKeys) {
+    const name = getSkillDisplayName(skill);
+    const count = skills[skill] || 0;
+    const existing = mergedByName.get(name);
+    if (existing) {
+      existing.count += count;
+      if (skill.includes(":")) {
+        existing.fullName = skill;
+        existing.category = getSkillCategory(skill);
+      }
+    } else {
+      mergedByName.set(name, {
+        name,
+        fullName: skill,
+        count,
+        category: getSkillCategory(skill),
+      });
+    }
+  }
+  const allData = Array.from(mergedByName.values()).sort(
+    (a, b) => b.count - a.count
+  );
 
   const hasMore = allData.length > TOP_N;
   const data = hasMore && !showAll ? allData.slice(0, TOP_N) : allData;

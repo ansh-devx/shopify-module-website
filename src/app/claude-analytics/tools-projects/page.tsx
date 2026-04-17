@@ -5,7 +5,10 @@ import SectionHeader from "@/components/claude-analytics/SectionHeader";
 import ToolsBarChart from "@/components/claude-analytics/ToolsBarChart";
 import AgentsChart from "@/components/claude-analytics/AgentsChart";
 import ProjectsTable from "@/components/claude-analytics/ProjectsTable";
-import { SkeletonChart, SkeletonTable } from "@/components/claude-analytics/Skeletons";
+import {
+  SkeletonChart,
+  SkeletonTable,
+} from "@/components/claude-analytics/Skeletons";
 import {
   aggregateField,
   aggregateProjects,
@@ -17,19 +20,26 @@ export default function ToolsProjectsPage() {
 
   const aggregatedTools = useMemo(
     () => aggregateField(users, "tools"),
-    [users]
+    [users],
   );
   const aggregatedAgents = useMemo(
     () => aggregateField(users, "agents"),
-    [users]
+    [users],
   );
-  const aggregatedProjects = useMemo(
-    () => aggregateProjects(users),
-    [users]
-  );
+  const aggregatedProjects = useMemo(() => aggregateProjects(users), [users]);
 
   return (
     <div className="space-y-8">
+      {/* Projects Overview */}
+      <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
+        <SectionHeader title="Projects" accent="Overview" />
+        {loading ? (
+          <SkeletonTable />
+        ) : (
+          <ProjectsTable projects={aggregatedProjects} showActiveUsers />
+        )}
+      </section>
+
       {/* Tools & Agents Distribution */}
       <section className="mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeader title="Tools & Agents" accent="Distribution" />
@@ -43,19 +53,6 @@ export default function ToolsProjectsPage() {
             <ToolsBarChart tools={aggregatedTools} />
             <AgentsChart agents={aggregatedAgents} />
           </div>
-        )}
-      </section>
-
-      {/* Projects Overview */}
-      <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
-        <SectionHeader title="Projects" accent="Overview" />
-        {loading ? (
-          <SkeletonTable />
-        ) : (
-          <ProjectsTable
-            projects={aggregatedProjects}
-            showActiveUsers
-          />
         )}
       </section>
     </div>
