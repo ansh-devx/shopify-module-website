@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { type HeatmapDay } from "@/lib/claude-analytics/aggregate";
 
@@ -42,11 +42,14 @@ export default function ActivityHeatmap({
   data,
   title = "Activity",
 }: ActivityHeatmapProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<{
     x: number;
     y: number;
     date: string;
     count: number;
+    containerWidth: number;
+    placeBelow: boolean;
   } | null>(null);
 
   const maxCount = useMemo(
@@ -147,7 +150,8 @@ export default function ActivityHeatmap({
         </div>
       </div>
 
-      <div className="overflow-x-auto relative">
+      <div ref={containerRef} className="relative">
+        <div className="overflow-x-auto">
         <svg
           width={svgWidth}
           height={svgHeight}
@@ -203,15 +207,19 @@ export default function ActivityHeatmap({
                   style={{ cursor: "pointer" }}
                   onMouseEnter={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
-                    const parent = e.currentTarget
-                      .closest(".overflow-x-auto")
-                      ?.getBoundingClientRect();
+                    const parent = containerRef.current?.getBoundingClientRect();
                     if (parent) {
+                      const relTop = rect.top - parent.top;
+                      const placeBelow = relTop < 40;
                       setTooltip({
                         x: rect.left - parent.left + CELL_SIZE / 2,
-                        y: rect.top - parent.top - 8,
+                        y: placeBelow
+                          ? relTop + CELL_SIZE + 8
+                          : relTop - 8,
                         date: day.date,
                         count: day.count,
+                        containerWidth: parent.width,
+                        placeBelow,
                       });
                     }
                   }}
@@ -221,25 +229,33 @@ export default function ActivityHeatmap({
             })
           )}
         </svg>
+        </div>
 
         {/* Tooltip */}
-        {tooltip && (
-          <div
-            className="absolute z-10 pointer-events-none px-2.5 py-1.5 rounded-lg text-xs bg-surface-2 border border-accent/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-            style={{
-              left: tooltip.x,
-              top: tooltip.y,
-              transform: "translate(-50%, -100%)",
-            }}
-          >
-            <span className="font-medium text-text-primary">
-              {tooltip.count} session{tooltip.count !== 1 ? "s" : ""}
-            </span>{" "}
-            <span className="text-text-tertiary">
-              on {formatDate(tooltip.date)}
-            </span>
-          </div>
-        )}
+        {tooltip && (() => {
+          const estWidth = 200;
+          const halfWidth = estWidth / 2;
+          const minX = halfWidth + 4;
+          const maxX = Math.max(minX, tooltip.containerWidth - halfWidth - 4);
+          const clampedX = Math.min(Math.max(tooltip.x, minX), maxX);
+          return (
+            <div
+              className="absolute z-10 pointer-events-none px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap bg-surface-2 border border-accent/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              style={{
+                left: clampedX,
+                top: tooltip.y,
+                transform: `translate(-50%, ${tooltip.placeBelow ? "0" : "-100%"})`,
+              }}
+            >
+              <span className="font-medium text-text-primary">
+                {tooltip.count} session{tooltip.count !== 1 ? "s" : ""}
+              </span>{" "}
+              <span className="text-text-tertiary">
+                on {formatDate(tooltip.date)}
+              </span>
+            </div>
+          );
+        })()}
       </div>
     </Card>
   );
