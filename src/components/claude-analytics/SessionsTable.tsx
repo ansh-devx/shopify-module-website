@@ -30,10 +30,11 @@ export default function SessionsTable({
 
   const sorted = useMemo(
     () =>
-      Object.entries(sessions).sort(
-        ([, a], [, b]) =>
-          new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
-      ),
+      Object.entries(sessions).sort(([, a], [, b]) => {
+        const at = new Date(a.started_at).getTime();
+        const bt = new Date(b.started_at).getTime();
+        return (Number.isNaN(bt) ? 0 : bt) - (Number.isNaN(at) ? 0 : at);
+      }),
     [sessions]
   );
 
