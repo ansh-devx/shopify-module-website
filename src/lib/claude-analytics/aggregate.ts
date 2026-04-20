@@ -106,7 +106,8 @@ export function computeInsights(users: ClaudeAnalyticsUser[]) {
 
 // ── Time-series helpers ─────────────────────────────────────
 
-function toDateKey(d: Date): string {
+function toDateKey(d: Date): string | null {
+  if (Number.isNaN(d.getTime())) return null;
   return d.toISOString().split("T")[0]; // "YYYY-MM-DD"
 }
 
@@ -146,6 +147,7 @@ export function aggregateDailyActivity(
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
+    if (!key) return;
     if (!buckets[key]) {
       buckets[key] = { sessions: 0, tokens: 0, messages: 0 };
     }
@@ -177,6 +179,7 @@ export function buildHeatmapData(
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
+    if (!key) return;
     counts[key] = (counts[key] || 0) + 1;
   });
 
@@ -186,6 +189,7 @@ export function buildHeatmapData(
     const d = new Date(now);
     d.setDate(d.getDate() - i);
     const key = toDateKey(d);
+    if (!key) continue;
     result.push({ date: key, count: counts[key] || 0 });
   }
   return result;
@@ -204,6 +208,7 @@ export function buildSparkline(
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
+    if (!key) return;
     if (!buckets[key]) buckets[key] = 0;
     if (metric === "sessions") buckets[key] += 1;
     else if (metric === "tokens") buckets[key] += s.tokens || 0;
@@ -215,7 +220,8 @@ export function buildSparkline(
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    result.push(buckets[toDateKey(d)] || 0);
+    const key = toDateKey(d);
+    result.push(key ? buckets[key] || 0 : 0);
   }
   return result;
 }

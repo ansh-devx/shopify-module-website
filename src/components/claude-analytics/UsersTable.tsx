@@ -53,9 +53,9 @@ export default function UsersTable({ users }: UsersTableProps) {
       if (sortKey === "user_name") {
         cmp = a.user_name.localeCompare(b.user_name);
       } else if (sortKey === "last_active") {
-        cmp =
-          new Date(a.last_active).getTime() -
-          new Date(b.last_active).getTime();
+        const at = new Date(a.last_active).getTime();
+        const bt = new Date(b.last_active).getTime();
+        cmp = (Number.isNaN(at) ? 0 : at) - (Number.isNaN(bt) ? 0 : bt);
       } else {
         cmp = a[sortKey] - b[sortKey];
       }

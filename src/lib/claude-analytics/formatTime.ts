@@ -1,5 +1,7 @@
-export function formatRelativeTime(isoString: string): string {
+export function formatRelativeTime(isoString: string | null | undefined): string {
+  if (!isoString) return "—";
   const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return "—";
   const now = new Date();
 
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
