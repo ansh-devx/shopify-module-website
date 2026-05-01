@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthSession } from "@/lib/auth/apiAuth";
+import { getCognitoIdToken } from "@/lib/cognitoAuth";
 
 const KB_API_BASE_URL = process.env.KB_API_BASE_URL || "";
 
@@ -9,9 +10,11 @@ export async function GET(
 ) {
   const { slug } = await params;
   const session = await getAuthSession();
+  const idToken = await getCognitoIdToken();
 
   const response = await fetch(`${KB_API_BASE_URL}/kb/articles/${slug}`, {
     headers: {
+      Authorization: `Bearer ${idToken}`,
       "x-user-id": session?.user?.id || "",
       "x-user-email": session?.user?.email || "",
       "x-user-name": session?.user?.name || "",
@@ -35,11 +38,13 @@ export async function PUT(
   }
 
   const body = await req.json();
+  const idToken = await getCognitoIdToken();
 
   const response = await fetch(`${KB_API_BASE_URL}/kb/articles/${slug}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${idToken}`,
       "x-user-id": session.user.id || "",
       "x-user-email": session.user.email || "",
       "x-user-name": session.user.name || "",
@@ -62,9 +67,12 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const idToken = await getCognitoIdToken();
+
   const response = await fetch(`${KB_API_BASE_URL}/kb/articles/${slug}`, {
     method: "DELETE",
     headers: {
+      Authorization: `Bearer ${idToken}`,
       "x-user-id": session.user.id || "",
       "x-user-email": session.user.email || "",
       "x-user-name": session.user.name || "",

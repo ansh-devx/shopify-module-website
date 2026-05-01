@@ -1,3 +1,5 @@
+import { getCognitoIdToken } from "@/lib/cognitoAuth";
+
 const KB_API_BASE_URL = process.env.KB_API_BASE_URL || '';
 
 export interface KnowledgeArticle {
@@ -24,9 +26,13 @@ export async function loadKnowledgeBase(): Promise<KnowledgeArticle[]> {
   if (!KB_API_BASE_URL) return [];
 
   try {
+    const idToken = await getCognitoIdToken();
     const response = await fetch(
       `${KB_API_BASE_URL}/kb/articles?includeContent=true`,
-      { cache: 'no-store' }
+      {
+        headers: { Authorization: `Bearer ${idToken}` },
+        cache: 'no-store',
+      }
     );
     if (!response.ok) return [];
     const data = await response.json();
