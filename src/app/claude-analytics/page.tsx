@@ -63,7 +63,7 @@ export default function ClaudeAnalyticsOverview() {
   );
   const insights = useMemo(() => computeInsights(users), [users]);
   const dailyActivity = useMemo(() => aggregateDailyActivity(users), [users]);
-  const heatmapData = useMemo(() => buildHeatmapData(users, 90), [users]);
+  const heatmap = useMemo(() => buildHeatmapData(users, 90), [users]);
   const sparklineSessions = useMemo(
     () => buildSparkline(users, "sessions", 14),
     [users],
@@ -228,12 +228,15 @@ export default function ClaudeAnalyticsOverview() {
           <SectionHeader
             title="Team"
             accent="Activity"
-            description="Session activity across the past 90 days"
+            description="Session activity across all recorded history"
           />
           {loading ? (
             <SkeletonChart height={140} />
           ) : (
-            <ActivityHeatmap data={heatmapData} />
+            <ActivityHeatmap
+              data={heatmap.days}
+              unknownCount={heatmap.unknownCount}
+            />
           )}
         </section>
 
@@ -243,7 +246,10 @@ export default function ClaudeAnalyticsOverview() {
           {loading ? (
             <SkeletonChart height={280} />
           ) : (
-            <UsageTimeline data={dailyActivity} />
+            <UsageTimeline
+              data={dailyActivity.daily}
+              unknown={dailyActivity.unknown}
+            />
           )}
         </section>
       </div>

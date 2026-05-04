@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/auth/apiAuth";
 import { UserRole } from "@/types";
 import { prisma } from "@/lib/prisma";
+import { getCognitoIdToken } from "@/lib/cognitoAuth";
 
 const KB_API_BASE_URL = process.env.KB_API_BASE_URL || "";
 
@@ -30,10 +31,12 @@ export async function GET(
     email = encodedId;
   }
 
+  const idToken = await getCognitoIdToken();
   const response = await fetch(
     `${KB_API_BASE_URL}/analytics/users/${encodeURIComponent(email)}`,
     {
       headers: {
+        Authorization: `Bearer ${idToken}`,
         "x-user-id": session!.user.id || "",
         "x-user-email": session!.user.email || "",
         "x-user-name": session!.user.name || "",

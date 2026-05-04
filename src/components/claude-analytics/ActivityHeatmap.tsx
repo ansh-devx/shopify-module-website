@@ -7,6 +7,7 @@ import { type HeatmapDay } from "@/lib/claude-analytics/aggregate";
 interface ActivityHeatmapProps {
   data: HeatmapDay[];
   title?: string;
+  unknownCount?: number;
 }
 
 const CELL_SIZE = 13;
@@ -41,6 +42,7 @@ function getIntensity(count: number, maxCount: number): number {
 export default function ActivityHeatmap({
   data,
   title = "Activity",
+  unknownCount = 0,
 }: ActivityHeatmapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<{
@@ -128,8 +130,16 @@ export default function ActivityHeatmap({
             {title}
           </h3>
           <p className="text-sm text-text-tertiary">
-            {totalSessions.toLocaleString()} sessions across {activeDays} active
-            days in the last {data.length} days
+            {(totalSessions + unknownCount).toLocaleString()} sessions across{" "}
+            {activeDays} active days over {data.length} days
+            {unknownCount > 0 && (
+              <>
+                {" "}
+                <span className="text-accent-warm">
+                  (+{unknownCount.toLocaleString()} with unknown date)
+                </span>
+              </>
+            )}
           </p>
         </div>
         {/* Legend */}

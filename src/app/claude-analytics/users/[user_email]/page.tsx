@@ -91,7 +91,7 @@ export default function UserDetailPage({ params }: PageProps) {
     () => (userData ? [userData] : []),
     [userData]
   );
-  const heatmapData = useMemo(
+  const heatmap = useMemo(
     () => buildHeatmapData(userAsArray, 90),
     [userAsArray]
   );
@@ -198,25 +198,31 @@ export default function UserDetailPage({ params }: PageProps) {
             <SectionHeader
               title="Session"
               accent="Activity"
-              description="Activity across the past 90 days"
+              description="Activity across all recorded history"
             />
             {loading ? (
               <SkeletonChart height={140} />
             ) : (
               userData && (
                 <ScrollReveal delay={0.1}>
-                  <ActivityHeatmap data={heatmapData} />
+                  <ActivityHeatmap
+                    data={heatmap.days}
+                    unknownCount={heatmap.unknownCount}
+                  />
                 </ScrollReveal>
               )
             )}
           </section>
 
           {/* Usage Timeline */}
-          {!loading && dailyActivity.length > 1 && (
+          {!loading && dailyActivity.daily.length > 1 && (
             <section className="mx-auto max-w-7xl px-6 lg:px-8">
               <SectionHeader title="Usage" accent="Timeline" />
               <ScrollReveal delay={0.1}>
-                <UsageTimeline data={dailyActivity} />
+                <UsageTimeline
+                  data={dailyActivity.daily}
+                  unknown={dailyActivity.unknown}
+                />
               </ScrollReveal>
             </section>
           )}

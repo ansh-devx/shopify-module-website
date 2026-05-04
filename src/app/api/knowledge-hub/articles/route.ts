@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth/apiAuth";
+import { getCognitoIdToken } from "@/lib/cognitoAuth";
 
 const KB_API_BASE_URL = process.env.KB_API_BASE_URL || "";
 
@@ -8,11 +9,13 @@ export async function POST(req: Request) {
   if (error) return error;
 
   const body = await req.json();
+  const idToken = await getCognitoIdToken();
 
   const response = await fetch(`${KB_API_BASE_URL}/kb/articles`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${idToken}`,
       "x-user-id": session!.user.id || "",
       "x-user-email": session!.user.email || "",
       "x-user-name": session!.user.name || "",

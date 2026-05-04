@@ -1,18 +1,11 @@
 /**
- * Token Generator backend API client.
- * Base URL: NEXT_PUBLIC_API_BASE_URL (no trailing slash).
+ * Token Generator client. All requests go through Next.js API routes under
+ * /api/token-generator/*, which authenticate the caller via NextAuth and
+ * forward the request to AWS with a Cognito IdToken attached server-side.
+ * The browser never holds Cognito or AWS credentials.
  */
 
-function getApiBaseUrl(): string {
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!url?.trim()) {
-    if (typeof window !== "undefined") {
-      throw new Error("NEXT_PUBLIC_API_BASE_URL is not configured");
-    }
-    throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
-  }
-  return url.replace(/\/$/, "");
-}
+const BASE = "/api/token-generator";
 
 /** Live Store: paste installation URL from Partners */
 export interface GenerateInstallUrlLiveBody {
@@ -90,8 +83,7 @@ async function handleResponse<T>(res: Response, parseJson = true): Promise<T> {
 export async function generateInstallUrl(
   body: GenerateInstallUrlLiveBody | GenerateInstallUrlDevBody,
 ): Promise<GenerateInstallUrlResponse> {
-  const base = getApiBaseUrl();
-  const res = await fetch(`${base}/generate-install-url`, {
+  const res = await fetch(`${BASE}/generate-install-url`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -100,8 +92,7 @@ export async function generateInstallUrl(
 }
 
 export async function getToken(code: string): Promise<GetTokenResponse> {
-  const base = getApiBaseUrl();
-  const res = await fetch(`${base}/token?code=${encodeURIComponent(code)}`, {
+  const res = await fetch(`${BASE}/token?code=${encodeURIComponent(code)}`, {
     method: "GET",
   });
   return handleResponse<GetTokenResponse>(res);
@@ -111,11 +102,10 @@ export async function revealToken(
   userId: string,
   tokenId: string,
 ): Promise<GetTokenResponse> {
-  const base = getApiBaseUrl();
   const params = new URLSearchParams();
   params.set("userId", userId);
   params.set("tokenId", tokenId);
-  const res = await fetch(`${base}/token/reveal?${params.toString()}`, {
+  const res = await fetch(`${BASE}/token/reveal?${params.toString()}`, {
     method: "GET",
   });
   return handleResponse<GetTokenResponse>(res);
@@ -127,8 +117,7 @@ export interface GetConfigResponse {
 }
 
 export async function getConfig(): Promise<GetConfigResponse> {
-  const base = getApiBaseUrl();
-  const res = await fetch(`${base}/config`, { method: "GET" });
+  const res = await fetch(`${BASE}/config`, { method: "GET" });
   return handleResponse<GetConfigResponse>(res);
 }
 
@@ -136,14 +125,13 @@ export async function listTokens(
   userId: string,
   options: ListTokensOptions = {},
 ): Promise<ListTokensResponse> {
-  const base = getApiBaseUrl();
   const params = new URLSearchParams();
   params.set("userId", userId);
   const limit = options.limit ?? 10;
   params.set("limit", String(Math.min(100, Math.max(1, limit))));
   const page = options.page ?? 1;
   params.set("page", String(Math.max(1, page)));
-  const res = await fetch(`${base}/tokens?${params.toString()}`, {
+  const res = await fetch(`${BASE}/tokens?${params.toString()}`, {
     method: "GET",
   });
   return handleResponse<ListTokensResponse>(res);
