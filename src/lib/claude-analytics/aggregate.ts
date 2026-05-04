@@ -106,12 +106,14 @@ export function computeInsights(users: ClaudeAnalyticsUser[]) {
 
 // ── Time-series helpers ─────────────────────────────────────
 
-function toDateKey(d: Date): string | null {
-  if (Number.isNaN(d.getTime())) return null;
+const UNKNOWN_DATE_KEY = "unknown";
+
+function toDateKey(d: Date): string {
+  if (Number.isNaN(d.getTime())) return UNKNOWN_DATE_KEY;
   return d.toISOString().split("T")[0]; // "YYYY-MM-DD"
 }
 
-/** Collect all sessions across all users into a flat array */
+/** Collect all sessions across all users into a flat array — does not drop any. */
 function collectAllSessions(
   users: ClaudeAnalyticsUser[]
 ): (SessionDetail & { user_email: string })[] {
@@ -119,9 +121,7 @@ function collectAllSessions(
   users.forEach((u) => {
     Object.values(u.projects).forEach((proj) => {
       Object.values(proj.session_details).forEach((s) => {
-        if (s.started_at) {
-          sessions.push({ ...s, user_email: u.user_email });
-        }
+        sessions.push({ ...s, user_email: u.user_email });
       });
     });
   });
@@ -129,25 +129,36 @@ function collectAllSessions(
 }
 
 export interface DailyDataPoint {
-  date: string; // "YYYY-MM-DD"
+  date: string; // "YYYY-MM-DD" or "unknown"
   sessions: number;
   tokens: number;
   messages: number;
 }
 
+function addDays(date: Date, days: number): Date {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
 /**
- * Aggregate session data into daily buckets.
- * Returns an array sorted by date, one entry per day that had activity.
+ * Aggregate session data into daily buckets, zero-filling every day between
+ * the earliest dated session and today. Sessions with unparseable dates are
+ * collected into a final "unknown" bucket instead of being dropped.
  */
+export interface DailyActivityResult {
+  daily: DailyDataPoint[];
+  unknown: { sessions: number; tokens: number; messages: number };
+}
+
 export function aggregateDailyActivity(
   users: ClaudeAnalyticsUser[]
-): DailyDataPoint[] {
+): DailyActivityResult {
   const sessions = collectAllSessions(users);
   const buckets: Record<string, { sessions: number; tokens: number; messages: number }> = {};
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
-    if (!key) return;
     if (!buckets[key]) {
       buckets[key] = { sessions: 0, tokens: 0, messages: 0 };
     }
@@ -156,9 +167,24 @@ export function aggregateDailyActivity(
     buckets[key].messages += s.messages || 0;
   });
 
-  return Object.entries(buckets)
-    .map(([date, data]) => ({ date, ...data }))
-    .sort((a, b) => a.date.localeCompare(b.date));
+  const datedKeys = Object.keys(buckets).filter((k) => k !== UNKNOWN_DATE_KEY);
+  const daily: DailyDataPoint[] = [];
+
+  if (datedKeys.length > 0) {
+    datedKeys.sort();
+    const start = new Date(datedKeys[0] + "T00:00:00Z");
+    const end = new Date();
+    for (let d = start; d <= end; d = addDays(d, 1)) {
+      const key = toDateKey(d);
+      const data = buckets[key] || { sessions: 0, tokens: 0, messages: 0 };
+      daily.push({ date: key, ...data });
+    }
+  }
+
+  return {
+    daily,
+    unknown: buckets[UNKNOWN_DATE_KEY] || { sessions: 0, tokens: 0, messages: 0 },
+  };
 }
 
 export interface HeatmapDay {
@@ -167,32 +193,43 @@ export interface HeatmapDay {
 }
 
 /**
- * Build heatmap data for the past N days.
- * Returns exactly `days` entries (including zero-activity days).
+ * Build heatmap data spanning every day from the earliest dated session
+ * through today. If `minDays` is supplied, the window is at least that wide,
+ * even when the data is sparser. Sessions with unparseable dates are counted
+ * into the returned `unknownCount` rather than discarded.
  */
 export function buildHeatmapData(
   users: ClaudeAnalyticsUser[],
-  days = 90
-): HeatmapDay[] {
+  minDays = 90
+): { days: HeatmapDay[]; unknownCount: number } {
   const sessions = collectAllSessions(users);
   const counts: Record<string, number> = {};
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
-    if (!key) return;
     counts[key] = (counts[key] || 0) + 1;
   });
 
-  const result: HeatmapDay[] = [];
+  const datedKeys = Object.keys(counts).filter((k) => k !== UNKNOWN_DATE_KEY);
   const now = new Date();
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const key = toDateKey(d);
-    if (!key) continue;
-    result.push({ date: key, count: counts[key] || 0 });
+  let start: Date;
+
+  if (datedKeys.length > 0) {
+    datedKeys.sort();
+    const earliest = new Date(datedKeys[0] + "T00:00:00Z");
+    const minStart = addDays(now, -(minDays - 1));
+    start = earliest < minStart ? earliest : minStart;
+  } else {
+    start = addDays(now, -(minDays - 1));
   }
-  return result;
+
+  const days: HeatmapDay[] = [];
+  for (let d = start; d <= now; d = addDays(d, 1)) {
+    const key = toDateKey(d);
+    days.push({ date: key, count: counts[key] || 0 });
+  }
+
+  return { days, unknownCount: counts[UNKNOWN_DATE_KEY] || 0 };
 }
 
 /**
@@ -205,23 +242,28 @@ export function buildSparkline(
 ): number[] {
   const sessions = collectAllSessions(users);
   const buckets: Record<string, number> = {};
+  let unknownContribution = 0;
 
   sessions.forEach((s) => {
     const key = toDateKey(new Date(s.started_at));
-    if (!key) return;
-    if (!buckets[key]) buckets[key] = 0;
-    if (metric === "sessions") buckets[key] += 1;
-    else if (metric === "tokens") buckets[key] += s.tokens || 0;
-    else buckets[key] += s.messages || 0;
+    const value =
+      metric === "sessions" ? 1 : metric === "tokens" ? s.tokens || 0 : s.messages || 0;
+    if (key === UNKNOWN_DATE_KEY) {
+      unknownContribution += value;
+      return;
+    }
+    buckets[key] = (buckets[key] || 0) + value;
   });
 
   const result: number[] = [];
   const now = new Date();
   for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const key = toDateKey(d);
-    result.push(key ? buckets[key] || 0 : 0);
+    const key = toDateKey(addDays(now, -i));
+    result.push(buckets[key] || 0);
+  }
+  // Fold unknown-date contribution into the most recent bucket so it isn't lost.
+  if (unknownContribution > 0 && result.length > 0) {
+    result[result.length - 1] += unknownContribution;
   }
   return result;
 }

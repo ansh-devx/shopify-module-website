@@ -17,6 +17,7 @@ import { CHART_TOOLTIP_STYLE, CHART_GRID_PROPS, CHART_AXIS_TICK } from "./chartC
 
 interface UsageTimelineProps {
   data: DailyDataPoint[];
+  unknown?: { sessions: number; tokens: number; messages: number };
 }
 
 type MetricKey = "tokens" | "sessions" | "messages";
@@ -27,9 +28,10 @@ const METRICS: { key: MetricKey; label: string; color: string; gradientId: strin
   { key: "messages", label: "Messages", color: "#8b5cf6", gradientId: "gradMessages" },
 ];
 
-export default function UsageTimeline({ data }: UsageTimelineProps) {
+export default function UsageTimeline({ data, unknown }: UsageTimelineProps) {
   const [activeMetric, setActiveMetric] = useState<MetricKey>("tokens");
   const metric = METRICS.find((m) => m.key === activeMetric)!;
+  const unknownForMetric = unknown ? unknown[activeMetric] : 0;
 
   const formatXAxis = (date: string) => {
     const d = new Date(date + "T00:00:00");
@@ -55,6 +57,18 @@ export default function UsageTimeline({ data }: UsageTimelineProps) {
           </h3>
           <p className="text-sm text-text-tertiary">
             Daily {metric.label.toLowerCase()} usage over time
+            {unknownForMetric > 0 && (
+              <>
+                {" "}
+                <span className="text-accent-warm">
+                  (+
+                  {activeMetric === "tokens"
+                    ? formatTokens(unknownForMetric)
+                    : unknownForMetric.toLocaleString()}{" "}
+                  with unknown date)
+                </span>
+              </>
+            )}
           </p>
         </div>
         {/* Metric toggle pills */}
