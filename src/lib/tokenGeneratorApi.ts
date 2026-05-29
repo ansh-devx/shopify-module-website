@@ -47,6 +47,10 @@ export interface TokenListItem {
   app_name: string;
   user_name?: string;
   created_at: number;
+  /** Masked storefront token (e.g. "****abcd"), or null if not generated yet. */
+  storefront_token?: string | null;
+  storefront_token_title?: string | null;
+  storefront_created_at?: number | null;
 }
 
 export interface TokensPagination {
@@ -108,6 +112,44 @@ export async function revealToken(
   const res = await fetch(`${BASE}/token/reveal?${params.toString()}`, {
     method: "GET",
   });
+  return handleResponse<GetTokenResponse>(res);
+}
+
+export interface GenerateStorefrontTokenResponse {
+  /** Full token, returned ONCE on creation so the user can copy it. */
+  access_token: string;
+  /** Masked token (e.g. "****abcd") — persisted on the backend record. */
+  storefront_token: string;
+  storefront_token_title: string;
+  storefront_created_at?: number;
+}
+
+/**
+ * Generate a Storefront access token for an existing row. The backend reveals
+ * the row's admin token, calls Shopify, and persists the storefront token on
+ * the same record. The browser only provides the token id and a title.
+ */
+export async function generateStorefrontToken(
+  tokenId: string,
+  title: string,
+): Promise<GenerateStorefrontTokenResponse> {
+  const res = await fetch(`${BASE}/storefront-token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tokenId, title }),
+  });
+  return handleResponse<GenerateStorefrontTokenResponse>(res);
+}
+
+/** Reveal the full (unmasked) storefront token for a row. */
+export async function revealStorefrontToken(
+  tokenId: string,
+): Promise<GetTokenResponse> {
+  const params = new URLSearchParams({ tokenId });
+  const res = await fetch(
+    `${BASE}/storefront-token/reveal?${params.toString()}`,
+    { method: "GET" },
+  );
   return handleResponse<GetTokenResponse>(res);
 }
 
