@@ -330,7 +330,7 @@ function AppAccessTokenContent() {
             </p>
           </div>
           <MagneticButton
-            variant="secondary"
+            variant="small"
             onClick={() => {
               setModalStep("steps");
               setRedirectUrl(null);
