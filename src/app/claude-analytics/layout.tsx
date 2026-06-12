@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Download } from "lucide-react";
 import RoleGuard from "@/components/auth/RoleGuard";
 import { UserRole } from "@/types";
+import { CLAUDE_ANALYTICS_ALLOWED_EMAILS } from "@/lib/claude-analytics/access";
 import {
   ClaudeAnalyticsProvider,
   useAnalyticsData,
@@ -64,7 +65,11 @@ export default function ClaudeAnalyticsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <RoleGuard requiredRole={UserRole.SUPERADMIN} redirectTo="/">
+    <RoleGuard
+      requiredRole={UserRole.SUPERADMIN}
+      redirectTo="/"
+      allowedEmails={CLAUDE_ANALYTICS_ALLOWED_EMAILS}
+    >
       <ClaudeAnalyticsProvider>
         <AnalyticsShell>{children}</AnalyticsShell>
       </ClaudeAnalyticsProvider>

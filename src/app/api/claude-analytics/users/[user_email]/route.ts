@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { requireRole } from "@/lib/auth/apiAuth";
-import { UserRole } from "@/types";
+import { requireAuth } from "@/lib/auth/apiAuth";
+import { canAccessClaudeAnalytics } from "@/lib/claude-analytics/access";
 import { prisma } from "@/lib/prisma";
 import { getCognitoIdToken } from "@/lib/cognitoAuth";
 
@@ -20,8 +20,14 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ user_email: string }> }
 ) {
-  const { error, session } = await requireRole(UserRole.SUPERADMIN);
+  const { error, session } = await requireAuth();
   if (error) return error;
+  if (!canAccessClaudeAnalytics(session!.user.role, session!.user.email)) {
+    return NextResponse.json(
+      { success: false, error: "Forbidden: Insufficient permissions" },
+      { status: 403 }
+    );
+  }
 
   const { user_email: encodedId } = await params;
   let email: string;
