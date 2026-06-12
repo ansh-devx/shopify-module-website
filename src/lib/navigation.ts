@@ -24,6 +24,7 @@ import {
   BarChart3,
   LucideIcon,
 } from "lucide-react";
+import { CLAUDE_ANALYTICS_ALLOWED_EMAILS } from "@/lib/claude-analytics/access";
 
 export interface NavigationItem {
   id: string;
@@ -33,6 +34,8 @@ export interface NavigationItem {
   children?: NavigationItem[];
   isExternal?: boolean;
   requiredRole?: "ADMIN" | "SUPERADMIN";
+  /** Emails that can see this item even without the required role */
+  allowedEmails?: string[];
 }
 
 export const navigationStructure: NavigationItem[] = [
@@ -242,6 +245,7 @@ export const navigationStructure: NavigationItem[] = [
     title: "Claude Analytics",
     icon: BarChart3,
     requiredRole: "SUPERADMIN",
+    allowedEmails: CLAUDE_ANALYTICS_ALLOWED_EMAILS,
     children: [
       {
         id: "ca-overview",

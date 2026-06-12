@@ -11,6 +11,8 @@ interface RoleGuardProps {
   requiredRole: UserRole;
   redirectTo?: string;
   fallback?: React.ReactNode;
+  /** Emails granted access even without the required role */
+  allowedEmails?: string[];
 }
 
 export default function RoleGuard({
@@ -18,6 +20,7 @@ export default function RoleGuard({
   requiredRole,
   redirectTo = "/hackathon",
   fallback,
+  allowedEmails,
 }: RoleGuardProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -42,14 +45,18 @@ export default function RoleGuard({
     const userLevel = roleHierarchy[session.user.role as UserRole];
     const requiredLevel = roleHierarchy[requiredRole];
 
-    if (userLevel >= requiredLevel) {
+    const emailAllowed = !!allowedEmails?.includes(
+      session.user.email?.toLowerCase() ?? ""
+    );
+
+    if (userLevel >= requiredLevel || emailAllowed) {
       // User has sufficient permissions
       setIsAuthorized(true);
     } else {
       // User doesn't have sufficient permissions - redirect
       router.push(redirectTo);
     }
-  }, [session, status, requiredRole, redirectTo, router]);
+  }, [session, status, requiredRole, redirectTo, router, allowedEmails]);
 
   // Show loading state
   if (status === "loading") {

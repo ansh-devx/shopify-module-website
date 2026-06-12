@@ -14,12 +14,14 @@ const roleHierarchy: Record<string, number> = {
   SUPERADMIN: 3,
 };
 
-function filterByRole(items: NavigationItem[], userRole: string): NavigationItem[] {
+function filterByRole(items: NavigationItem[], userRole: string, userEmail: string): NavigationItem[] {
   return items.reduce<NavigationItem[]>((acc, item) => {
-    if (item.requiredRole && (roleHierarchy[userRole] || 0) < roleHierarchy[item.requiredRole]) {
+    const lacksRole = item.requiredRole && (roleHierarchy[userRole] || 0) < roleHierarchy[item.requiredRole];
+    const emailAllowed = !!userEmail && !!item.allowedEmails?.includes(userEmail);
+    if (lacksRole && !emailAllowed) {
       return acc;
     }
-    const filtered = item.children ? { ...item, children: filterByRole(item.children, userRole) } : item;
+    const filtered = item.children ? { ...item, children: filterByRole(item.children, userRole, userEmail) } : item;
     acc.push(filtered);
     return acc;
   }, []);
@@ -147,7 +149,8 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const { data: session } = useSession();
   const [openItemId, setOpenItemId] = useState<string | null>(null);
   const userRole = (session?.user as { role?: string } | undefined)?.role || "MEMBER";
-  const visibleNavItems = useMemo(() => filterByRole(navigationStructure, userRole), [userRole]);
+  const userEmail = session?.user?.email?.toLowerCase() || "";
+  const visibleNavItems = useMemo(() => filterByRole(navigationStructure, userRole, userEmail), [userRole, userEmail]);
 
   useEffect(() => {
     const parentId = findParentItemId(pathname);
