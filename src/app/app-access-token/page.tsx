@@ -401,32 +401,36 @@ function AppAccessTokenContent() {
               </p>
 
               <div className="space-y-4">
-                <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
+                <div className="flex gap-4 rounded-xl border border-accent/20 bg-white/4 p-4 shadow-sm">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white shadow-[0_0_12px_rgba(0,0,0,0.2)] ring-2 ring-accent/30">
                     1
                   </span>
                   <div>
-                    <p className="font-medium text-white">Create app</p>
-                    <p className="text-sm text-text-tertiary">
+                    <p className="font-semibold text-white">Create app</p>
+                    <p className="mt-1 text-sm text-text-secondary">
                       Create a new app in Partners if you haven’t already.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
+                <div className="flex gap-4 rounded-xl border border-accent/20 bg-white/4 p-4 shadow-sm">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white shadow-[0_0_12px_rgba(0,0,0,0.2)] ring-2 ring-accent/30">
                     2
                   </span>
                   <div className="min-w-0 flex-1 space-y-3">
-                    <p className="font-medium text-white">Create Version</p>
-                    <ul className="space-y-2.5 text-sm text-text-secondary">
-                      <li className="flex items-start gap-2">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                    <p className="font-semibold text-white">Create Version</p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2.5 rounded-lg border border-white/5 bg-surface-1/70 px-3 py-2.5 font-medium text-white/90">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-semibold text-accent">
+                          a
+                        </span>
                         Select scopes
                       </li>
-                      <li className="flex flex-col gap-1.5">
-                        <span className="flex items-center gap-2">
-                          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                      <li className="flex flex-col gap-2 rounded-lg border border-white/5 bg-surface-1/70 px-3 py-2.5">
+                        <span className="flex flex-wrap items-center gap-2.5 font-medium text-white/90">
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-semibold text-accent">
+                            b
+                          </span>
                           Set Redirect URL
                           {redirectUrl === null && !redirectUrlError && (
                             <button
@@ -474,9 +478,9 @@ function AppAccessTokenContent() {
                           )}
                         </span>
                         {redirectUrl && (
-                          <div className="ml-3.5 space-y-1.5">
-                            <div className="flex items-center gap-2 rounded-lg border border-accent/10 bg-surface-1 px-3 py-2.5 font-mono text-xs text-white/90">
-                              <span className="min-w-0 flex-1 truncate">
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2 rounded-lg border border-accent/30 bg-background px-3 py-2.5 font-mono text-xs text-white">
+                              <span className="min-w-0 flex-1 break-all">
                                 {redirectUrl}
                               </span>
                               <CopyButton
@@ -492,43 +496,56 @@ function AppAccessTokenContent() {
                           </div>
                         )}
                         {redirectUrlError && (
-                          <p className="ml-3.5 text-xs text-red-400">
+                          <p className="text-xs text-red-400">
                             {redirectUrlError}
                           </p>
                         )}
                       </li>
-                      <li className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
-                        App URL:{" "}
-                        <code className="rounded bg-accent/10 px-2 py-0.5 font-mono text-xs">
-                          https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth
-                        </code>
-                        <CopyButton
-                          text="https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth"
-                          className="shrink-0 rounded p-1 text-text-tertiary transition-colors hover:bg-accent/10 hover:text-white"
-                        />
+                      <li className="flex flex-col gap-2 rounded-lg border border-white/5 bg-surface-1/70 px-3 py-2.5">
+                        <span className="flex items-center gap-2.5 font-medium text-white/90">
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-semibold text-accent">
+                            c
+                          </span>
+                          Set App URL
+                        </span>
+                        <div className="flex items-center gap-2 rounded-lg border border-accent/30 bg-background px-3 py-2.5 font-mono text-xs text-white">
+                          <span className="min-w-0 flex-1 break-all">
+                            https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth
+                          </span>
+                          <CopyButton
+                            text="https://j32l7w0fjb.execute-api.ap-south-1.amazonaws.com/Prod/start-oauth"
+                            className="shrink-0 rounded p-1.5 transition-colors hover:bg-accent/10"
+                          />
+                        </div>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
-                        Set Embed App: <strong>false</strong>
+                      <li className="flex items-center gap-2.5 rounded-lg border border-white/5 bg-surface-1/70 px-3 py-2.5 font-medium text-white/90">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-semibold text-accent">
+                          d
+                        </span>
+                        Set Embed App:{" "}
+                        <strong className="font-semibold text-accent">
+                          false
+                        </strong>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                      <li className="flex items-center gap-2.5 rounded-lg border border-white/5 bg-surface-1/70 px-3 py-2.5 font-medium text-white/90">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[11px] font-semibold text-accent">
+                          e
+                        </span>
                         Release
                       </li>
                     </ul>
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sm font-semibold text-accent">
+                <div className="flex gap-4 rounded-xl border border-accent/20 bg-white/4 p-4 shadow-sm">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white shadow-[0_0_12px_rgba(0,0,0,0.2)] ring-2 ring-accent/30">
                     3
                   </span>
                   <div>
-                    <p className="font-medium text-white">
+                    <p className="font-semibold text-white">
                       Select Custom distribution
                     </p>
-                    <p className="text-sm text-text-tertiary">
+                    <p className="mt-1 text-sm text-text-secondary">
                       Go to Home in your app navigation and select Distribution,
                       then choose Custom distribution.
                     </p>
